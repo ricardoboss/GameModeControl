@@ -26,19 +26,19 @@ Plugin is in development! Current version: Beta 1.2.1
 
 <td>
 
-### Command
+Command
 
 </td>
 
 <td>
 
-### Function
+Function
 
 </td>
 
 <td>
 
-### Permission
+Permission
 
 </td>
 
@@ -50,7 +50,7 @@ Plugin is in development! Current version: Beta 1.2.1
 
 <td>alias for /gamemode <id>[player]</id></td>
 
-<td>_gmc.gm_</td>
+<td>gmc.gm</td>
 
 </tr>
 
@@ -60,7 +60,7 @@ Plugin is in development! Current version: Beta 1.2.1
 
 <td>sets the game mode to survival</td>
 
-<td>_gmc.gm0_</td>
+<td>gmc.gm0</td>
 
 </tr>
 
@@ -70,7 +70,7 @@ Plugin is in development! Current version: Beta 1.2.1
 
 <td>sets the game mode to creative</td>
 
-<td>_gmc.gm1_</td>
+<td>gmc.gm1</td>
 
 </tr>
 
@@ -80,7 +80,7 @@ Plugin is in development! Current version: Beta 1.2.1
 
 <td>sets the game mode to adventure</td>
 
-<td>_gmc.gm2_</td>
+<td>gmc.gm2</td>
 
 </tr>
 
@@ -90,7 +90,7 @@ Plugin is in development! Current version: Beta 1.2.1
 
 <td>sets the game mode to spectator</td>
 
-<td>_gmc.gm3_</td>
+<td>gmc.gm3</td>
 
 </tr>
 
@@ -100,7 +100,7 @@ Plugin is in development! Current version: Beta 1.2.1
 
 <td>shows the commands and what they do</td>
 
-<td>_gmc.help_</td>
+<td>gmc.help</td>
 
 </tr>
 
@@ -110,7 +110,7 @@ Plugin is in development! Current version: Beta 1.2.1
 
 <td>shows information about GMC</td>
 
-<td>_gmc.info_</td>
+<td>gmc.info</td>
 
 </tr>
 
@@ -140,19 +140,19 @@ Please visit: [http://minecraft.gamepedia.com/Formatting_codes](http://minecraft
 
 <td>
 
-## Alias
+Alias
 
 </td>
 
 <td>
 
-## Description
+Description
 
 </td>
 
 <td>
 
-## Example
+Example
 
 </td>
 
@@ -198,7 +198,6 @@ Here are some features, which I want to add:
 *   A function which allows a player to change his or her gamemode only once.
 *   Change a gamemode temporary
 *   Add a "gmc.gm.others" permission
-*   (Please leave suggestions in the comments)
 
 ## Bugs
 
