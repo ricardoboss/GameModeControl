@@ -184,23 +184,3 @@ Example
 
 *   You can set the forced game mode and toggle if GMC should set the game mode of every joining player.
 *   You can set all the messages that will be sent from GMC (except the help and info messages).
-
-## Source Code
-
-[Click here for the source code](https://github.com/MCMainiac/GameModeControl)  
-
-## To-do list
-
-Here are some features, which I want to add:
-
-*   A function which allows a player to change his or her gamemode only once.
-*   Change a gamemode temporary
-*   Add a "gmc.gm.others" permission
-
-## Bugs
-
-If you change the gamemode of another player you won't recieve the players name. Instead there would be %player.  
-
-Well I hope you'll enjoy my little plugin and I'll make it more powerful and work off the to-do list.
-
-Thanks :)
