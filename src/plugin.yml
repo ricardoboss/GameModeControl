@@ -1,0 +1,59 @@
+name: GameModeControl
+version: Beta 1.2.1
+author: MCMainiac
+website: http://bit.ly/MC-GMC
+
+main: com.mcmainiac.gmc.GameModeControl
+commands:
+     gm:
+         description: choose a game mode you want
+         usage: /gm <game mode> [player]
+         permission: gmc.gm
+     gm0:
+         description: set the game mode to survival
+         usage: /gm0 [player]
+         permission: gmc.gm0
+     gm1:
+         description: set the game mode to creative
+         usage: /gm1 [player]
+         permission: gmc.gm1
+     gm2:
+         description: set the game mode to adventure
+         usage: /gm2 [player]
+         permission: gmc.gm2
+     gm3:
+         description: set the game mode to spectator
+         usage: /gm3 [player]
+         permission: gmc.gm3
+     gmh:
+         description: shows the help
+         usage: /gmh
+         permission: gmc.help
+     gmi:
+         description: shows information about GMC
+         usage: /gmi
+         permission: gmc.info
+     survival:
+         description: set the game mode to survival
+         usage: /survival [player]
+         permission: gmc.gm0
+     creative:
+         description: set the game mode to creative
+         usage: /creative [player]
+         permission: gmc.gm1
+     adventure:
+         description: set the game mode to adventure
+         usage: /adventure [player]
+         permission: gmc.gm2
+     spectator:
+         description: set the game mode to spectator
+         usage: /spectator [player]
+         permission: gmc.gm3
+     gimmethedamncreativemode:
+         description: set the game mode to creative
+         usage: /gimmethedamncreativemode [player]
+         permission: gmc.gm1
+     gmr:
+         description: reloads the config
+         usage: /gmr
+         permission: gmc.reload
