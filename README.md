@@ -1,7 +1,5 @@
 # GameModeControl
 
-* * *
-
 A powerful lightweight plugin, which changes the gamemode of a player.
 
 ## Are you using GMC?
