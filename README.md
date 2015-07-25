@@ -55,7 +55,8 @@ Current development stage: BETA 1.3
 <td>/gm <id> [player]  
 /gamemode* <id> [player]</td>
 
-<td>Change the gamemode of a player to the specified one</td>
+<td>Change the gamemode of a player  
+to the specified one</td>
 
 <td>_gmc.gamemode[.self | .others]_</td>
 
@@ -72,7 +73,8 @@ Current development stage: BETA 1.3
 <td>/gm0 [player]  
 /survival [player]</td>
 
-<td>Change the gamemode of a player to survival</td>
+<td>Change the gamemode of a player  
+to survival</td>
 
 <td>_gmc.survival[.self | .others]_</td>
 
@@ -83,7 +85,8 @@ Current development stage: BETA 1.3
 <td>/gm1 [player]  
 /creative [player]</td>
 
-<td>Change the gamemode of a player to creative</td>
+<td>Change the gamemode of a player  
+to creative</td>
 
 <td>_gmc.creative[.self | .others]_</td>
 
@@ -94,7 +97,8 @@ Current development stage: BETA 1.3
 <td>/gm2 [player]  
 /adventure [player]</td>
 
-<td>Change the gamemode of a player to adventure</td>
+<td>Change the gamemode of a player  
+to adventure</td>
 
 <td>_gmc.adventure[.self | .others]_</td>
 
@@ -105,7 +109,8 @@ Current development stage: BETA 1.3
 <td>/gm3 [player]  
 /spectator [player]</td>
 
-<td>Change the gamemode of a player to spectator</td>
+<td>Change the gamemode of a player  
+to spectator</td>
 
 <td>_gmc.spectator[.self | .others]_</td>
 
@@ -115,7 +120,8 @@ Current development stage: BETA 1.3
 
 <td>/gmh [page | command]</td>
 
-<td>Show all commands for GMC or help for a specific command</td>
+<td>Show all commands for GMC or  
+help for a specific command</td>
 
 <td>_gmc.gmh_</td>
 
@@ -125,7 +131,8 @@ Current development stage: BETA 1.3
 
 <td>/gmi</td>
 
-<td>Shows information about GMC, such as the version</td>
+<td>Shows information about GMC,  
+such as the version</td>
 
 <td>_gmc.gmi_</td>
 
@@ -135,7 +142,8 @@ Current development stage: BETA 1.3
 
 <td>/gmr</td>
 
-<td>Reloads the whole server in order to reload the config of GMC</td>
+<td>Reloads the whole server in order  
+to reload the config of GMC</td>
 
 <td>_gmc.gmr_</td>
 
