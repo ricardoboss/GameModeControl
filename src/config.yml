@@ -18,6 +18,6 @@ Spectator:
   from: '&aYour game mode was set to &6&ospectator.'
   to: '&aSet the game mode of &7%player &ato &6&ospectator.'
 Other:
-  player not found: '&cCould not find this player: &7$player&c'
+  player not found: '&cCould not find this player: &7$player'
   gamemode not found: '&cCould not find this gamemode: &7$gm'
   no permission: '&cYou don''t have the permission to do that!'

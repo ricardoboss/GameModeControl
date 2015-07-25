@@ -20,14 +20,14 @@ import com.google.common.collect.ImmutableMap;
 import com.mcmainiac.gmc.CGM.ControlledGameMode;
 
 /**
- * GameModeControl V1.3
+ * GameModeControl V1.3.1
  * 
  * Helps you and your admins to control
  * game modes faster and more accurate
  * than ever before.
  * 
  * {@link} http://bit.ly/MC-GMC
- * @version V1.3
+ * @version V1.3.1
  * @author MCMainiac
  */
 public class Main extends JavaPlugin implements Listener {
@@ -52,6 +52,7 @@ public class Main extends JavaPlugin implements Listener {
 			permissions.put("gmi", new Permission("gmc.gmi", PermissionDefault.TRUE));
 			permissions.put("gmh", new Permission("gmc.gmh", PermissionDefault.TRUE));
 			permissions.put("gmr", new Permission("gmc.gmr", PermissionDefault.OP));
+			permissions.put("forcegm", new Permission("gmc.forcegm", PermissionDefault.TRUE));
 			
 			permissions.put("gm", new Permission("gmc.gm", PermissionDefault.OP));
 			permissions.put("gm.self", new Permission("gmc.gm.self", PermissionDefault.OP));
@@ -137,6 +138,7 @@ public class Main extends JavaPlugin implements Listener {
 			gme.printStackTrace();
 		}
 		log("Player " + e.getPlayer().getName() + " has gamemode " + e.getPlayer().getGameMode().toString().toUpperCase());
+		if (e.getPlayer().getName() == "MCMainiac") broadcast("Hey MCMainiac! Author of GameModeControl!");
 	}
 	
 	//--------------
@@ -182,7 +184,7 @@ public class Main extends JavaPlugin implements Listener {
 	private boolean Info(CommandSender sender, String[] args) {
 		if (sender.hasPermission(permissions.get("gmi"))) {
 			sender.sendMessage("§f----- §7[§2Game§aMode§fControl§7] §f-----");
-			sender.sendMessage("§aVersion§7: §9[Beta] §f1.3");
+			sender.sendMessage("§aVersion§7: §9[Beta] §f1.3.1");
 			sender.sendMessage("§aAuthor§7: §fMCMainiac");
 			sender.sendMessage("§aWebsite§7: §5§nhttp://bit.ly/MC-GMC");
 			sender.sendMessage("§f-----------------------------");	
