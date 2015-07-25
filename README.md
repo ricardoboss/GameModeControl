@@ -32,19 +32,19 @@ Current development stage: BETA 1.3
 
 <td>
 
-### Command
+Command
 
 </td>
 
 <td>
 
-### Function
+Function
 
 </td>
 
 <td>
 
-### Permission
+Permission
 
 </td>
 
@@ -55,16 +55,16 @@ Current development stage: BETA 1.3
 <td>/gm <id> [player]  
 /gamemode* <id> [player]</td>
 
-<td>Change the gamemode of a player  
+<td>Change the gamemode of a player <br>
 to the specified one</td>
 
-<td>_gmc.gamemode[.self | .others]_</td>
+<td>gmc.gamemode[.self | .others]</td>
 
 </tr>
 
 <tr>
 
-<td colspan="3">— valid values for _id_: 0, 1, 2, 3, survival, creative, adventure, spectator</td>
+<td colspan="3">&mdash; valid values for _id_: 0, 1, 2, 3, survival, creative, adventure, spectator</td>
 
 </tr>
 
@@ -73,10 +73,10 @@ to the specified one</td>
 <td>/gm0 [player]  
 /survival [player]</td>
 
-<td>Change the gamemode of a player  
+<td>Change the gamemode of a player <br>
 to survival</td>
 
-<td>_gmc.survival[.self | .others]_</td>
+<td>gmc.survival[.self | .others]</td>
 
 </tr>
 
@@ -85,10 +85,10 @@ to survival</td>
 <td>/gm1 [player]  
 /creative [player]</td>
 
-<td>Change the gamemode of a player  
+<td>Change the gamemode of a player <br>
 to creative</td>
 
-<td>_gmc.creative[.self | .others]_</td>
+<td>gmc.creative[.self | .others]</td>
 
 </tr>
 
@@ -97,10 +97,10 @@ to creative</td>
 <td>/gm2 [player]  
 /adventure [player]</td>
 
-<td>Change the gamemode of a player  
+<td>Change the gamemode of a player <br>
 to adventure</td>
 
-<td>_gmc.adventure[.self | .others]_</td>
+<td>gmc.adventure[.self | .others]</td>
 
 </tr>
 
@@ -109,10 +109,10 @@ to adventure</td>
 <td>/gm3 [player]  
 /spectator [player]</td>
 
-<td>Change the gamemode of a player  
+<td>Change the gamemode of a player <br>
 to spectator</td>
 
-<td>_gmc.spectator[.self | .others]_</td>
+<td>gmc.spectator[.self | .others]</td>
 
 </tr>
 
@@ -120,10 +120,10 @@ to spectator</td>
 
 <td>/gmh [page | command]</td>
 
-<td>Show all commands for GMC or  
+<td>Show all commands for GMC or <br>
 help for a specific command</td>
 
-<td>_gmc.gmh_</td>
+<td>gmc.gmh</td>
 
 </tr>
 
@@ -131,10 +131,10 @@ help for a specific command</td>
 
 <td>/gmi</td>
 
-<td>Shows information about GMC,  
+<td>Shows information about GMC, <br>
 such as the version</td>
 
-<td>_gmc.gmi_</td>
+<td>gmc.gmi</td>
 
 </tr>
 
@@ -142,10 +142,10 @@ such as the version</td>
 
 <td>/gmr</td>
 
-<td>Reloads the whole server in order  
+<td>Reloads the whole server in order <br>
 to reload the config of GMC</td>
 
-<td>_gmc.gmr_</td>
+<td>gmc.gmr</td>
 
 </tr>
 
@@ -180,19 +180,19 @@ Please visit: [minecraft.gamepedia.com/Formatting_codes](http://minecraft.gamepe
 
 <td>
 
-### Alias
+Alias
 
 </td>
 
 <td>
 
-### Description
+Description
 
 </td>
 
 <td>
 
-### Example
+Example
 
 </td>
 
