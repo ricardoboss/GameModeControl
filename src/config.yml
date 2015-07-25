@@ -1,65 +1,23 @@
-#####################################
-#	Welcome to the config file of	#
-#									#
-#			GameModeControl			#
-#			  BETA  1.2.1			#
-#                                   #
-#####################################
-#									#
-#  Survival section:				#
-
+force-gamemode:
+  enable: false
+  mode: survival
 Survival:
   self: '&aSet your game mode to &6&osurvival&a.'
   from: '&aYour game mode was set to &6&osurvival&a.'
   to: '&aSet the game mode of &7%player &ato &6&osurvival&a.'
-
-#									#
-#####################################
-#									#
-#  Creative section:				#
-
 Creative:
   self: '&aSet your game mode to &6&ocreative&a.'
   from: '&aYour game mode was set to &6&ocreative&a.'
   to: '&aSet the game mode of &7%player &ato &6&ocreative&a.'
-
-#									#
-#####################################
-#									#
-#  Adventure section:				#
-
 Adventure:
   self: '&aSet your game mode to &6&oadventure&a.'
   from: '&aYour game mode was set to &6&oadventure&a.'
   to: '&aSet the game mode of &7%player &ato &6&oadventure&a.'
-
-#									#
-#####################################
-#									#
-#  Spectator section:				#
-
 Spectator:
   self: '&aSet your game mode to &6&ospectator.'
   from: '&aYour game mode was set to &6&ospectator.'
   to: '&aSet the game mode of &7%player &ato &6&ospectator.'
-
-#									#
-#####################################
-#									#
-#  Other messages					#
-
 Other:
-  not found: '&cCould not find this player: &7%player&c'
-  no permission: '&cYou don''t have enough permissions to do that!'
-
-#									#
-#####################################
-#									#
-#  Settings:						#
-
-force-gamemode:
-  enable: true
-  mode: 0
-
-#									#
-#####################################
+  player not found: '&cCould not find this player: &7$player&c'
+  gamemode not found: '&cCould not find this gamemode: &7$gm'
+  no permission: '&cYou don''t have the permission to do that!'
