@@ -197,11 +197,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	private boolean Help(CommandSender sender, String[] args) {
 		if (args.length == 0)
-			if (sender instanceof Player)
-				Help.Show(sender, 1);
-			else
-				for (int i = 1; i < Help.max_pages; i++) // show the console the whole help
-					Help.Show(sender, i);
+			Help.Show(sender, 1);
 		else if (args.length == 1)
 			try {
 				Help.Show(sender, Integer.valueOf(args[0]));
@@ -222,25 +218,11 @@ public class Main extends JavaPlugin implements Listener {
 		if (p != null) return p;
 		else throw new PlayerNotFoundException("Player not found: '" + name + "'");
 	}
-	
-	public static void log(Object o) {
-		log((o != null ? o.toString() : "null"), MessageColor.INFO);
-	}
-	
+
 	public static void log(String log) {
 		log(log, MessageColor.INFO);
 	}
 
-	public static void log(String[] logs) {
-		for (String log : logs) {
-			log(log, MessageColor.INFO);
-		}
-	}
-	
-	public static void log(Object o, MessageColor color) {
-		log((o != null ? o.toString() : "null"), color);
-	}
-	
 	public static void log(String log, MessageColor color) {
 		switch (color) {
 		case BLACK:	console.sendMessage(pre + "§0" + log); break;
@@ -276,13 +258,7 @@ public class Main extends JavaPlugin implements Listener {
 		case WHITE: console.sendMessage(pre + "§f" + log); break;
 		}
 	}
-	
-	public static void log(String[] logs, MessageColor color) {
-		for (String log : logs) {
-			log(log, color);
-		}
-	}
-	
+
 	public static void send(Player p, String message) {
 		message = replaceColorCodes(message);
 		p.sendMessage(message);
