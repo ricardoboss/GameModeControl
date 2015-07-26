@@ -1,7 +1,5 @@
 # GameModeControl
 
-* * *
-
 A powerful lightweight plugin that helps you organizing game modes on your server.
 
 ## Are you using GameModeControl?
