@@ -50,7 +50,7 @@ Permission
 
 <tr>
 
-<td>/gm <id> [player]<br>/gamemode* <id> [player]</td>
+<td>/gm &lt;id&gt; [player]<br>/gamemode* &lt;id&gt; [player]</td>
 
 <td>Change the gamemode of a <br>player to the specified one</td>
 
