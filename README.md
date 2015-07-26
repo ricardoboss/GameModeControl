@@ -149,7 +149,7 @@ Permission
 
 ## Configuration
 
-If you want to reset the config, just delete the 'config.yml' file (in <your plugins folder>/GMC/). GMC will generate it on server startup.
+If you want to reset the config, just delete the 'config.yml' file (in &lt;your server folder&gt;/plugins/GMC/). GMC will generate it on server startup.
 
 ### Formatting codes
 
