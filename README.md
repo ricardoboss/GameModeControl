@@ -53,8 +53,7 @@ Permission
 <td>/gm <id> [player]  
 /gamemode* <id> [player]</td>
 
-<td>Change the gamemode of a player <br>
-to the specified one</td>
+<td>Change the gamemode of a <br>player to the specified one</td>
 
 <td>gmc.gamemode[.self | .others]</td>
 
@@ -71,8 +70,7 @@ to the specified one</td>
 <td>/gm0 [player]  
 /survival [player]</td>
 
-<td>Change the gamemode of a player <br>
-to survival</td>
+<td>Change the gamemode of a <br>player to survival</td>
 
 <td>gmc.survival[.self | .others]</td>
 
@@ -83,8 +81,7 @@ to survival</td>
 <td>/gm1 [player]  
 /creative [player]</td>
 
-<td>Change the gamemode of a player <br>
-to creative</td>
+<td>Change the gamemode of a <br>player to creative</td>
 
 <td>gmc.creative[.self | .others]</td>
 
@@ -95,8 +92,7 @@ to creative</td>
 <td>/gm2 [player]  
 /adventure [player]</td>
 
-<td>Change the gamemode of a player <br>
-to adventure</td>
+<td>Change the gamemode of a <br>player to adventure</td>
 
 <td>gmc.adventure[.self | .others]</td>
 
@@ -107,8 +103,7 @@ to adventure</td>
 <td>/gm3 [player]  
 /spectator [player]</td>
 
-<td>Change the gamemode of a player <br>
-to spectator</td>
+<td>Change the gamemode of a <br>player to spectator</td>
 
 <td>gmc.spectator[.self | .others]</td>
 
@@ -118,8 +113,7 @@ to spectator</td>
 
 <td>/gmh [page | command]</td>
 
-<td>Show all commands for GMC or <br>
-help for a specific command</td>
+<td>Show all commands for GMC or <br>help for a specific command</td>
 
 <td>gmc.gmh</td>
 
@@ -129,8 +123,7 @@ help for a specific command</td>
 
 <td>/gmi</td>
 
-<td>Shows information about GMC, <br>
-such as the version</td>
+<td>Shows information about GMC, <br>such as the version</td>
 
 <td>gmc.gmi</td>
 
@@ -140,8 +133,7 @@ such as the version</td>
 
 <td>/gmr</td>
 
-<td>Reloads the whole server in order <br>
-to reload the config of GMC</td>
+<td>Reloads the whole server in <br>order to reload the config of GMC</td>
 
 <td>gmc.gmr</td>
 
