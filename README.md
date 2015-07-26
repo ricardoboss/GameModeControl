@@ -50,8 +50,7 @@ Permission
 
 <tr>
 
-<td>/gm <id> [player]  
-/gamemode* <id> [player]</td>
+<td>/gm <id> [player]<br>/gamemode* <id> [player]</td>
 
 <td>Change the gamemode of a <br>player to the specified one</td>
 
@@ -67,8 +66,7 @@ Permission
 
 <tr>
 
-<td>/gm0 [player]  
-/survival [player]</td>
+<td>/gm0 [player]<br>/survival [player]</td>
 
 <td>Change the gamemode of a <br>player to survival</td>
 
@@ -78,8 +76,7 @@ Permission
 
 <tr>
 
-<td>/gm1 [player]  
-/creative [player]</td>
+<td>/gm1 [player]<br>/creative [player]</td>
 
 <td>Change the gamemode of a <br>player to creative</td>
 
@@ -89,8 +86,7 @@ Permission
 
 <tr>
 
-<td>/gm2 [player]  
-/adventure [player]</td>
+<td>/gm2 [player]<br>/adventure [player]</td>
 
 <td>Change the gamemode of a <br>player to adventure</td>
 
@@ -100,8 +96,7 @@ Permission
 
 <tr>
 
-<td>/gm3 [player]  
-/spectator [player]</td>
+<td>/gm3 [player]<br>/spectator [player]</td>
 
 <td>Change the gamemode of a <br>player to spectator</td>
 
