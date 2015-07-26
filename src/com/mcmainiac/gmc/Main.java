@@ -18,6 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.collect.ImmutableMap;
 import com.mcmainiac.gmc.CGM.ControlledGameMode;
+import com.mcmainiac.gmc.excpetions.GameModeNotFoundException;
+import com.mcmainiac.gmc.excpetions.PlayerNotFoundException;
 
 /**
  * GameModeControl V1.3.1

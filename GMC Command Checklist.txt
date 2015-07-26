@@ -1,0 +1,106 @@
+This is a file with all commands of GameModeControl to check if EVERYTHING (chaning of gamemodes, dynamic messages, error handling) is working properly
+
+gamemode
+gamemode 0
+gamemode 1
+gamemode 2
+gamemode 3
+gamemode 4
+gamemode 0 test
+gamemode 1 test
+gamemode 2 test
+gamemode 3 test
+gamemode 4 test
+gamemode 0 MCMainiac
+gamemode 1 MCMainiac
+gamemode 2 MCMainiac
+gamemode 3 MCMainiac
+gamemode 4 MCMainiac
+gamemode survival
+gamemode creative
+gamemode adventure
+gamemode spectator
+gamemode survival test
+gamemode creative test
+gamemode adventure test
+gamemode spectator test
+gamemode survival MCMainiac
+gamemode creative MCMainiac
+gamemode adventure MCMainiac
+gamemode spectator MCMainiac
+gm
+gm 0
+gm 1
+gm 2
+gm 3
+gm 4
+gm 0 test
+gm 1 test
+gm 2 test
+gm 3 test
+gm 4 test
+gm 0 MCMainiac
+gm 1 MCMainiac
+gm 2 MCMainiac
+gm 3 MCMainiac
+gm 4 MCMainiac
+gm survival
+gm creative
+gm adventure
+gm spectator
+gm survival test
+gm creative test
+gm adventure test
+gm spectator test
+gm survival MCMainiac
+gm creative MCMainiac
+gm adventure MCMainiac
+gm spectator MCMainiac
+gm0
+gm1
+gm2
+gm3
+gm4
+gm0 test
+gm1 test
+gm2 test
+gm3 test
+gm4 test
+gm0 MCMainiac
+gm1 MCMainiac
+gm2 MCMainiac
+gm3 MCMainiac
+gm4 MCMainiac
+survival
+creative
+adventure
+spectator
+survival test
+creative test
+adventure test
+spectator test
+survival MCMainiac
+creative MCMainiac
+adventure MCMainiac
+spectator MCMainiac
+gmh
+gmh 1
+gmh 2
+gmh 3
+gmh gamemode
+gmh gm
+gmh gm0
+gmh gm1
+gmh gm2
+gmh gm3
+gmh gm4
+gmh survival
+gmh creative
+gmh adventure
+gmh spectator
+gmh gmi
+gmh gmh
+gmh gmr
+gmh test
+gmi
+gmr

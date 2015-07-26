@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mcmainiac.gmc.CGM.ControlledGameMode;
+import com.mcmainiac.gmc.excpetions.GameModeNotFoundException;
 
 public class Config {
 	private JavaPlugin plugin;

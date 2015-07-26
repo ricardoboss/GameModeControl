@@ -1,4 +1,4 @@
-package com.mcmainiac.gmc;
+package com.mcmainiac.gmc.excpetions;
 
 public class GameModeNotFoundException extends Exception {
 	private static final long serialVersionUID = 4135630639716104833L;

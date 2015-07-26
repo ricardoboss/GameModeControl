@@ -1,4 +1,4 @@
-package com.mcmainiac.gmc;
+package com.mcmainiac.gmc.excpetions;
 
 public class PlayerNotFoundException extends Exception {
 	private static final long serialVersionUID = -2703559143022169978L;
