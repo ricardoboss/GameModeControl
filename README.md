@@ -60,7 +60,7 @@ Permission
 
 <tr>
 
-<td colspan="3">&mdash; valid values for _id_: 0, 1, 2, 3, survival, creative, adventure, spectator</td>
+<td colspan="3">&mdash; valid values for <em>id</em>: 0, 1, 2, 3, survival, creative, adventure, spectator</td>
 
 </tr>
 
