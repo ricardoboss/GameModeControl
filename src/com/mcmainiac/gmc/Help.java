@@ -1,6 +1,7 @@
 package com.mcmainiac.gmc;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class Help {
 	public static final int max_pages = 2;
@@ -12,27 +13,24 @@ public class Help {
 			"§f--------------------",
 			"§2<>§f: §6required§f; §7[]§f: §6optional",
 		});
-		switch(page) {
-		case 1:
+		if (page == 1 || !(sender instanceof Player))
 			Send(sender, new String[]{
 				"§7- §a/gamemode§f; §a/gm §2<id | name> §7[player]",
 				"§7- §a/gm0§f; §a/survival §7[player]",
 				"§7- §a/gm1§f; §a/creative §7[player]",
 				"§7- §a/gm2§f; §a/adventure §7[player]",
 				"§7- §a/gm3§f; §a/spectator §7[player]",
-			}); break;
-		case 2:
+			});
+		else if (page == 2 || !(sender instanceof Player))
 			Send(sender, new String[]{
-				"§7- §a/gmh §7[page | command]",
-				"§7- §a/gmi",
-				"§7- §a/gmr",
-				"§7If you need help for a specific",
-				"§7command, use §a/gmh <command>§7.",	
-			}); break;
-		default:
+					"§7- §a/gmh §7[page | command]",
+					"§7- §a/gmi",
+					"§7- §a/gmr",
+					"§7If you need help for a specific",
+					"§7command, use §a/gmh <command>§7.",	
+				});
+		else
 			sender.sendMessage("§cAvailable pages: §6§o1§7§o - §6§o2");
-			break;
-		}
 		sender.sendMessage("§f--------------------");
 		sender.sendMessage("§7§oShowing page §f§o" + page + " §7§oof §f§o" + max_pages);
 	}
