@@ -21,14 +21,8 @@ commands:
   gmr:
     description: Reloads the config of GMC
     usage: /gmr
-<<<<<<< HEAD
-    permission: gmc.gmr
-  gmonce:
-    description: Allows a player to change his/her game mode only one time
-=======
   gmonce:
     description: Allow a player to change his/her game mode only one time
->>>>>>> master
     usage: /gmonce <player> [survival] [creative] [adventure] [spectator]
 
   gm0:
