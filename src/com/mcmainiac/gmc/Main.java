@@ -7,7 +7,6 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,9 +16,14 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.collect.ImmutableMap;
-import com.mcmainiac.gmc.CGM.ControlledGameMode;
 import com.mcmainiac.gmc.excpetions.GameModeNotFoundException;
 import com.mcmainiac.gmc.excpetions.PlayerNotFoundException;
+import com.mcmainiac.gmc.helpers.CGM;
+import com.mcmainiac.gmc.helpers.CGM.ControlledGameMode;
+import com.mcmainiac.gmc.helpers.Config;
+import com.mcmainiac.gmc.helpers.Help;
+import com.mcmainiac.gmc.helpers.MessageColor;
+import com.mcmainiac.gmc.helpers.Updater;
 
 /**
  * GameModeControl V1.3.1
@@ -33,10 +37,11 @@ import com.mcmainiac.gmc.excpetions.PlayerNotFoundException;
  * @author MCMainiac
  */
 public class Main extends JavaPlugin implements Listener {
-	private static final ConsoleCommandSender console = Bukkit.getConsoleSender();
 	private static final String pre = "§7[§2G§aM§fC§7] §r";
+	private static CommandSender console = Bukkit.getConsoleSender();
 	
-	private HashMap<String, Permission> permissions = new HashMap<String, Permission>();
+	private HashMap<String, Permission> permissions = new HashMap<String, Permission>(); // A map for all the permissions (fast access to dynamic permissions)
+	private HashMap<Player, Boolean[]> otgm = new HashMap<Player, Boolean[]>(); // A map to save, which players are able to change their gamemode
 	
 	public static Config config;
 
@@ -46,15 +51,16 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		try {
-			log("Initializing GMC...");
+			log("Initializing GMC §2" + this.getDescription().getVersion());
 			Main.config = new Config(this);
 			Bukkit.getPluginManager().registerEvents(this, this);
 			
 			// Permissions
 			permissions.put("gmi", new Permission("gmc.gmi", PermissionDefault.TRUE));
 			permissions.put("gmh", new Permission("gmc.gmh", PermissionDefault.TRUE));
-			permissions.put("gmr", new Permission("gmc.gmr", PermissionDefault.OP));
 			permissions.put("forcegm", new Permission("gmc.forcegm", PermissionDefault.TRUE));
+			permissions.put("gmr", new Permission("gmc.gmr", PermissionDefault.OP));
+			permissions.put("gmonce", new Permission("gmc.gmonce", PermissionDefault.OP));
 			
 			permissions.put("gm", new Permission("gmc.gm", PermissionDefault.OP));
 			permissions.put("gm.self", new Permission("gmc.gm.self", PermissionDefault.OP));
@@ -75,12 +81,18 @@ public class Main extends JavaPlugin implements Listener {
 			permissions.put("spectator.self", new Permission("gmc.spectator.self", PermissionDefault.OP));
 			permissions.put("spectator.others", new Permission("gmc.spectator.others", PermissionDefault.OP));
 			
-			log("GMC §aenabled§7 successfully!");
+			for (Player p : Bukkit.getOnlinePlayers()) { // if the server has been reloaded, this loop adds all player to the change-gm-one-time-map
+				otgm.put(p, new Boolean[]{false, false, false, false}); // default is false for every gamemode
+			}
+			
+			// Auto-Updater
+			checkForUpdates(config.getBoolean("options.auto-update"));
+			
+			log("GMC §2enabled§7 successfully!");
 		} catch(IOException ioe) {
 			log("GMC crashed while initializing!", MessageColor.ERROR);
 			ioe.printStackTrace();
 			Bukkit.getPluginManager().disablePlugin(this);
-			return;
 		}
 	}
 
@@ -109,19 +121,20 @@ public class Main extends JavaPlugin implements Listener {
 			case "spectator":
 				return Gamemode(sender, new String[]{"3", (args.length > 0 ? args[0] : null), "spectator"});
 
+			case "gmonce":
+				return OneTimeGamemode(sender, args);
+			
 			case "gmh": return Help(sender, args);
 			case "gmi": return Info(sender, args);
 			case "gmr": return Reload(sender);
 			default: return false;
 			}
 		} catch (InvalidParameterException ipe) {
-			log("Please check your config", MessageColor.ERROR);
+			log("An invalid parameter was given!", MessageColor.ERROR);
+			log("Please check your config!", MessageColor.ERROR);
 		} catch (GameModeNotFoundException gme) {
 			log("The specified GameMode was not found!", MessageColor.ERROR);
-			log("Are you using the right GMC version for your server?", MessageColor.ERROR);
 			gme.printStackTrace();
-		} catch (PlayerNotFoundException pe) {
-			send(sender, config.getString("Other.player not found"), ImmutableMap.<String, String>builder().put("$player", (args.length > 1 ? args[1] : args[0])).build());
 		}
 		return true;
 	}
@@ -129,25 +142,26 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent e) {
 		try {
-			if (config.getBoolean("force-gamemode.enable")) {
-				if (e.getPlayer().hasPermission("force-gamemode")) {
-					e.getPlayer().setGameMode(CGM.getGamemodeByIdOrName(config.get("force-gamemode.mode")));
+			if (config.getBoolean("options.force-gamemode.enable")) {
+				if (e.getPlayer().hasPermission("options.force-gamemode")) {
+					e.getPlayer().setGameMode(CGM.getGamemodeByIdOrName(config.get("options.force-gamemode.mode")));
 				} else
 					log("Didn't change " + e.getPlayer().getName() + "'s gamemode");
 			}
 		} catch(GameModeNotFoundException gme) {
-			log("Error: please check you config at 'force-gamemode.mode'", MessageColor.ERROR);
+			log("Error: please check your config at 'options.force-gamemode.mode'", MessageColor.ERROR);
 			gme.printStackTrace();
 		}
+		otgm.put(e.getPlayer(), new Boolean[]{false, false, false, false}); // add the player to the change-gm-one-time-map
 		log("Player " + e.getPlayer().getName() + " has gamemode " + e.getPlayer().getGameMode().toString().toUpperCase());
-		if (e.getPlayer().getName() == "MCMainiac") broadcast("Hey MCMainiac! Author of GameModeControl!");
+		if (e.getPlayer().getName() == "MCMainiac") broadcast("Hey MCMainiac! Author of GameModeControl!"); // this is our little secret :)
 	}
 	
 	//--------------
 	// Commands
 	//--------------
 	private boolean Gamemode(CommandSender sender, String[] args)
-			throws InvalidParameterException, GameModeNotFoundException, PlayerNotFoundException {
+			throws InvalidParameterException, GameModeNotFoundException {
 		ControlledGameMode cgm;
 		try {
 			cgm = CGM.getCGMByIdOrName(args[0]);
@@ -155,47 +169,81 @@ public class Main extends JavaPlugin implements Listener {
 			send(sender, config.getString("Other.gamemode not found"), ImmutableMap.<String, String>builder().put("$gm", args[0].toUpperCase()).build());
 			return false;
 		}
+
 		if (sender instanceof Player)
 			if (args[1] == null) // check if there is a player specified
 				if (sender.hasPermission(permissions.get(args[args.length-1] + ".self")) || // Either you have permission to set your own game mode
-					sender.hasPermission(permissions.get(args[args.length-1]))) // or you have the global permission to set this game mode.
+						sender.hasPermission(permissions.get(args[args.length-1])) || // or you have the global permission to set this game mode.
+						otgm.get(sender)[cgm.getId()]) { // or the player has been allowed to change his/her game mode via the /gmonce command
 					CGM.set((Player)sender, cgm);
+					otgm.put((Player) sender, new Boolean[]{false, false, false, false}); // reset the one-time-gm-map for this player
+				}
 				else
 					send((Player)sender, config.getString("Other.no permission")); // Oops you don't have permission to do that
 			else
-				if (sender.hasPermission(permissions.get(args[args.length-1] + ".others")) || // the same over here, except that you 
-					sender.hasPermission(permissions.get(args[args.length-1]))) // have to have the permission to change someone else's game mode
-					CGM.set(getPlayerByName(args[1]), (Player)sender, cgm); // since getPlayer() is only for this session, it's fine to use it
-				else
-					send((Player)sender, config.getString("Other.no permission"));
+				try {
+					if (sender.hasPermission(permissions.get(args[args.length-1] + ".others")) || // the same over here, except that you 
+						sender.hasPermission(permissions.get(args[args.length-1])))
+							CGM.set(getPlayerByName(args[1]), (Player)sender, cgm);
+					else
+						send(sender, config.getString("Other.no permission"));
+				} catch (PlayerNotFoundException e) {
+					send(sender, config.getString("Other.player not found"), ImmutableMap.<String, String>builder().put("$player", args[1]).build());
+				}
 		else
 			if (args[1] == null) return false; // we know it's the console or a command block here, so there MUST be a player specified
-			else CGM.set(getPlayerByName(args[1]), sender, cgm); // so just change the game mode (console has good mode activated)
+			else
+				try {
+					CGM.set(getPlayerByName(args[1]), sender, cgm); // so just change the game mode (console has god mode activated)
+				} catch (PlayerNotFoundException e) {
+					send(sender, config.getString("Other.player not found"), ImmutableMap.<String, String>builder().put("$player", args[1]).build());
+				}
 		return true;
 	}
 	
 	private boolean Reload(CommandSender sender) {
-		if (sender.hasPermission(permissions.get("gmr"))) {
-			config.reload();
-			sender.sendMessage(pre + "Config §3reloaded");
-		} else
-			send(sender, config.getString("Other.no permission"));
+		if (!sender.hasPermission(permissions.get("gmr"))) { send(sender, config.getString("Other.no permission")); return true; }
+		config.reload();
+		
+		// notify new settings
+		if (config.getBoolean("options.auto-update")) {
+			log("Auto-update §aenabled§7!");
+			checkForUpdates(true);
+			log("---------");
+		}
+		
+		if (config.getBoolean("options.force-gamemode.enable")) {
+			try {
+				ControlledGameMode cgm = CGM.getCGMByIdOrName(config.getString("options.force-gamemode.mode"));
+				this.getServer().setDefaultGameMode(cgm.getGamemode());
+				log("Forcing gamemode " + cgm.getMessageColor() + cgm.getName() + " §7on player join");
+			} catch (InvalidParameterException | GameModeNotFoundException e) {
+				log("You specified a wrong parameter for 'options.force-gamemode.mode'!", MessageColor.ERROR);
+				log("Using the default gamemode " + CGM.getMessageColor(ControlledGameMode.SURVIVAL) + "SURVIVAL", MessageColor.ERROR);
+				config.set("options.force-gamemode.mode", 0);
+				this.saveConfig();
+				this.reloadConfig();
+			}
+			log("---------");
+		}
+		
+		if (sender instanceof Player) log("Config §3reloaded");
+		sender.sendMessage(pre + "Config §3reloaded");
 		return true;
 	}
 	
 	private boolean Info(CommandSender sender, String[] args) {
-		if (sender.hasPermission(permissions.get("gmi"))) {
-			sender.sendMessage("§f----- §7[§2Game§aMode§fControl§7] §f-----");
-			sender.sendMessage("§aVersion§7: §9[Beta] §f1.3.1");
-			sender.sendMessage("§aAuthor§7: §fMCMainiac");
-			sender.sendMessage("§aWebsite§7: §5§nhttp://bit.ly/MC-GMC");
-			sender.sendMessage("§f-----------------------------");	
-		} else
-			send(sender, config.getString("Other.no permission"));
+		if (!sender.hasPermission(permissions.get("gmi"))) { send(sender, config.getString("Other.no permission")); return true; }
+		sender.sendMessage("§f----- §7[§2Game§aMode§fControl§7] §f-----");
+		sender.sendMessage("§aVersion§7: §9[Beta] §f" + this.getDescription().getVersion());
+		sender.sendMessage("§aAuthor§7: §fMCMainiac");
+		sender.sendMessage("§aWebsite§7: §5§nhttp://bit.ly/MC-GMC");
+		sender.sendMessage("§f-----------------------------");
 		return true;
 	}
 	
 	private boolean Help(CommandSender sender, String[] args) {
+		if (!sender.hasPermission(permissions.get("gmh"))) { send(sender, config.getString("Other.no permission")); return true; }
 		if (args.length == 0)
 			Help.Show(sender, 1);
 		else if (args.length == 1)
@@ -209,9 +257,72 @@ public class Main extends JavaPlugin implements Listener {
 		return true;
 	}
 	
+	private boolean OneTimeGamemode(CommandSender sender, String[] args) {
+		if (!sender.hasPermission(permissions.get("gmonce"))) { send(sender, config.getString("Other.no permission")); return true; }
+		if (args.length > 0) {
+			try {
+				boolean survival = (args.length == 1 ? true : false), 
+						creative = (args.length == 1 ? true : false), 
+						adventure = (args.length == 1 ? true : false), 
+						spectator = (args.length == 1 ? true : false); // default for all game modes is false
+				
+				for (int i = 1; i < args.length; i++) { // go through all parameters and check, which game modes have been enabled by the operator
+					if (args[i].equalsIgnoreCase("survival")) survival = true;
+					if (args[i].equalsIgnoreCase("creative")) creative = true;
+					if (args[i].equalsIgnoreCase("adventure")) adventure = true;
+					if (args[i].equalsIgnoreCase("spectator")) spectator = true;
+				}
+				
+				otgm.put(getPlayerByName(args[0]), new Boolean[]{survival, creative, adventure, spectator});
+				sender.sendMessage("§6" + args[0] + " §fhas the permission to change his/her game mode to:");
+				String message = "";
+				for (ControlledGameMode cgm : ControlledGameMode.values())
+					if (otgm.get(getPlayerByName(args[0]))[cgm.getId()])
+						message += cgm.getMessageColor() + cgm.getName() + "§r, ";
+				
+				sender.sendMessage(message.substring(0, (message.length() - 4 > 0 ? message.length() - 4 : message.length())));
+			} catch (PlayerNotFoundException e) {
+				send(sender, config.getString("Other.player not found"), ImmutableMap.<String, String>builder().put("$player", args[0]).build());
+			}
+			return true;
+		} else
+			return false;
+	}
+	
 	//--------------
 	// Utilities
 	//--------------
+	public void checkForUpdates(boolean update) {
+		log("Checking for a newer version...");
+		
+		Updater.UpdateType updateType;
+		if (update)
+			updateType = Updater.UpdateType.DEFAULT;
+		else
+			updateType = Updater.UpdateType.NO_DOWNLOAD;
+		
+		Updater updater = new Updater(this, 71110, this.getFile(), updateType, true);
+		
+		switch(updater.getResult()) {
+		case NO_UPDATE:
+			log("No update was found. §2GMC " + this.getDescription().getVersion() + " §7is up to date.");
+			break;
+		case SUCCESS:
+			log("The newest version §a" + updater.getLatestName() + " §7has been downloaded and will be loaded the next time the server restarts/reloads.");
+			break;
+		case UPDATE_AVAILABLE:
+			log("There is a newer version available: §2" + updater.getLatestName() + "§7, but since");
+			log("auto-update is §4disabled§7, nothing was downloaded.");
+			break;
+		case DISABLED:
+			log("Auto-update is §cdisabled§7.");
+			break;
+		default:
+			log("Something went wrong while updating!", MessageColor.ERROR);
+			break;
+		}
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static Player getPlayerByName(String name) throws PlayerNotFoundException {
 		Player p = Bukkit.getServer().getPlayer(name);
@@ -233,21 +344,21 @@ public class Main extends JavaPlugin implements Listener {
 		case DARK_PURPLE: console.sendMessage(pre + "§5" + log); break;
 		case GOLD:
 			case GM_SURVIVAL:
-			console.sendMessage(pre + "§6" + log); break;
+				console.sendMessage(pre + "§6" + log); break;
 		case GRAY:
 			default:
-			console.sendMessage(pre + "§7" + log); break;
+				console.sendMessage(pre + "§7" + log); break;
 		case DARK_GRAY: console.sendMessage(pre + "§8" + log); break;
 		case BLUE:
 			case GM_ADVENTURE:
-			console.sendMessage(pre + "§9" + log); break;
+				console.sendMessage(pre + "§9" + log); break;
 		case GREEN:
 			case SUCCESS:
 			case GM_SPECTATOR:
-			console.sendMessage(pre + "§a" + log); break;
+				console.sendMessage(pre + "§a" + log); break;
 		case AQUA:
 			case GM_CREATIVE: 
-			console.sendMessage(pre + "§b" + log); break;
+				console.sendMessage(pre + "§b" + log); break;
 		case RED:
 			case ERROR:
 			console.sendMessage(pre + "§c" + log); break;
@@ -257,11 +368,6 @@ public class Main extends JavaPlugin implements Listener {
 			console.sendMessage(pre + "§e" + log); break;
 		case WHITE: console.sendMessage(pre + "§f" + log); break;
 		}
-	}
-
-	public static void send(Player p, String message) {
-		message = replaceColorCodes(message);
-		p.sendMessage(message);
 	}
 
 	public static void send(CommandSender cs, String message) {
@@ -281,19 +387,13 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 		
-		if (cs instanceof Player) send((Player)cs, message);
+		if (cs instanceof Player) cs.sendMessage(message);
 		else log(message);
 	}
 	
 	public static void broadcast(String message) {
-		if (message != null) message = message.replaceAll("&([0-9a-fk-or])", "§$1");
+		message = replaceColorCodes(message);
 		Bukkit.broadcastMessage(pre + (message != null ? message : "null"));
-	}
-
-	public static void broadcast(String[] messages) {
-		for (String message : messages) {
-			broadcast(message);
-		}
 	}
 
 	public static String replaceColorCodes(String message) {
@@ -301,79 +401,5 @@ public class Main extends JavaPlugin implements Listener {
 		message = message.replaceAll("&([k-o])", "§$1");
 		message = message.replaceAll("&r", "§r");
 		return message;
-	}
-}
-
-/**
- * It's actually an alias for ChatColor.
- * Just for static SUCCESS, INFO, WARNING, 
- * ERROR if I want to change one of those later.
- * 
- * @version V1.0
- * @author MCMainiac
- */
-enum MessageColor {
-	SUCCESS,
-	INFO,
-	WARNING,
-	ERROR,
-	
-	GM_SURVIVAL,
-	GM_CREATIVE,
-	GM_ADVENTURE,
-	GM_SPECTATOR,
-	
-	BLACK,
-	DARK_BLUE,
-	DARK_GREEN,
-	DARK_AQUA,
-	DARK_RED,
-	DARK_PURPLE,
-	GOLD,
-	GRAY,
-	DARK_GRAY,
-	BLUE,
-	GREEN,
-	AQUA,
-	RED,
-	LIGHT_PURPLE,
-	YELLOW,
-	WHITE;
-	
-	@Override
-	public String toString() {
-		switch(this) {
-		case BLACK:	return "§0";
-		case DARK_BLUE: return "§1";
-		case DARK_GREEN: return"§2";
-		case DARK_AQUA: return"§3";
-		case DARK_RED: return"§4";
-		case DARK_PURPLE: return"§5";
-		case GOLD:
-			case GM_SURVIVAL:
-			return"§6";
-		case GRAY:
-			default:
-			return"§7";
-		case DARK_GRAY: return"§8";
-		case BLUE:
-			case GM_ADVENTURE:
-			return"§9";
-		case GREEN:
-			case SUCCESS:
-			case GM_SPECTATOR:
-			return"§a";
-		case AQUA:
-			case GM_CREATIVE: 
-			return"§b";
-		case RED:
-			case ERROR:
-			return"§c";
-		case LIGHT_PURPLE: return"§d";
-		case YELLOW:
-			case WARNING:
-			return"§e";
-		case WHITE: return"§f";
-		}
 	}
 }
