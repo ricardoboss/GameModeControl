@@ -605,8 +605,20 @@ public class Updater {
      * @return true if Updater should consider the remote version an update, false if not.
      */
     public boolean shouldUpdate(String localVersion, String remoteVersion) {
-    	String[] localV = localVersion.split(Updater.DELIMETER); // split the local version, e.g.: "Beta|1.4.pizza"
-        return !remoteVersion.equalsIgnoreCase((localV.length > 0 ? localV[1] : localV[0]));
+    	String[] localV = localVersion.split(Updater.DELIMETER); // split the local version, e.g.: "Beta|1.4.5"
+    	String[] localVersionInts = (localV.length > 0 ? localV[1] : localV[0]).split("\\."); // "1|4|5"
+    	
+    	int localVersionInt = Integer.valueOf(localVersionInts.length > 2 ? (localVersionInts[0] + localVersionInts[1] + localVersionInts[2]) : 
+    							(localVersionInts.length > 1 ? (localVersionInts[0] + localVersionInts[1] + "0") : 
+    							(localVersionInts[0] + "00"))); // so we get something like "145" or "200"
+
+    	String[] remoteVersionInts = remoteVersion.split("\\."); // the same procedure for the remote version
+    	
+    	int remoteVersionInt = Integer.valueOf(remoteVersionInts.length > 2 ? (remoteVersionInts[0] + remoteVersionInts[1] + remoteVersionInts[2]) : 
+    							(remoteVersionInts.length > 1 ? (remoteVersionInts[0] + remoteVersionInts[1] + "0") : 
+    							(remoteVersionInts[0] + "00")));
+    	
+        return remoteVersionInt > localVersionInt;
     }
 
     /**
