@@ -1,22 +1,29 @@
-force-gamemode:
-  enable: false
-  mode: survival
+options:
+  force-gamemode:
+    enable: false
+    mode: survival
+  auto-update: true
+
 Survival:
   self: '&aSet your game mode to &6&osurvival&a.'
   from: '&aYour game mode was set to &6&osurvival&a.'
-  to: '&aSet the game mode of &7%player &ato &6&osurvival&a.'
+  to: '&aSet the game mode of &7$player &ato &6&osurvival&a.'
+
 Creative:
   self: '&aSet your game mode to &6&ocreative&a.'
   from: '&aYour game mode was set to &6&ocreative&a.'
-  to: '&aSet the game mode of &7%player &ato &6&ocreative&a.'
+  to: '&aSet the game mode of &7$player &ato &6&ocreative&a.'
+
 Adventure:
   self: '&aSet your game mode to &6&oadventure&a.'
   from: '&aYour game mode was set to &6&oadventure&a.'
-  to: '&aSet the game mode of &7%player &ato &6&oadventure&a.'
+  to: '&aSet the game mode of &7$player &ato &6&oadventure&a.'
+
 Spectator:
   self: '&aSet your game mode to &6&ospectator.'
   from: '&aYour game mode was set to &6&ospectator.'
-  to: '&aSet the game mode of &7%player &ato &6&ospectator.'
+  to: '&aSet the game mode of &7$player &ato &6&ospectator.'
+
 Other:
   player not found: '&cCould not find this player: &7$player'
   gamemode not found: '&cCould not find this gamemode: &7$gm'
