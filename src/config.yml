@@ -2,7 +2,7 @@ options:
   force-gamemode:
     enable: false
     mode: survival
-  auto-update: true
+  auto-update: false
 
 Survival:
   self: '&aSet your game mode to &6&osurvival&a.'
