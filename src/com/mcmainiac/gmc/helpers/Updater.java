@@ -1,6 +1,12 @@
 package com.mcmainiac.gmc.helpers;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -556,10 +562,7 @@ public class Updater {
         if (this.type != UpdateType.NO_VERSION_CHECK) {
             final String localVersion = this.plugin.getDescription().getVersion();
             if (title.split(DELIMETER).length == 2) {
-                // Get the newest file's version number
-                final String remoteVersion = title.split(DELIMETER)[1].split(" ")[0];
-
-                if (this.hasTag(localVersion) || !this.shouldUpdate(localVersion, remoteVersion)) {
+                if (this.hasTag(localVersion) || !this.shouldUpdate(localVersion, title)) {
                     // We already have the latest version, or this build is tagged for no-update
                     this.result = Updater.UpdateResult.NO_UPDATE;
                     return false;
@@ -612,11 +615,21 @@ public class Updater {
     							(localVersionInts.length > 1 ? (localVersionInts[0] + localVersionInts[1] + "0") : 
     							(localVersionInts[0] + "00"))); // so we get something like "145" or "200"
 
-    	String[] remoteVersionInts = remoteVersion.split("\\."); // the same procedure for the remote version
+    	
+    	if (localVersion.startsWith("Alpha")) localVersionInt = 1000 + localVersionInt; // Alpha v1.0.0 = 1100
+    	else if (localVersion.startsWith("Beta")) localVersionInt = 2000 + localVersionInt; // Beta v1.3.1 = 2131
+    	else localVersionInt = 3000 + localVersionInt; // we got a released version here; e.g. v1.2.0 = 3120
+    	
+    	String[] remoteV = remoteVersion.split(Updater.DELIMETER); // the same procedure for the remote version
+    	String[] remoteVersionInts = (remoteV.length > 0 ? remoteV[1] : remoteV[0]).split("\\.");
     	
     	int remoteVersionInt = Integer.valueOf(remoteVersionInts.length > 2 ? (remoteVersionInts[0] + remoteVersionInts[1] + remoteVersionInts[2]) : 
     							(remoteVersionInts.length > 1 ? (remoteVersionInts[0] + remoteVersionInts[1] + "0") : 
     							(remoteVersionInts[0] + "00")));
+    	
+    	if (remoteVersion.startsWith("Alpha")) remoteVersionInt = 1000 + remoteVersionInt;
+    	else if (remoteVersion.startsWith("Beta")) remoteVersionInt = 2000 + remoteVersionInt;
+    	else remoteVersionInt = 3000 + remoteVersionInt;
     	
         return remoteVersionInt > localVersionInt;
     }
