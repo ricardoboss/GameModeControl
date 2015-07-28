@@ -106,9 +106,9 @@ Permission
 
 <tr>
 
-<td>/gmonce &lt;player&gt; [survival]<br>[creative] [adventure] [spectator]</td>
+<td>/gmonce &lt;player&gt;<br>[survival] [creative]<br>[adventure] [spectator]</td>
 
-<td>Allow a player to change his/her<br>game mode only one time to one<br>the ones specified by you</td>
+<td>Allow a player to change<br>his/her game mode only one<br>time to one of<br>the ones specified by you</td>
 
 <td>gmc.gmonce</td>
 
