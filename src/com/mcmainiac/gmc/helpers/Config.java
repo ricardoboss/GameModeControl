@@ -19,7 +19,6 @@ public class Config {
 		this.plugin.saveDefaultConfig();
 		this.config = plugin.getConfig();
 		this.config.options().copyDefaults(true);
-		Main.log("Config loaded");
 		if (config.getBoolean("options.force-gamemode.enable"))
 			try {
 				ControlledGameMode cgm = CGM.getCGMByIdOrName(config.getString("options.force-gamemode.mode"));
