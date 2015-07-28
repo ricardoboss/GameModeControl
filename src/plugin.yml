@@ -27,9 +27,8 @@ commands:
     usage: /gmr
     permission: gmc.gmr
   gmonce:
-    description: Allows a player to change his/her gamemode only one time
-    usage: /gmonce <player> [<survival?> <creative?> <adventure?> <spectator?>]
-    permission: gmc.gmonce
+    description: Allows a player to change his/her game mode only one time
+    usage: /gmonce <player> [survival] [creative] [adventure] [spectator]
 
   gm0:
     description: Change the game mode of a player to Survival
