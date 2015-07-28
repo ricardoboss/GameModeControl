@@ -51,7 +51,7 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		try {
-			log("Initializing GMC §2" + this.getDescription().getVersion());
+			log("Initializing GMC §a" + this.getDescription().getVersion());
 			Main.config = new Config(this);
 			Bukkit.getPluginManager().registerEvents(this, this);
 			
@@ -82,7 +82,7 @@ public class Main extends JavaPlugin implements Listener {
 			permissions.put("spectator.others", new Permission("gmc.spectator.others", PermissionDefault.OP));
 			
 			for (Player p : Bukkit.getOnlinePlayers()) { // if the server has been reloaded, this loop adds all player to the change-gm-one-time-map
-				otgm.put(p, new Boolean[]{false, false, false, false}); // default is false for every gamemode
+				otgm.put(p, new Boolean[]{false, false, false, false}); // default is false for every game mode
 			}
 			
 			// Auto-Updater
@@ -120,7 +120,7 @@ public class Main extends JavaPlugin implements Listener {
 			case "gm3":
 			case "spectator":
 				return Gamemode(sender, new String[]{"3", (args.length > 0 ? args[0] : null), "spectator"});
-
+			
 			case "gmonce":
 				return OneTimeGamemode(sender, args);
 			
@@ -306,7 +306,6 @@ public class Main extends JavaPlugin implements Listener {
 		switch(updater.getResult()) {
 		case NO_UPDATE:
 			log("No update was found (last version: §2" + updater.getLatestName() + "§7).");
-			log("§aGMC " + this.getDescription().getVersion() + " §7is up to date.");
 			break;
 		case SUCCESS:
 			log("The newest version §a" + updater.getLatestName() + " §7has been downloaded and will be");
