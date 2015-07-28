@@ -1,5 +1,5 @@
 name: GMC
-version: 1.3.1
+version: Beta 1.3.1
 author: MCMainiac
 website: http://bit.ly/MC-GMC
 
@@ -9,56 +9,44 @@ commands:
   gamemode:
     description: Change the game mode of a player
     usage: /gamemode <id> [player]
-    permission: gmc.gamemode
   gm:
     description: Change the game mode of a player
     usage: /gm <id> [player]
-    permission: gmc.gamemode
   gmh:
     description: Displays help for GMC
     usage: /gmh [page | command]
-    permission: gmc.gmh
   gmi:
     description: Displays info about GMC
     usage: /gmi
-    permission: gmc.gmi
   gmr:
     description: Reloads the config of GMC
     usage: /gmr
-    permission: gmc.gmr
+  gmonce:
+    description: Allow a player to change his/her game mode only one time
+    usage: /gmonce <player> [survival] [creative] [adventure] [spectator]
 
   gm0:
     description: Change the game mode of a player to Survival
     usage: /gm0 [player]
-    permission: gmc.survival
   gm1:
     description: Change the game mode of a player to Creative
     usage: /gm1 [player]
-    permission: gmc.creative
   gm2:
     description: Change the game mode of a player to Adventure
     usage: /gm2 [player]
-    permission: gmc.adventure
   gm3:
     description: Change the game mode of a player to Spectator
     usage: /gm3 [player]
-    permission: gmc.spectator
 
   survival:
     description: Change the game mode of a player to Survival
     usage: /survival [player]
-    permission: gmc.survival
   creative:
     description: Change the game mode of a player to Creative
     usage: /creative [player]
-    permission: gmc.creative
   adventure:
     description: Change the game mode of a player to Adventure
     usage: /adventure [player]
-    permission: gmc.adventure
   spectator:
     description: Change the game mode of a player to Spectator
     usage: /spectator [player]
-    permission: gmc.spectator
-
-    
