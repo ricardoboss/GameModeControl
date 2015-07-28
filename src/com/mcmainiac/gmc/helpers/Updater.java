@@ -52,7 +52,7 @@ public class Updater {
     // User-agent when querying Curse
     private static final String USER_AGENT = "Updater (by Gravity)";
     // Used for locating version numbers in file names
-    private static final String DELIMETER = "^v|[\\s]v|[\\s]\\d";
+    private static final String DELIMETER = "^v|[\\s]v|[\\s]";
     // If the version number contains one of these, don't update.
     private static final String[] NO_UPDATE_TAG = { "-DEV", "-PRE", "-SNAPSHOT" };
     // Used for downloading files
@@ -605,7 +605,8 @@ public class Updater {
      * @return true if Updater should consider the remote version an update, false if not.
      */
     public boolean shouldUpdate(String localVersion, String remoteVersion) {
-        return !localVersion.equalsIgnoreCase(remoteVersion);
+    	String[] localV = localVersion.split(Updater.DELIMETER); // split the local version, e.g.: "Beta|1.4.pizza"
+        return !remoteVersion.equalsIgnoreCase((localV.length > 0 ? localV[1] : localV[0]));
     }
 
     /**
