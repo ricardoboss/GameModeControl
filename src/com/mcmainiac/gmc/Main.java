@@ -305,10 +305,12 @@ public class Main extends JavaPlugin implements Listener {
 		
 		switch(updater.getResult()) {
 		case NO_UPDATE:
-			log("No update was found. §2GMC " + this.getDescription().getVersion() + " §7is up to date.");
+			log("No update was found (last version: §2" + updater.getLatestName() + "§7).");
+			log("§aGMC " + this.getDescription().getVersion() + " §7is up to date.");
 			break;
 		case SUCCESS:
-			log("The newest version §a" + updater.getLatestName() + " §7has been downloaded and will be loaded the next time the server restarts/reloads.");
+			log("The newest version §a" + updater.getLatestName() + " §7has been downloaded and will be");
+			log("loaded the next time the server restarts/reloads.");
 			break;
 		case UPDATE_AVAILABLE:
 			log("There is a newer version available: §2" + updater.getLatestName() + "§7, but since");
