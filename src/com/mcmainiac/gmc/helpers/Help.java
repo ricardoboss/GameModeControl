@@ -13,26 +13,30 @@ public class Help {
 			"§f--------------------",
 			"§2<>§f: §6required§f; §7[]§f: §6optional",
 		});
-		if (page == 1 || !(sender instanceof Player))
-			Send(sender, new String[]{
-				"§7- §a/gamemode§f; §a/gm §2<id | name> §7[player]",
-				"§7- §a/gm0§f; §a/survival §7[player]",
-				"§7- §a/gm1§f; §a/creative §7[player]",
-				"§7- §a/gm2§f; §a/adventure §7[player]",
-				"§7- §a/gm3§f; §a/spectator §7[player]",
-			});
-		else if (page == 2 || !(sender instanceof Player))
-			Send(sender, new String[]{
-					"§7- §a/gmonce §2<player> §7[survival] [creative]",
-					"   §7[adventure] [spectator]",
-					"§7- §a/gmh §7[page | command]",
-					"§7- §a/gmi",
-					"§7- §a/gmr",
-					"§7If you need help for a specific",
-					"§7command, use §a/gmh <command>§7.",	
-				});
-		else
-			sender.sendMessage("§cAvailable pages: §6§o1§7§o - §6§o2");
+		switch (page) {
+			case 1:
+				Send(sender, new String[]{
+						"§7- §a/gamemode§f; §a/gm §2<id | name> §7[player]",
+						"§7- §a/gm0§f; §a/survival §7[player]",
+						"§7- §a/gm1§f; §a/creative §7[player]",
+						"§7- §a/gm2§f; §a/adventure §7[player]",
+						"§7- §a/gm3§f; §a/spectator §7[player]",
+					});
+				if (sender instanceof Player) break;
+			case 2:
+				Send(sender, new String[]{
+						"§7- §a/gmonce §2<player> §7[survival] [creative]",
+						"   §7[adventure] [spectator]",
+						"§7- §a/gmh §7[page | command]",
+						"§7- §a/gmi",
+						"§7- §a/gmr",
+						"§7If you need help for a specific",
+						"§7command, use §a/gmh <command>§7.",	
+					});
+				break;
+			default:
+				sender.sendMessage("§cAvailable pages: §6§o1§7§o - §6§o2");
+		}
 		sender.sendMessage("§f--------------------");
 		sender.sendMessage("§7§oShowing page §f§o" + page + " §7§oof §f§o" + max_pages);
 	}
@@ -101,7 +105,7 @@ public class Help {
 				" Allow a player to change his/her game",
 				" mode only one time to one of those, you",
 				" specified."
-			});
+			}); break;
 		case "gmh":
 			Send(sender, new String[]{
 				"§a/gmh §7[page | command]",
