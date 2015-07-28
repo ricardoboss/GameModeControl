@@ -106,6 +106,16 @@ Permission
 
 <tr>
 
+<td>/gmonce &lt;player&gt; [survival]<br>[creative] [adventure] [spectator]</td>
+
+<td>Allow a player to change his/her<br>game mode only one time to one<br>the ones specified by you</td>
+
+<td>gmc.gmonce</td>
+
+</tr>
+
+<tr>
+
 <td>/gmh [page | command]</td>
 
 <td>Show all commands for GMC or <br>help for a specific command</td>
