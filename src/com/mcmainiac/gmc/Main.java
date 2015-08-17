@@ -26,22 +26,21 @@ import com.mcmainiac.gmc.helpers.MessageColor;
 import com.mcmainiac.gmc.helpers.Updater;
 
 /**
- * GameModeControl V1.3.1
+ * GameModeControl V1.3.3
  * 
  * Helps you and your admins to control
  * game modes faster and more accurate
  * than ever before.
  * 
  * {@link} http://bit.ly/MC-GMC
- * @version V1.3.1
  * @author MCMainiac
  */
 public class Main extends JavaPlugin implements Listener {
-	private static final String pre = "§7[§2G§aM§fC§7] §r";
+	private static final String pre = "§7[GMC] §r";
 	private static CommandSender console = Bukkit.getConsoleSender();
 	
 	private HashMap<String, Permission> permissions = new HashMap<String, Permission>(); // A map for all the permissions (fast access to dynamic permissions)
-	private HashMap<Player, Boolean[]> otgm = new HashMap<Player, Boolean[]>(); // A map to save, which players are able to change their gamemode
+	private HashMap<Player, Boolean[]> otgm = new HashMap<Player, Boolean[]>(); // A map to save, which players are able to change their game mode
 	
 	public static Config config;
 
@@ -51,7 +50,7 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		try {
-			log("Initializing GMC §a" + this.getDescription().getVersion());
+			log("Initializing GMC v" + this.getDescription().getVersion());
 			Main.config = new Config(this);
 			Bukkit.getPluginManager().registerEvents(this, this);
 			
@@ -81,14 +80,14 @@ public class Main extends JavaPlugin implements Listener {
 			permissions.put("spectator.self", new Permission("gmc.spectator.self", PermissionDefault.OP));
 			permissions.put("spectator.others", new Permission("gmc.spectator.others", PermissionDefault.OP));
 			
-			for (Player p : Bukkit.getOnlinePlayers()) { // if the server has been reloaded, this loop adds all player to the change-gm-one-time-map
+			for (Player p : Bukkit.getOnlinePlayers()) { // if the server has been reloaded, this loop adds all players to the change-gm-one-time-map
 				otgm.put(p, new Boolean[]{false, false, false, false}); // default is false for every game mode
 			}
 			
 			// Auto-Updater
 			checkForUpdates(config.getBoolean("options.auto-update"));
 			
-			log("GMC §2enabled§7 successfully!");
+			log("GMC enabled successfully!");
 		} catch(IOException ioe) {
 			log("GMC crashed while initializing!", MessageColor.ERROR);
 			ioe.printStackTrace();
@@ -98,7 +97,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
-		log("Plugin §cdisabled");
+		log("Plugin disabled");
 	}
 	
 	@Override
@@ -216,7 +215,7 @@ public class Main extends JavaPlugin implements Listener {
 			try {
 				ControlledGameMode cgm = CGM.getCGMByIdOrName(config.getString("options.force-gamemode.mode"));
 				this.getServer().setDefaultGameMode(cgm.getGamemode());
-				log("Forcing gamemode " + cgm.getMessageColor() + cgm.getName() + " §7on player join");
+				log("Forcing gamemode " + cgm.getName() + " on player join");
 			} catch (InvalidParameterException | GameModeNotFoundException e) {
 				log("You specified a wrong parameter for 'options.force-gamemode.mode'!", MessageColor.ERROR);
 				log("Using the default gamemode " + CGM.getMessageColor(ControlledGameMode.SURVIVAL) + "SURVIVAL", MessageColor.ERROR);
@@ -227,15 +226,15 @@ public class Main extends JavaPlugin implements Listener {
 			log("---------");
 		}
 		
-		if (sender instanceof Player) log("Config §3reloaded");
-		sender.sendMessage(pre + "Config §3reloaded");
+		if (sender instanceof Player) log("Config reloaded");
+		sender.sendMessage(pre + "Config reloaded");
 		return true;
 	}
 	
 	private boolean Info(CommandSender sender, String[] args) {
 		if (!sender.hasPermission(permissions.get("gmi"))) { send(sender, config.getString("Other.no permission")); return true; }
 		sender.sendMessage("§f----- §7[§2Game§aMode§fControl§7] §f-----");
-		sender.sendMessage("§aVersion§7: §9[Beta] §f" + this.getDescription().getVersion());
+		sender.sendMessage("§aVersion§7: §f" + this.getDescription().getVersion());
 		sender.sendMessage("§aAuthor§7: §fMCMainiac");
 		sender.sendMessage("§aWebsite§7: §5§nhttp://bit.ly/MC-GMC");
 		sender.sendMessage("§f-----------------------------");
@@ -305,18 +304,18 @@ public class Main extends JavaPlugin implements Listener {
 		
 		switch(updater.getResult()) {
 		case NO_UPDATE:
-			log("No update was found (last version: §2" + updater.getLatestName() + "§7).");
+			log("No update was found (last version: " + updater.getLatestName() + ").");
 			break;
 		case SUCCESS:
-			log("The newest version §a" + updater.getLatestName() + " §7has been downloaded and will be");
+			log("The newest version " + updater.getLatestName() + " has been downloaded and will be");
 			log("loaded the next time the server restarts/reloads.");
 			break;
 		case UPDATE_AVAILABLE:
-			log("There is a newer version available: §2" + updater.getLatestName() + "§7, but since");
-			log("auto-update is §4disabled§7, nothing was downloaded.");
+			log("There is a newer version available: " + updater.getLatestName() + ", but since");
+			log("auto-update is disabled, nothing was downloaded.");
 			break;
 		case DISABLED:
-			log("Auto-update is §cdisabled§7.");
+			log("Auto-update is disabled.");
 			break;
 		default:
 			log("Something went wrong while updating!", MessageColor.ERROR);
