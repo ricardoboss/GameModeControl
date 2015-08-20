@@ -116,6 +116,16 @@ Permission
 
 <tr>
 
+<td>/gmtemp &lt;player&gt;<br>&lt;game mode&gt; &lt;seconds&gt;</td>
+
+<td>Change the game mode of a player only temporary (e.g. 30s)</td>
+
+<td>gmc.gmtemp</td>
+
+</tr>
+
+<tr>
+
 <td>/gmh [page | command]</td>
 
 <td>Show all commands for GMC or <br>help for a specific command</td>
