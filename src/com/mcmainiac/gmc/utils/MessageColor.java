@@ -1,4 +1,4 @@
-package com.mcmainiac.gmc.helpers;
+package com.mcmainiac.gmc.utils;
 
 /**
  * It's actually an alias for org.bukkit.ChatColor.
