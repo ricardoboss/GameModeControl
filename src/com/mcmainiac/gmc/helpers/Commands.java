@@ -184,7 +184,7 @@ public class Commands implements Listener {
 		if (!sender.hasPermission(Main.permissions.get("gmtemp"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
 		if (args.length > 1) {
 			try {
-				Player p = Main.getPlayerByName(args[0]); // get all infos we need
+				Player p = Main.getPlayerByName(args[0]);
 				GameMode oldgm = p.getGameMode();
 				ControlledGameMode cgm = CGM.getCGMByIdOrName(args[1]);
 				CGM.set(p, cgm);
