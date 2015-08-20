@@ -52,7 +52,7 @@ Permission
 
 <td>/gm &lt;id&gt; [player]<br>/gamemode* &lt;id&gt; [player]</td>
 
-<td>Change the gamemode of a <br>player to the specified one</td>
+<td>Change the gamemode of a<br>player to the specified one</td>
 
 <td>gmc.gamemode[.self | .others]</td>
 
@@ -68,7 +68,7 @@ Permission
 
 <td>/gm0 [player]<br>/survival [player]</td>
 
-<td>Change the gamemode of a <br>player to survival</td>
+<td>Change the gamemode of a<br>player to survival</td>
 
 <td>gmc.survival[.self | .others]</td>
 
@@ -78,7 +78,7 @@ Permission
 
 <td>/gm1 [player]<br>/creative [player]</td>
 
-<td>Change the gamemode of a <br>player to creative</td>
+<td>Change the gamemode of a<br>player to creative</td>
 
 <td>gmc.creative[.self | .others]</td>
 
@@ -88,7 +88,7 @@ Permission
 
 <td>/gm2 [player]<br>/adventure [player]</td>
 
-<td>Change the gamemode of a <br>player to adventure</td>
+<td>Change the gamemode of a<br>player to adventure</td>
 
 <td>gmc.adventure[.self | .others]</td>
 
@@ -118,7 +118,7 @@ Permission
 
 <td>/gmtemp &lt;player&gt;<br>&lt;game mode&gt; &lt;seconds&gt;</td>
 
-<td>Change the game mode of a player only temporary (e.g. 30s)</td>
+<td>Change the game mode of a<br>player only temporary (e.g. 30s)</td>
 
 <td>gmc.gmtemp</td>
 
