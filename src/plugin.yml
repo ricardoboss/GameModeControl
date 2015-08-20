@@ -24,6 +24,9 @@ commands:
   gmonce:
     description: Allow a player to change his/her game mode only one time
     usage: /gmonce <player> [survival] [creative] [adventure] [spectator]
+  gmtemp:
+    description: Change the game mode of a player only temporary
+    usage: /gmtemp <player> <game mode> <seconds> 
 
   gm0:
     description: Change the game mode of a player to Survival
