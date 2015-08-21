@@ -238,8 +238,6 @@ You can find the source code here on github.com: [github.com/MCMainiac/GameModeC
 
 ## ToDo list
 
-*   A function which allows players to change their gamemode only once
-*   A function which allows changing the gamemode temporary (e.g. until the player leaves the server)
 *   Please send me a [pm](http://dev.bukkit.org/home/send-private-message/?to=MCMainiac), post a comment or use the [github issues system](https://github.com/MCMainiac/GameModeControl/issues) and add the label 'enhancement' to it to suggest a feature
 
 ## Bugs
