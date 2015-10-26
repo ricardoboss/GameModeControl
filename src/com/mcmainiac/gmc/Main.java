@@ -23,7 +23,7 @@ import com.mcmainiac.gmc.helpers.Updater;
 import com.mcmainiac.gmc.utils.MessageColor;
 
 /**
- * GameModeControl V1.3.5
+ * GameModeControl V1.3.6
  * 
  * Helps you and your admins to control
  * game modes faster and more accurate
