@@ -23,14 +23,20 @@ public class Commands implements Listener {
 	private static HashMap<Player, Boolean[]> otgm = new HashMap<Player, Boolean[]>(); // A map to save, which players are able to change their game mode
 	private static Main plugin;
 	
-	public Commands(Main main) {
+	public static void setPlugin(Main main) {
 		Commands.plugin = main;
+	}
 
+	public static void resetPlayers() {
 		for (Player p : Bukkit.getOnlinePlayers()) { // if the server has been reloaded, this loop adds all players to the change-gm-one-time-map
 			otgm.put(p, new Boolean[]{false, false, false, false}); // default is false for every game mode
 		}
 	}
-
+	
+	public static Commands getInstance() {
+		return new Commands();
+	}
+	
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent e) {
 		try {

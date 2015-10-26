@@ -47,7 +47,7 @@ public class Main extends JavaPlugin {
 		try {
 			log("Initializing GMC v" + this.getDescription().getVersion());
 			Main.config = new Config(this);
-			Bukkit.getPluginManager().registerEvents(((Listener)new Commands(this)), this);
+			Bukkit.getPluginManager().registerEvents(((Listener) Commands.getInstance()), this);
 			
 			// Permissions
 			permissions.put("gmi", new Permission("gmc.gmi", PermissionDefault.TRUE));
@@ -75,8 +75,9 @@ public class Main extends JavaPlugin {
 			permissions.put("spectator", new Permission("gmc.spectator", PermissionDefault.OP));
 			permissions.put("spectator.self", new Permission("gmc.spectator.self", PermissionDefault.OP));
 			permissions.put("spectator.others", new Permission("gmc.spectator.others", PermissionDefault.OP));
-			
-			new Commands(this);
+
+			Commands.setPlugin(this);
+			Commands.resetPlayers();
 			
 			// Auto-Updater
 			checkForUpdates(config.getBoolean("options.auto-update"));
