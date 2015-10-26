@@ -18,11 +18,12 @@ import com.mcmainiac.gmc.excpetions.GameModeNotFoundException;
 import com.mcmainiac.gmc.excpetions.PlayerNotFoundException;
 import com.mcmainiac.gmc.helpers.Commands;
 import com.mcmainiac.gmc.helpers.Config;
+import com.mcmainiac.gmc.helpers.Metrics;
 import com.mcmainiac.gmc.helpers.Updater;
 import com.mcmainiac.gmc.utils.MessageColor;
 
 /**
- * GameModeControl V1.3.3
+ * GameModeControl V1.3.4
  * 
  * Helps you and your admins to control
  * game modes faster and more accurate
@@ -79,6 +80,14 @@ public class Main extends JavaPlugin {
 			
 			// Auto-Updater
 			checkForUpdates(config.getBoolean("options.auto-update"));
+			
+			try {
+				Metrics metrics = new Metrics(this);
+				metrics.start();
+				log("Plugin metrics enabled!");
+			} catch (IOException e) {
+				log("Failed to enable plugin metrics!", MessageColor.ERROR);
+			}
 			
 			log("GMC enabled successfully!");
 		} catch(IOException ioe) {
