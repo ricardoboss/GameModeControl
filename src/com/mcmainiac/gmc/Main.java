@@ -23,7 +23,7 @@ import com.mcmainiac.gmc.helpers.Updater;
 import com.mcmainiac.gmc.utils.MessageColor;
 
 /**
- * GameModeControl V1.3.4
+ * GameModeControl V1.3.5
  * 
  * Helps you and your admins to control
  * game modes faster and more accurate
@@ -81,25 +81,20 @@ public class Main extends JavaPlugin {
 			// Auto-Updater
 			checkForUpdates(config.getBoolean("options.auto-update"));
 			
-			try {
-				Metrics metrics = new Metrics(this);
-				metrics.start();
-				log("Plugin metrics enabled!");
-			} catch (IOException e) {
-				log("Failed to enable plugin metrics!", MessageColor.ERROR);
+			// plugin metrics (mcstats.org)
+			if (config.getBoolean("options.mcstats")) {
+				try {
+					Metrics metrics = new Metrics(this);
+					metrics.start();
+				} catch (IOException e) {
+					log("Failed to enable plugin metrics!", MessageColor.ERROR);
+				}				
 			}
-			
-			log("GMC enabled successfully!");
 		} catch(IOException ioe) {
 			log("GMC crashed while initializing!", MessageColor.ERROR);
 			ioe.printStackTrace();
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		log("Plugin disabled");
 	}
 	
 	@Override
@@ -146,8 +141,6 @@ public class Main extends JavaPlugin {
 	// Utilities
 	//--------------
 	public void checkForUpdates(boolean update) {
-		log("Checking for a newer version...");
-		
 		Updater.UpdateType updateType;
 		if (update)
 			updateType = Updater.UpdateType.DEFAULT;
@@ -158,21 +151,19 @@ public class Main extends JavaPlugin {
 		
 		switch(updater.getResult()) {
 		case NO_UPDATE:
-			log("No update was found (last version: " + updater.getLatestName() + ").");
+			log("[Updater] No update was found (last version: " + updater.getLatestName() + ").");
 			break;
 		case SUCCESS:
-			log("The newest version " + updater.getLatestName() + " has been downloaded and will be");
-			log("loaded the next time the server restarts/reloads.");
+			log("[Updater] The newest version " + updater.getLatestName() + " has been downloaded and will be");
+			log("[Updater] loaded the next time the server restarts/reloads.");
 			break;
 		case UPDATE_AVAILABLE:
-			log("There is a newer version available: " + updater.getLatestName() + ", but since");
-			log("auto-update is disabled, nothing was downloaded.");
+			log("[Updater] There is a newer version available: " + updater.getLatestName() + ", but since");
+			log("[Updater] auto-update is disabled, nothing was downloaded.");
 			break;
-		case DISABLED:
-			log("Auto-update is disabled.");
-			break;
+		case DISABLED: break;
 		default:
-			log("Something went wrong while updating!", MessageColor.ERROR);
+			log("[Updater] Something went wrong while updating!", MessageColor.ERROR);
 			break;
 		}
 	}

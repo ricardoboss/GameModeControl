@@ -2,7 +2,8 @@ options:
   force-gamemode:
     enable: false
     mode: survival
-  auto-update: false
+  auto-update: true
+  mcstats: true
 
 Survival:
   self: '&aSet your game mode to &6&osurvival&a.'
