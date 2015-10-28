@@ -23,13 +23,13 @@ import com.mcmainiac.gmc.helpers.Updater;
 import com.mcmainiac.gmc.utils.MessageColor;
 
 /**
- * GameModeControl V1.3.6
+ * GameModeControl V1.3.6<br>
  * 
- * Helps you and your admins to control
+ * <p>Helps you and your admins to control
  * game modes faster and more accurate
- * than ever before.
+ * than ever before.</p>
  * 
- * {@link} http://bit.ly/MC-GMC
+ * {@link} <a href="http://bit.ly/MC-GMC">bit.ly/MC-GMC</a>
  * @author MCMainiac
  */
 public class Main extends JavaPlugin {
@@ -96,6 +96,11 @@ public class Main extends JavaPlugin {
 			ioe.printStackTrace();
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
+	}
+	
+	@Override
+	public void onDisable() {
+		
 	}
 	
 	@Override
