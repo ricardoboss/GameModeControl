@@ -100,7 +100,7 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		
+		Commands.resetPlayers();
 	}
 	
 	@Override

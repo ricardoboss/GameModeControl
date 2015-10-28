@@ -1,7 +1,9 @@
 package com.mcmainiac.gmc.helpers;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -21,7 +23,9 @@ import com.mcmainiac.gmc.utils.MessageColor;
 
 public class Commands implements Listener {
 	private static HashMap<Player, Boolean[]> otgm = new HashMap<Player, Boolean[]>(); // A map to save, which players are able to change their game mode
+	private static List<resetGameMode> resetgmTasks = new ArrayList<resetGameMode>();
 	private static Main plugin;
+	private static Commands instance = null;
 	
 	public static void setPlugin(Main main) {
 		Commands.plugin = main;
@@ -31,10 +35,17 @@ public class Commands implements Listener {
 		for (Player p : Bukkit.getOnlinePlayers()) { // if the server has been reloaded, this loop adds all players to the change-gm-one-time-map
 			otgm.put(p, new Boolean[]{false, false, false, false}); // default is false for every game mode
 		}
+		
+		List<resetGameMode> _resetgmTasks = Commands.resetgmTasks;
+		for (int i = 0; i < _resetgmTasks.size(); i++) {
+			_resetgmTasks.get(i).run(); // execute the task before removing it
+			Commands.resetgmTasks.remove(i); // remove the task from the list
+		}
 	}
 	
 	public static Commands getInstance() {
-		return new Commands();
+		if (Commands.instance == null) Commands.instance = new Commands();
+		return instance;
 	}
 	
 	@EventHandler
@@ -195,14 +206,9 @@ public class Commands implements Listener {
 				ControlledGameMode cgm = CGM.getCGMByIdOrName(args[1]);
 				CGM.set(p, cgm);
 				
-				p.getServer().getScheduler().scheduleSyncDelayedTask(Commands.plugin, new Runnable() {
-					@Override
-					public void run() {
-						try {
-							CGM.set(p, CGM.getCGMByGamemode(oldgm)); // reset the old gamemode of the player
-						} catch (GameModeNotFoundException e) { /* Ignore */ }
-					}
-				}, Long.parseLong(args[2])*20); // convert seconds to ticks (20 ticks = 1 second, if the server is running at normal speed (no lags))
+				resetGameMode rgm = Commands.instance.new resetGameMode(p, oldgm);
+				Commands.resetgmTasks.add(rgm);
+				p.getServer().getScheduler().scheduleSyncDelayedTask(Commands.plugin, rgm, Long.parseLong(args[2])*20); // convert seconds to ticks (20 ticks = 1 second, if the server is running at normal speed (no lags))
 				
 				sender.sendMessage("§6" + p.getName() + "§f's gamemode mode is now " + cgm.getMessageColor() + cgm.getName() + " §ffor §a" + args[2] + " §fseconds");
 			} catch (PlayerNotFoundException e) {
@@ -213,5 +219,22 @@ public class Commands implements Listener {
 			return true;	
 		} else
 			return false;
+	}
+
+	private class resetGameMode implements Runnable {
+		private Player p;
+		private GameMode oldgm;
+		
+		public resetGameMode(Player p, GameMode oldgm) {
+			this.p = p;
+			this.oldgm = oldgm;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				CGM.set(p, CGM.getCGMByGamemode(oldgm)); // reset the old gamemode of the player
+			} catch (GameModeNotFoundException e) { /* Ignore */ }
+		}
 	}
 }
