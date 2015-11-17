@@ -29,6 +29,8 @@ import com.mcmainiac.gmc.utils.MessageColor;
  * game modes faster and more accurate
  * than ever before.</p>
  * 
+ * HALLO FABIAN
+ * 
  * {@link} <a href="http://bit.ly/MC-GMC">bit.ly/MC-GMC</a>
  * @author MCMainiac
  */
