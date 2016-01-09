@@ -174,11 +174,11 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static Player getPlayerByName(String name) throws PlayerNotFoundException {
-		Player p = Bukkit.getServer().getPlayer(name);
-		if (p != null) return p;
-		else throw new PlayerNotFoundException("Player not found: '" + name + "'");
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (p.getName() == name) return p;
+		}
+		throw new PlayerNotFoundException("Player not found: '" + name + "'");
 	}
 
 	public static void log(String log) {
