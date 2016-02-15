@@ -2,7 +2,7 @@
 
 A powerful lightweight plugin that helps you organizing game modes on your server.
 
-**Download GameModeControl for all your servers:** for 1.7 and below: **_Beta 1.0_**; for 1.8 and above use **_the newest version._**
+**Download GameModeControl for all your servers:** for 1.7 and below: **_Beta 1.3.6 (MC1.7.10)_**; for 1.8 and above use **_the newest version._**
 
 Current development stage: BETA 1.3.7
 
