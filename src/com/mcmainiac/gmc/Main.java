@@ -176,7 +176,6 @@ public class Main extends JavaPlugin {
 	public static Player getPlayerByName(String name) throws PlayerNotFoundException {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (p.getName().equalsIgnoreCase(name)) return p;
-			else broadcast(p.getName() + " =/= " + name);
 		}
 		throw new PlayerNotFoundException("Player not found: '" + name + "'");
 	}
@@ -240,15 +239,6 @@ public class Main extends JavaPlugin {
 		
 		if (cs instanceof Player) cs.sendMessage(message);
 		else log(message);
-	}
-	
-	public static void broadcast(String message) {
-		message = replaceColorCodes(message);
-		Bukkit.broadcastMessage(pre + (message != null ? message : "null"));
-	}
-
-	public static void broadcast(int i) {
-		Main.broadcast(Integer.toString(i));
 	}
 
 	public static String replaceColorCodes(String message) {
