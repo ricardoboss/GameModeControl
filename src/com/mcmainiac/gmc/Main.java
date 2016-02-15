@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +22,7 @@ import com.mcmainiac.gmc.helpers.Updater;
 import com.mcmainiac.gmc.utils.MessageColor;
 
 /**
- * GameModeControl V1.3.6<br>
+ * GameModeControl V1.3.7<br>
  * 
  * <p>Helps you and your admins to control
  * game modes faster and more accurate
@@ -47,7 +46,7 @@ public class Main extends JavaPlugin {
 		try {
 			log("Initializing GMC v" + this.getDescription().getVersion());
 			Main.config = new Config(this);
-			Bukkit.getPluginManager().registerEvents(((Listener) Commands.getInstance()), this);
+			Bukkit.getPluginManager().registerEvents(Commands.getInstance(), this);
 			
 			// Permissions
 			permissions.put("gmi", new Permission("gmc.gmi", PermissionDefault.TRUE));
@@ -176,7 +175,8 @@ public class Main extends JavaPlugin {
 	
 	public static Player getPlayerByName(String name) throws PlayerNotFoundException {
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (p.getName() == name) return p;
+			if (p.getName().equalsIgnoreCase(name)) return p;
+			else broadcast(p.getName() + " =/= " + name);
 		}
 		throw new PlayerNotFoundException("Player not found: '" + name + "'");
 	}

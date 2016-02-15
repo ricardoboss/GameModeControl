@@ -24,7 +24,7 @@ import com.mcmainiac.gmc.utils.MessageColor;
 public class Commands implements Listener {
 	private static HashMap<Player, Boolean[]> otgm = new HashMap<Player, Boolean[]>(); // A map to save, which players are able to change their game mode
 	private static List<resetGameMode> resetgmTasks = new ArrayList<resetGameMode>();
-	private static Main plugin;
+	private static Main plugin = null;
 	private static Commands instance = null;
 	
 	public static void setPlugin(Main main) {
@@ -43,7 +43,7 @@ public class Commands implements Listener {
 		}
 	}
 	
-	public static Commands getInstance() {
+	public static Listener getInstance() {
 		if (Commands.instance == null) Commands.instance = new Commands();
 		return instance;
 	}
@@ -181,14 +181,18 @@ public class Commands implements Listener {
 					if (args[i].equalsIgnoreCase("spectator")) spectator = true;
 				}
 				
-				otgm.put(Main.getPlayerByName(args[0]), new Boolean[]{survival, creative, adventure, spectator});
+				Player p = Main.getPlayerByName(args[0]);
+				otgm.put(p, new Boolean[]{survival, creative, adventure, spectator});
 				sender.sendMessage("§6" + args[0] + " §fhas the permission to change his/her game mode to:");
 				String message = "";
 				for (ControlledGameMode cgm : ControlledGameMode.values())
 					if (otgm.get(Main.getPlayerByName(args[0]))[cgm.getId()])
 						message += cgm.getMessageColor() + cgm.getName() + "§r, ";
 				
-				sender.sendMessage(message.substring(0, (message.length() - 4 > 0 ? message.length() - 4 : message.length())));
+				message = message.substring(0, (message.length() - 4 > 0 ? message.length() - 4 : message.length()));
+				sender.sendMessage(message);
+				p.sendMessage("§fYou may change you game mode to:");
+				p.sendMessage(message);
 			} catch (PlayerNotFoundException e) {
 				Main.send(sender, Main.config.getString("Other.player not found"), ImmutableMap.<String, String>builder().put("$player", args[0]).build());
 			}
