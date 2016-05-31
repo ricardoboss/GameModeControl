@@ -44,7 +44,6 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		try {
-			log("Initializing GMC v" + this.getDescription().getVersion());
 			Main.config = new Config(this);
 			Bukkit.getPluginManager().registerEvents(Commands.getInstance(), this);
 			
