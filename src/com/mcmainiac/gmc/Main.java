@@ -2,14 +2,11 @@ package com.mcmainiac.gmc;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.collect.ImmutableMap;
@@ -18,11 +15,12 @@ import com.mcmainiac.gmc.excpetions.PlayerNotFoundException;
 import com.mcmainiac.gmc.helpers.Commands;
 import com.mcmainiac.gmc.helpers.Config;
 import com.mcmainiac.gmc.helpers.Metrics;
+import com.mcmainiac.gmc.helpers.Permissions;
 import com.mcmainiac.gmc.helpers.Updater;
 import com.mcmainiac.gmc.utils.MessageColor;
 
 /**
- * <h1>GameModeControl V1.3.7</h1><br>
+ * <h1>GameModeControl V1.3.8</h1><br>
  * 
  * <p>Helps you and your admins to control
  * game modes faster and more accurate
@@ -33,8 +31,8 @@ import com.mcmainiac.gmc.utils.MessageColor;
  */
 public class Main extends JavaPlugin {
 	public static final String pre = "§7[GMC] §r";
-	public static HashMap<String, Permission> permissions = new HashMap<String, Permission>(); // A map for all the permissions (fast access to dynamic permissions)
 	public static Config config;
+	public static Permissions permissions; // A class for all the permissions
 
 	private static CommandSender console = Bukkit.getConsoleSender();
 
@@ -47,32 +45,7 @@ public class Main extends JavaPlugin {
 			Main.config = new Config(this);
 			Bukkit.getPluginManager().registerEvents(Commands.getInstance(), this);
 			
-			// Permissions
-			permissions.put("gmi", new Permission("gmc.gmi", PermissionDefault.TRUE));
-			permissions.put("gmh", new Permission("gmc.gmh", PermissionDefault.TRUE));
-			permissions.put("forcegm", new Permission("gmc.forcegm", PermissionDefault.TRUE));
-			permissions.put("gmr", new Permission("gmc.gmr", PermissionDefault.OP));
-			permissions.put("gmonce", new Permission("gmc.gmonce", PermissionDefault.OP));
-			permissions.put("gmtemp", new Permission("gmc.gmtemp", PermissionDefault.OP));
-			
-			permissions.put("gm", new Permission("gmc.gm", PermissionDefault.OP));
-			permissions.put("gm.self", new Permission("gmc.gm.self", PermissionDefault.OP));
-			permissions.put("gm.others", new Permission("gmc.gm.others", PermissionDefault.OP));
-			permissions.put("gamemode", new Permission("gmc.gamemode", PermissionDefault.OP));
-			permissions.put("gamemode.self", new Permission("gmc.gamemode.self", PermissionDefault.OP));
-			permissions.put("gamemode.others", new Permission("gmc.gamemode.others", PermissionDefault.OP));
-			permissions.put("survival", new Permission("gmc.survival", PermissionDefault.OP));
-			permissions.put("survival.self", new Permission("gmc.survival.self", PermissionDefault.OP));
-			permissions.put("survival.others", new Permission("gmc.survival.others", PermissionDefault.OP));
-			permissions.put("creative", new Permission("gmc.creative", PermissionDefault.OP));
-			permissions.put("creative.self", new Permission("gmc.creative.self", PermissionDefault.OP));
-			permissions.put("creative.others", new Permission("gmc.creative.others", PermissionDefault.OP));
-			permissions.put("adventure", new Permission("gmc.adventure", PermissionDefault.OP));
-			permissions.put("adventure.self", new Permission("gmc.adventure.self", PermissionDefault.OP));
-			permissions.put("adventure.others", new Permission("gmc.adventure.others", PermissionDefault.OP));
-			permissions.put("spectator", new Permission("gmc.spectator", PermissionDefault.OP));
-			permissions.put("spectator.self", new Permission("gmc.spectator.self", PermissionDefault.OP));
-			permissions.put("spectator.others", new Permission("gmc.spectator.others", PermissionDefault.OP));
+			// permissions moved into own class
 
 			Commands.setPlugin(this);
 			Commands.resetPlayers();

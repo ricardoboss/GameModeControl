@@ -80,8 +80,8 @@ public class Commands implements Listener {
 
 		if (sender instanceof Player)
 			if (args[1] == null) // check if there is a player specified
-				if (sender.hasPermission(Main.permissions.get(args[args.length-1] + ".self")) || // Either you have permission to set your own game mode
-						sender.hasPermission(Main.permissions.get(args[args.length-1])) || // or you have the global permission to set this game mode.
+				if (sender.hasPermission(Permissions.get(args[args.length-1] + ".self")) || // Either you have permission to set your own game mode
+						sender.hasPermission(Permissions.get(args[args.length-1])) || // or you have the global permission to set this game mode.
 						otgm.get(sender)[cgm.getId()]) { // or the player has been allowed to change his/her game mode via the /gmonce command
 					CGM.set((Player)sender, cgm);
 					otgm.put((Player) sender, new Boolean[]{false, false, false, false}); // reset the one-time-gm-map for this player
@@ -90,8 +90,8 @@ public class Commands implements Listener {
 					Main.send((Player)sender, Main.config.getString("Other.no permission")); // Oops you don't have permission to do that
 			else
 				try {
-					if (sender.hasPermission(Main.permissions.get(args[args.length-1] + ".others")) || // the same over here, except that you 
-						sender.hasPermission(Main.permissions.get(args[args.length-1])))
+					if (sender.hasPermission(Permissions.get(args[args.length-1] + ".others")) || // the same over here, except that you 
+						sender.hasPermission(Permissions.get(args[args.length-1])))
 							CGM.set(Main.getPlayerByName(args[1]), (Player)sender, cgm);
 					else
 						Main.send(sender, Main.config.getString("Other.no permission"));
@@ -110,15 +110,19 @@ public class Commands implements Listener {
 	}
 	
 	public static boolean Reload(CommandSender sender) {
-		if (!sender.hasPermission(Main.permissions.get("gmr"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
+		if (!sender.hasPermission(Permissions.get("gmr"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
+		Main.log("Reloading Config...");
+		Main.log("---------");
+		
 		Main.config.reload();
 		
 		// notify new settings
 		if (Main.config.getBoolean("options.auto-update")) {
 			Main.log("Auto-update enabled!");
-			plugin.checkForUpdates(true);
-			Main.log("---------");
-		}
+			plugin.checkForUpdates(false);
+		} else
+			Main.log("Auto-update disabled!");
+		Main.log("---------");
 		
 		if (Main.config.getBoolean("options.force-gamemode.enable")) {
 			try {
@@ -132,8 +136,9 @@ public class Commands implements Listener {
 				plugin.saveConfig();
 				plugin.reloadConfig();
 			}
-			Main.log("---------");
-		}
+		} else
+			Main.log("Forcing gamemode is disabled!");
+		Main.log("---------");
 		
 		if (sender instanceof Player) Main.log("Config reloaded");
 		sender.sendMessage(Main.pre + "Config reloaded");
@@ -141,7 +146,7 @@ public class Commands implements Listener {
 	}
 	
 	public static boolean Info(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(Main.permissions.get("gmi"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
+		if (!sender.hasPermission(Permissions.get("gmi"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
 		sender.sendMessage("§f----- §7[§2Game§aMode§fControl§7] §f-----");
 		sender.sendMessage("§aVersion§7: §f" + plugin.getDescription().getVersion());
 		sender.sendMessage("§aAuthor§7: §fMCMainiac");
@@ -151,7 +156,7 @@ public class Commands implements Listener {
 	}
 	
 	public static boolean Help(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(Main.permissions.get("gmh"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
+		if (!sender.hasPermission(Permissions.get("gmh"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
 		if (args.length == 0)
 			Help.Show(sender, 1);
 		else if (args.length == 1)
@@ -166,7 +171,7 @@ public class Commands implements Listener {
 	}
 	
 	public static boolean OneTimeGamemode(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(Main.permissions.get("gmonce"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
+		if (!sender.hasPermission(Permissions.get("gmonce"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
 		if (args.length > 0) {
 			try {
 				boolean survival = (args.length == 1 ? true : false), 
@@ -202,7 +207,7 @@ public class Commands implements Listener {
 	}
 	
 	public static boolean TemporaryGamemode(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(Main.permissions.get("gmtemp"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
+		if (!sender.hasPermission(Permissions.get("gmtemp"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
 		if (args.length > 1) {
 			try {
 				Player p = Main.getPlayerByName(args[0]);
