@@ -8,11 +8,12 @@ public class Help {
 	
 	public static void Show(CommandSender sender, int page) {
 		Send(sender, new String[]{
-			"§f--------------------",
+			"§f-----------------------------",
 			"§2Game§aMode§fControl§7 - §5Help",
-			"§f--------------------",
+			"§f-----------------------------",
 			"§2<>§f: §6required§f; §7[]§f: §6optional",
 		});
+		if (!(sender instanceof Player)) page = 1;
 		switch (page) {
 			case 1:
 				Send(sender, new String[]{
@@ -37,15 +38,17 @@ public class Help {
 			default:
 				sender.sendMessage("§cAvailable pages: §6§o1§7§o - §6§o2");
 		}
-		sender.sendMessage("§f--------------------");
-		sender.sendMessage("§7§oShowing page §f§o" + page + " §7§oof §f§o" + max_pages);
+		if (sender instanceof Player) {
+			sender.sendMessage("§f-----------------------------");
+			sender.sendMessage("§7§oShowing page §f§o" + page + " §7§oof §f§o" + max_pages);
+		}
 	}
 	
 	public static void Command(CommandSender sender, String command) {
 		Send(sender, new String[]{
-			"§f--------------------",
+			"§f-----------------------------",
 			"§2Game§aMode§fControl§7 - §5/" + command,
-			"§f--------------------",	
+			"§f-----------------------------",	
 		});
 		switch(command) {
 		case "gamemode":
@@ -115,7 +118,6 @@ public class Help {
 			}); break;
 		case "gmi":
 			Send(sender, new String[]{
-				"§a/gmc",
 				"§a/gmi",
 				"",
 				" Show information about GMC."
@@ -130,7 +132,7 @@ public class Help {
 			sender.sendMessage("§cUnknown command: " + command);
 			break;
 		}
-		sender.sendMessage("§f--------------------");
+		sender.sendMessage("§f-----------------------------");
 	}
 	
 	private static void Send(CommandSender sender, String[] messages) {
