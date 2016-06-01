@@ -180,10 +180,10 @@ public class Commands implements Listener {
 						spectator = (args.length == 1 ? true : false); // default for all game modes is false
 				
 				for (int i = 1; i < args.length; i++) { // go through all parameters and check, which game modes have been enabled by the operator
-					if (args[i].equalsIgnoreCase("survival")) survival = true;
-					if (args[i].equalsIgnoreCase("creative")) creative = true;
-					if (args[i].equalsIgnoreCase("adventure")) adventure = true;
-					if (args[i].equalsIgnoreCase("spectator")) spectator = true;
+					if (args[i].equalsIgnoreCase("survival")  || args[i].equals("0")) survival = true;
+					if (args[i].equalsIgnoreCase("creative")  || args[i].equals("1")) creative = true;
+					if (args[i].equalsIgnoreCase("adventure") || args[i].equals("2")) adventure = true;
+					if (args[i].equalsIgnoreCase("spectator") || args[i].equals("3")) spectator = true;
 				}
 				
 				Player p = Main.getPlayerByName(args[0]);

@@ -17,7 +17,7 @@ public class Help {
 		switch (page) {
 			case 1:
 				Send(sender, new String[]{
-						"§7- §a/gamemode§f; §a/gm §2<id | name> §7[player]",
+						"§7- §a/gamemode§f; §a/gm §2<id> §7[player]",
 						"§7- §a/gm0§f; §a/survival §7[player]",
 						"§7- §a/gm1§f; §a/creative §7[player]",
 						"§7- §a/gm2§f; §a/adventure §7[player]",
@@ -26,8 +26,10 @@ public class Help {
 				if (sender instanceof Player) break;
 			case 2:
 				Send(sender, new String[]{
-						"§7- §a/gmonce §2<player> §7[survival] [creative]",
-						"   §7[adventure] [spectator]",
+						"§7- §a/gmonce §2<player> §7[survival | 0]",
+						"   §7[creative | 1] [adventure | 2]",
+						"   §7[spectator | 3]",
+						"§7- §a/gmtemp §2<player> <id> <seconds>",
 						"§7- §a/gmh §7[page | command]",
 						"§7- §a/gmi",
 						"§7- §a/gmr",
@@ -102,12 +104,25 @@ public class Help {
 			}); break;
 		case "gmonce":
 			Send(sender, new String[]{
-				"§a/gmonce §2<player> §7[survival] [creative]",
-				"   §7[adventure] [spectator]",
+				"§a/gmonce §2<player> §7[survival | 0]",
+				"   §7[creative | 1] [adventure | 2]",
+				"   §7[spectator | 3]",
 				"",
 				" Allow a player to change his/her game",
 				" mode only one time to one of those, you",
 				" specified."
+			}); break;
+		case "gmtemp":
+			Send(sender, new String[]{
+				"§a/gmtemp §2<player> <gamemode id>",
+				"   §2<seconds>",
+				"",
+				" Change the game mode of a player",
+				" only temporary.",
+				"",
+				"§7Valid values for §2gamemode id§7:",
+				" §60§7, §61§7, §62§7, §63§7, §6survival§7, §6creative§7,",
+				" §6adventure§7, §6spectator",
 			}); break;
 		case "gmh":
 			Send(sender, new String[]{
