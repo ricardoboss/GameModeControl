@@ -40,10 +40,9 @@ public class Help {
 			default:
 				sender.sendMessage("§cAvailable pages: §6§o1§7§o - §6§o2");
 		}
-		if (sender instanceof Player) {
-			sender.sendMessage("§f-----------------------------");
+		sender.sendMessage("§f-----------------------------");
+		if (sender instanceof Player)
 			sender.sendMessage("§7§oShowing page §f§o" + page + " §7§oof §f§o" + max_pages);
-		}
 	}
 	
 	public static void Command(CommandSender sender, String command) {
