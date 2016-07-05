@@ -20,7 +20,7 @@ import com.mcmainiac.gmc.helpers.Updater;
 import com.mcmainiac.gmc.utils.MessageColor;
 
 /**
- * <h1>GameModeControl V1.3.8</h1><br>
+ * <h1>GameModeControl V1.3.9</h1><br>
  * 
  * <p>Helps you and your admins to control
  * game modes faster and more accurate
@@ -61,7 +61,7 @@ public class Main extends JavaPlugin {
 						log("Failed to start plugin metrics", MessageColor.ERROR);
 				} catch (IOException e) {
 					log("Failed to enable plugin metrics!", MessageColor.ERROR);
-				}				
+				}
 			}
 		} catch(IOException ioe) {
 			log("GMC crashed while initializing!", MessageColor.ERROR);
