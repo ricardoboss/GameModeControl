@@ -14,7 +14,7 @@ import com.mcmainiac.gmc.excpetions.GameModeNotFoundException;
 import com.mcmainiac.gmc.excpetions.PlayerNotFoundException;
 import com.mcmainiac.gmc.helpers.Commands;
 import com.mcmainiac.gmc.helpers.Config;
-import com.mcmainiac.gmc.helpers.Metrics;
+import com.mcmainiac.gmc.helpers.MetricsLite;
 import com.mcmainiac.gmc.helpers.Permissions;
 import com.mcmainiac.gmc.helpers.Updater;
 import com.mcmainiac.gmc.utils.MessageColor;
@@ -56,8 +56,9 @@ public class Main extends JavaPlugin {
 			// plugin metrics (mcstats.org)
 			if (config.getBoolean("options.mcstats")) {
 				try {
-					Metrics metrics = new Metrics(this);
-					metrics.start();
+					MetricsLite metrics = new MetricsLite(this);
+					if (!metrics.start())
+						log("Failed to start plugin metrics", MessageColor.ERROR);
 				} catch (IOException e) {
 					log("Failed to enable plugin metrics!", MessageColor.ERROR);
 				}				
