@@ -7,6 +7,7 @@ import me.mcmainiac.gmc.excpetions.PlayerNotFoundException;
 import me.mcmainiac.gmc.tasks.ResetGameModeTask;
 import me.mcmainiac.gmc.utils.CGM;
 import me.mcmainiac.gmc.utils.MessageColor;
+import me.mcmainiac.gmc.utils.MessageFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -126,7 +127,7 @@ public class Commands implements Listener {
 			try {
 				CGM.ControlledGameMode cgm = CGM.getCGMByIdOrName(Main.config.getString("options.force-gamemode.mode"));
 				plugin.getServer().setDefaultGameMode(cgm.getGamemode());
-				Main.log("Forcing gamemode " + CGM.getMessageColor(cgm) + cgm.getName() + " on player join");
+				Main.log("Forcing gamemode " + CGM.getMessageColor(cgm) + cgm.getName() + MessageFormat.RESET + " on player join");
 			} catch (InvalidParameterException | GameModeNotFoundException e) {
 				Main.log("You specified a wrong parameter for 'options.force-gamemode.mode'!", MessageColor.ERROR);
 				Main.log("Using the default gamemode " + CGM.getMessageColor(CGM.ControlledGameMode.SURVIVAL) + "SURVIVAL", MessageColor.ERROR);
