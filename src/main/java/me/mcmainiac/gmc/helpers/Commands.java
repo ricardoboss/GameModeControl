@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Commands implements Listener {
-	private static HashMap<Player, Boolean[]> otgm = new HashMap<>(); // A map to save, which players are able to change their game mode
-	private static List<ResetGameModeTask> resetgmTasks = new ArrayList<>();
+	private static final HashMap<Player, Boolean[]> otgm = new HashMap<>(); // A map to save, which players are able to change their game mode
+	private static final List<ResetGameModeTask> resetgmTasks = new ArrayList<>();
 	private static Main plugin = null;
 	private static Commands instance = null;
 
@@ -108,8 +109,8 @@ public class Commands implements Listener {
 		return true;
 	}
 
-	public static boolean Reload(CommandSender sender) {
-		if (!sender.hasPermission(Permissions.get("gmr"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
+	public static void Reload(CommandSender sender) {
+		if (!sender.hasPermission(Permissions.get("gmr"))) { Main.send(sender, Main.config.getString("Other.no permission")); return; }
 		Main.log("Reloading Config...");
 
 		Main.config.reload();
@@ -125,7 +126,7 @@ public class Commands implements Listener {
 			try {
 				CGM.ControlledGameMode cgm = CGM.getCGMByIdOrName(Main.config.getString("options.force-gamemode.mode"));
 				plugin.getServer().setDefaultGameMode(cgm.getGamemode());
-				Main.log("Forcing gamemode " + cgm.getName() + " on player join");
+				Main.log("Forcing gamemode " + CGM.getMessageColor(cgm) + cgm.getName() + " on player join");
 			} catch (InvalidParameterException | GameModeNotFoundException e) {
 				Main.log("You specified a wrong parameter for 'options.force-gamemode.mode'!", MessageColor.ERROR);
 				Main.log("Using the default gamemode " + CGM.getMessageColor(CGM.ControlledGameMode.SURVIVAL) + "SURVIVAL", MessageColor.ERROR);
@@ -138,17 +139,15 @@ public class Commands implements Listener {
 
 		if (sender instanceof Player) Main.log("Config reloaded");
 		sender.sendMessage(Main.pre + "Config reloaded");
-		return true;
 	}
 
-	public static boolean Info(CommandSender sender) {
-		if (!sender.hasPermission(Permissions.get("gmi"))) { Main.send(sender, Main.config.getString("Other.no permission")); return true; }
+	public static void Info(CommandSender sender) {
+		if (!sender.hasPermission(Permissions.get("gmi"))) { Main.send(sender, Main.config.getString("Other.no permission")); return; }
 		sender.sendMessage("\u00A7f----- \u00A77[\u00A72Game\u00A7aMode\u00A7fControl\u00A77] \u00A7f-----");
 		sender.sendMessage("\u00A7aVersion\u00A77: \u00A7f" + plugin.getDescription().getVersion());
 		sender.sendMessage("\u00A7aAuthor\u00A77: \u00A7fMCMainiac");
 		sender.sendMessage("\u00A7aWebsite\u00A77: \u00A75\u00A7nhttp://bit.ly/MC-GMC");
 		sender.sendMessage("\u00A7f-----------------------------");
-		return true;
 	}
 
 	public static boolean Help(CommandSender sender, String[] args) {

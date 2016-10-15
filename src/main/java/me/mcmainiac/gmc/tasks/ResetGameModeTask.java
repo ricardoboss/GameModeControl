@@ -7,8 +7,8 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 public class ResetGameModeTask implements Runnable {
-	private Player p;
-	private GameMode oldgm;
+	private final Player p;
+	private final GameMode oldgm;
 
 	public ResetGameModeTask(Player p, GameMode oldgm) {
 		this.p = p;

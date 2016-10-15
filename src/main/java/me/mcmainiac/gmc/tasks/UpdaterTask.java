@@ -1,15 +1,15 @@
 package me.mcmainiac.gmc.tasks;
 
-import java.io.File;
-
 import me.mcmainiac.gmc.Main;
 import me.mcmainiac.gmc.helpers.Updater;
 import me.mcmainiac.gmc.utils.MessageColor;
 
+import java.io.File;
+
 public class UpdaterTask implements Runnable {
 	private boolean update = false;
-	private Main plugin;
-	private File pluginFile;
+	private final Main plugin;
+	private final File pluginFile;
 
 	public UpdaterTask(Main p, File f, boolean u) {
 		this.plugin = p;

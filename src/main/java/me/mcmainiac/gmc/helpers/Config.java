@@ -8,14 +8,14 @@ import me.mcmainiac.gmc.utils.MessageColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
 import java.security.InvalidParameterException;
 
+@SuppressWarnings("SameParameterValue")
 public class Config {
-	private JavaPlugin plugin;
+	private final JavaPlugin plugin;
 	private FileConfiguration config;
 
-	public Config(JavaPlugin plugin) throws IOException {
+	public Config(JavaPlugin plugin) {
 		this.plugin = plugin;
 		this.plugin.saveDefaultConfig();
 		this.config = plugin.getConfig();

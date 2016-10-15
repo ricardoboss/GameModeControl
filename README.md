@@ -237,5 +237,5 @@ You can find the source code here on github.com: [github.com/MCMainiac/GameModeC
 
 ## Bugs
 
-There are no bugs at the moment :) (at least noone reported one).  
+There are no bugs at the moment :) (at least no one reported one).  
  If you want to report a bug, please use the [github issues system](https://github.com/MCMainiac/GameModeControl/issues).

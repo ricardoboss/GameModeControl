@@ -6,7 +6,7 @@ import org.bukkit.permissions.PermissionDefault;
 import java.util.HashMap;
 
 class Permissions {
-	private static HashMap<String, Permission> permissions = new HashMap<>();
+	private static final HashMap<String, Permission> permissions = new HashMap<>();
 
 	private Permissions() {
 		permissions.put("gmi", new Permission("gmc.gmi", PermissionDefault.TRUE));

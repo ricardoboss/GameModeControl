@@ -40,37 +40,37 @@ public enum MessageColor {
 	@Override
 	public String toString() {
 		switch(this) {
-		case BLACK:	return "\u00A70";
-		case DARK_BLUE: return "\u00A71";
-		case DARK_GREEN: return"\u00A72";
-		case DARK_AQUA: return"\u00A73";
-		case DARK_RED: return"\u00A74";
-		case DARK_PURPLE: return"\u00A75";
-		case GOLD:
-			case GM_SURVIVAL:
-			return"\u00A76";
-		case GRAY:
-			default:
-			return"\u00A77";
-		case DARK_GRAY: return"\u00A78";
-		case BLUE:
-			case GM_ADVENTURE:
-			return"\u00A79";
-		case GREEN:
-			case SUCCESS:
-			case GM_SPECTATOR:
-			return"\u00A7a";
-		case AQUA:
-			case GM_CREATIVE:
-			return"\u00A7b";
-		case RED:
-			case ERROR:
-			return"\u00A7c";
-		case LIGHT_PURPLE: return"\u00A7d";
-		case YELLOW:
-			case WARNING:
-			return"\u00A7e";
-		case WHITE: return"\u00A7f";
+			case BLACK:	return "\u00A70";
+			case DARK_BLUE: return "\u00A71";
+			case DARK_GREEN: return"\u00A72";
+			case DARK_AQUA: return"\u00A73";
+			case DARK_RED: return"\u00A74";
+			case DARK_PURPLE: return"\u00A75";
+			case GOLD:
+				case GM_SURVIVAL:
+				return"\u00A76";
+			case GRAY:
+				default:
+				return"\u00A77";
+			case DARK_GRAY: return"\u00A78";
+			case BLUE:
+				case GM_ADVENTURE:
+				return"\u00A79";
+			case GREEN:
+				case SUCCESS:
+				case GM_SPECTATOR:
+				return"\u00A7a";
+			case AQUA:
+				case GM_CREATIVE:
+				return"\u00A7b";
+			case RED:
+				case ERROR:
+				return"\u00A7c";
+			case LIGHT_PURPLE: return"\u00A7d";
+			case YELLOW:
+				case WARNING:
+				return"\u00A7e";
+			case WHITE: return"\u00A7f";
 		}
 	}
 }
