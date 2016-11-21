@@ -1,14 +1,14 @@
-package me.mcmainiac.gmc;
+package de.mcmainiac.gmc;
 
 import com.google.common.collect.ImmutableMap;
-import me.mcmainiac.gmc.excpetions.GameModeNotFoundException;
-import me.mcmainiac.gmc.excpetions.PlayerNotFoundException;
-import me.mcmainiac.gmc.helpers.Commands;
-import me.mcmainiac.gmc.helpers.Config;
-import me.mcmainiac.gmc.utils.MetricsLite;
-import me.mcmainiac.gmc.tasks.UpdaterTask;
-import me.mcmainiac.gmc.utils.MessageColor;
-import me.mcmainiac.gmc.utils.MessageFormat;
+import de.mcmainiac.gmc.excpetions.PlayerNotFoundException;
+import de.mcmainiac.gmc.tasks.UpdaterTask;
+import de.mcmainiac.gmc.utils.MetricsLite;
+import de.mcmainiac.gmc.excpetions.GameModeNotFoundException;
+import de.mcmainiac.gmc.helpers.Commands;
+import de.mcmainiac.gmc.helpers.Config;
+import de.mcmainiac.gmc.utils.MessageColor;
+import de.mcmainiac.gmc.utils.MessageFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -54,10 +54,10 @@ public class Main extends JavaPlugin {
 		// Auto-Updater
 		if (debug)
 			log("Starting check for updates");
-		checkForUpdates(config.getBoolean("options.auto-update"));
+		checkForUpdates(config.getBoolean(Config.BooleanPaths.OPTIONS_AUTOUPDATE));
 
 		// plugin metrics (mcstats.org)
-		if (config.getBoolean("options.mcstats")) {
+		if (config.getBoolean(Config.BooleanPaths.OPTIONS_MCSTATS)) {
 			try {
 				MetricsLite metrics = new MetricsLite(this);
 				if (!metrics.start())
@@ -117,12 +117,7 @@ public class Main extends JavaPlugin {
 	// Utilities
 	//--------------
 	public void checkForUpdates(boolean update) {
-		if (debug)
-			log("Creating task");
 		UpdaterTask ut = new UpdaterTask(this, this.getFile(), update);
-
-		if (debug)
-			log("Starting task asynchronously");
 		Bukkit.getScheduler().runTaskAsynchronously(this, ut);
 	}
 

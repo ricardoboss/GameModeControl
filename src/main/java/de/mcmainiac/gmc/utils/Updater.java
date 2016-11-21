@@ -1,4 +1,4 @@
-package me.mcmainiac.gmc.utils;
+package de.mcmainiac.gmc.utils;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -406,7 +406,7 @@ public class Updater {
                 downloaded += count;
                 fout.write(data, 0, count);
                 final int percent = (int) ((downloaded * 100) / fileLength);
-                if (this.announce && ((percent % 10) == 0)) {
+                if (this.announce && ((percent % 20) == 0)) {
                     this.plugin.getLogger().info("Downloading update: " + percent + "% of " + fileLength + " bytes.");
                 }
             }
