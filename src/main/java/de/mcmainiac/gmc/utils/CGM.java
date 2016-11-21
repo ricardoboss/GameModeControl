@@ -1,8 +1,9 @@
-package me.mcmainiac.gmc.utils;
+package de.mcmainiac.gmc.utils;
 
 import com.google.common.collect.ImmutableMap;
-import me.mcmainiac.gmc.Main;
-import me.mcmainiac.gmc.excpetions.GameModeNotFoundException;
+import de.mcmainiac.gmc.Main;
+import de.mcmainiac.gmc.excpetions.GameModeNotFoundException;
+import de.mcmainiac.gmc.helpers.Config;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,28 +21,41 @@ public class CGM {
 	public static void set(Player p, ControlledGameMode cgm) throws GameModeNotFoundException {
 		p.setGameMode(getGamemodeByCGM(cgm));
 
-		String configName = CGM.capitalize(cgm.getName()); // capitalize first char to match names in the config
+		Main.send(
+				p,
+				Main.config.getString((Config.StringPaths) Config.Paths.fromString(cgm.getName() + ".self"))
+		);
 
-		Main.send(p, Main.config.getString(configName + ".self"));
 		Main.log("Set " + p.getName() + "'s game mode to " + cgm.getName(), MessageColor.INFO);
 	}
 
 	public static void set(Player p, CommandSender console, ControlledGameMode cgm) throws GameModeNotFoundException {
 		p.setGameMode(getGamemodeByCGM(cgm));
 
-		String configName = CGM.capitalize(cgm.getName()); // capitalize first char to match names in the config
+		Main.send(
+				p,
+				Main.config.getString((Config.StringPaths) Config.Paths.fromString(cgm.getName() + ".from")),
+				ImmutableMap.<String, String>builder().put("\u0024sender", console.getName()).build()
+		);
 
-		Main.send(p, Main.config.getString(configName + ".from"), ImmutableMap.<String, String>builder().put("\u0024sender", console.getName()).build());
 		Main.log("Console set " + p.getName() + "'s game mode to " + cgm.getName());
 	}
 
 	public static void set(Player p, Player sender, ControlledGameMode cgm) throws GameModeNotFoundException {
 		p.setGameMode(getGamemodeByCGM(cgm));
 
-		String configName = CGM.capitalize(cgm.getName()); // capitalize first char to match names in the config
+		Main.send(
+				p,
+				Main.config.getString((Config.StringPaths) Config.Paths.fromString(cgm.getName() + ".from")),
+				ImmutableMap.<String, String>builder().put("\u0024sender", sender.getName()).build()
+		);
 
-		Main.send(p, Main.config.getString(configName + ".from"), ImmutableMap.<String, String>builder().put("\u0024sender", sender.getName()).build());
-		Main.send(sender, Main.config.getString(configName + ".to"), ImmutableMap.<String, String>builder().put("\u0024player", p.getName()).build());
+		Main.send(
+				sender,
+				Main.config.getString((Config.StringPaths) Config.Paths.fromString(cgm.getName() + ".to")),
+				ImmutableMap.<String, String>builder().put("\u0024player", p.getName()).build()
+		);
+
 		Main.log(sender.getName() + " set " + p.getName() + "'s game mode to " + cgm.getName());
 	}
 
@@ -65,7 +79,8 @@ public class CGM {
 		}
 	}
 
-	/*public static ControlledGameMode getCGMByName(String name) throws GameModeNotFoundException {
+	/* Maybe we will need this later
+	public static ControlledGameMode getCGMByName(String name) throws GameModeNotFoundException {
 		switch (name.toLowerCase()) {
 		case "survival": return ControlledGameMode.SURVIVAL;
 		case "creative": return ControlledGameMode.CREATIVE;
@@ -90,7 +105,8 @@ public class CGM {
 				case "spectator":
 				case "3":
 					return ControlledGameMode.SPECTATOR;
-				default: throw new GameModeNotFoundException("The game mode name '" + o + "' could not be found!");
+				default:
+					throw new GameModeNotFoundException("The game mode name '" + o + "' could not be found!");
 			}
 		} else if (o instanceof Integer) {
 			return getControlledGamemodeById((Integer) o);
@@ -130,11 +146,11 @@ public class CGM {
 
 	/*public static GameMode getGamemodeByName(String name) throws GameModeNotFoundException {
 		switch(name.toLowerCase()) {
-		case "survival": return GameMode.SURVIVAL;
-		case "creative": return GameMode.CREATIVE;
-		case "adventure": return GameMode.ADVENTURE;
-		case "spectator": return GameMode.SPECTATOR;
-		default: throw new GameModeNotFoundException();
+			case "survival": return GameMode.SURVIVAL;
+			case "creative": return GameMode.CREATIVE;
+			case "adventure": return GameMode.ADVENTURE;
+			case "spectator": return GameMode.SPECTATOR;
+			default: throw new GameModeNotFoundException();
 		}
 	}*/
 
@@ -153,7 +169,8 @@ public class CGM {
 				case "spectator":
 				case "3":
 					return GameMode.SPECTATOR;
-				default: throw new GameModeNotFoundException("The game mode name '" + o + "' could not be found!");
+				default:
+					throw new GameModeNotFoundException("The game mode name '" + o + "' could not be found!");
 			}
 		} else if (o instanceof Integer) {
 			return getGamemodeById((Integer) o);
@@ -204,6 +221,10 @@ public class CGM {
 				case SPECTATOR: return MessageColor.GM_SPECTATOR;
 				default: return MessageColor.GRAY;
 			}
+		}
+
+		public String getMessageFormatted() {
+			return this.getMessageColor() + CGM.capitalize(this.toString());
 		}
 	}
 }
