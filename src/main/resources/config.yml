@@ -6,27 +6,34 @@ options:
   mcstats: true
   debug: false
 
-Survival:
+survival:
   self: '&aSet your game mode to &6&osurvival&a.'
   from: '&aYour game mode was set to &6&osurvival&a.'
   to: '&aSet the game mode of &7$player &ato &6&osurvival&a.'
 
-Creative:
+creative:
   self: '&aSet your game mode to &6&ocreative&a.'
   from: '&aYour game mode was set to &6&ocreative&a.'
   to: '&aSet the game mode of &7$player &ato &6&ocreative&a.'
 
-Adventure:
+adventure:
   self: '&aSet your game mode to &6&oadventure&a.'
   from: '&aYour game mode was set to &6&oadventure&a.'
   to: '&aSet the game mode of &7$player &ato &6&oadventure&a.'
 
-Spectator:
+spectator:
   self: '&aSet your game mode to &6&ospectator.'
   from: '&aYour game mode was set to &6&ospectator.'
   to: '&aSet the game mode of &7$player &ato &6&ospectator.'
 
-Other:
+other:
   player not found: '&cCould not find this player: &7$player'
   gamemode not found: '&cCould not find this gamemode: &7$gm'
   no permission: '&cYou don''t have the permission to do that!'
+  gmtemp:
+    to: '&6$player&r''s gamemode is now $gm &rfor &a$time &rseconds'
+    from: 'Your gamemode is now $gm &rfor &a$time &rseconds'
+  one time gamemode:
+    error: '&cPlease allow at least one game mode!'
+    message: '&6$player &fhas the permission to change their game mode to:'
+    allowed: '&aYou may change your game mode to one of these:'
