@@ -1,8 +1,8 @@
-package me.mcmainiac.gmc.tasks;
+package de.mcmainiac.gmc.tasks;
 
-import me.mcmainiac.gmc.Main;
-import me.mcmainiac.gmc.utils.Updater;
-import me.mcmainiac.gmc.utils.MessageColor;
+import de.mcmainiac.gmc.Main;
+import de.mcmainiac.gmc.utils.Updater;
+import de.mcmainiac.gmc.utils.MessageColor;
 
 import java.io.File;
 
@@ -19,6 +19,9 @@ public class UpdaterTask implements Runnable {
 
 	@Override
 	public void run() {
+		if (Main.debug)
+			Main.log("Running updater");
+
 		Updater.UpdateType updateType;
 		if (update)
 			updateType = Updater.UpdateType.DEFAULT;
@@ -27,12 +30,10 @@ public class UpdaterTask implements Runnable {
 
 		Updater updater = new Updater(plugin, 71110, pluginFile, updateType, true);
 
-		if (Main.debug)
-			Main.log("Running updater");
-
 		switch(updater.getResult()) {
 			case NO_UPDATE:
-				Main.log("[Updater] No update was found (last version: " + updater.getLatestName() + ").");
+				Main.log("[Updater] No update was found (last version: " + updater.getLatestName() +
+						"; this version: " + plugin.getDescription().getVersion() + ").");
 				break;
 			case SUCCESS:
 				Main.log("[Updater] The newest version " + updater.getLatestName() + " has been downloaded and will be");
