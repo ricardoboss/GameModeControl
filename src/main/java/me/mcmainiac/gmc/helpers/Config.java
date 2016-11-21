@@ -6,16 +6,15 @@ import me.mcmainiac.gmc.utils.CGM;
 import me.mcmainiac.gmc.utils.CGM.ControlledGameMode;
 import me.mcmainiac.gmc.utils.MessageColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.security.InvalidParameterException;
 
 @SuppressWarnings("SameParameterValue")
 public class Config {
-	private final JavaPlugin plugin;
+	private final Main plugin;
 	private FileConfiguration config;
 
-	public Config(JavaPlugin plugin) {
+	public Config(Main plugin) {
 		this.plugin = plugin;
 		this.plugin.saveDefaultConfig();
 		this.config = plugin.getConfig();
@@ -32,6 +31,11 @@ public class Config {
 				this.plugin.saveConfig();
 				this.config = this.plugin.getConfig();
 			}
+
+		if (getBoolean("options.debug")) {
+			Main.debug = true;
+			Main.log("Debug mode enabled!");
+		}
 	}
 
 	void reload() {

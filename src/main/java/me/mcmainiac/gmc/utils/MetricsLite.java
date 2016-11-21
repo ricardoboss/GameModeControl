@@ -26,7 +26,7 @@
  * either expressed or implied, of anybody else.
  */
 
-package me.mcmainiac.gmc.helpers;
+package me.mcmainiac.gmc.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;

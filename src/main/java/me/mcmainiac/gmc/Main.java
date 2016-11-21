@@ -5,7 +5,7 @@ import me.mcmainiac.gmc.excpetions.GameModeNotFoundException;
 import me.mcmainiac.gmc.excpetions.PlayerNotFoundException;
 import me.mcmainiac.gmc.helpers.Commands;
 import me.mcmainiac.gmc.helpers.Config;
-import me.mcmainiac.gmc.helpers.MetricsLite;
+import me.mcmainiac.gmc.utils.MetricsLite;
 import me.mcmainiac.gmc.tasks.UpdaterTask;
 import me.mcmainiac.gmc.utils.MessageColor;
 import me.mcmainiac.gmc.utils.MessageFormat;
@@ -31,6 +31,7 @@ import java.security.InvalidParameterException;
 public class Main extends JavaPlugin {
 	public static final String pre = "\u00A77[GMC] \u00A7r";
 	public static Config config;
+	public static boolean debug = false;
 
 	private static final CommandSender console = Bukkit.getConsoleSender();
 
@@ -40,12 +41,19 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		Main.config = new Config(this);
+
+		if (debug)
+			log("Registering events");
 		Bukkit.getPluginManager().registerEvents(Commands.getInstance(), this);
 
+		if (debug)
+			log("Initializing commands and resetting players");
 		Commands.setPlugin(this);
 		Commands.resetPlayers();
 
 		// Auto-Updater
+		if (debug)
+			log("Starting check for updates");
 		checkForUpdates(config.getBoolean("options.auto-update"));
 
 		// plugin metrics (mcstats.org)
@@ -55,7 +63,7 @@ public class Main extends JavaPlugin {
 				if (!metrics.start())
 					log("Failed to start plugin metrics", MessageColor.ERROR);
 			} catch (IOException e) {
-				log("Failed to enable plugin metrics!", MessageColor.ERROR);
+				log("Failed to initialize plugin metrics!", MessageColor.ERROR);
 			}
 		}
 	}
@@ -109,14 +117,19 @@ public class Main extends JavaPlugin {
 	// Utilities
 	//--------------
 	public void checkForUpdates(boolean update) {
+		if (debug)
+			log("Creating task");
 		UpdaterTask ut = new UpdaterTask(this, this.getFile(), update);
+
+		if (debug)
+			log("Starting task asynchronously");
 		Bukkit.getScheduler().runTaskAsynchronously(this, ut);
 	}
 
 	public static Player getPlayerByName(String name) throws PlayerNotFoundException {
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (p.getName().equalsIgnoreCase(name)) return p;
-		}
+		for (Player p : Bukkit.getOnlinePlayers())
+			if (p.getName().equals(name)) return p;
+
 		throw new PlayerNotFoundException("Player not found: '" + name + "'");
 	}
 
@@ -125,39 +138,7 @@ public class Main extends JavaPlugin {
 	}
 
 	public static void log(String log, MessageColor color) {
-		switch (color) {
-		case BLACK:	console.sendMessage(pre + "\u00A70" + log); break;
-		case DARK_BLUE: console.sendMessage(pre + "\u00A71" + log); break;
-		case DARK_GREEN: console.sendMessage(pre + "\u00A72" + log); break;
-		case DARK_AQUA: console.sendMessage(pre + "\u00A73" + log); break;
-		case DARK_RED: console.sendMessage(pre + "\u00A74" + log); break;
-		case DARK_PURPLE: console.sendMessage(pre + "\u00A75" + log); break;
-		case GOLD:
-			case GM_SURVIVAL:
-				console.sendMessage(pre + "\u00A76" + log); break;
-		case GRAY:
-			default:
-				console.sendMessage(pre + "\u00A77" + log); break;
-		case DARK_GRAY: console.sendMessage(pre + "\u00A78" + log); break;
-		case BLUE:
-			case GM_ADVENTURE:
-				console.sendMessage(pre + "\u00A79" + log); break;
-		case GREEN:
-			case SUCCESS:
-			case GM_SPECTATOR:
-				console.sendMessage(pre + "\u00A7a" + log); break;
-		case AQUA:
-			case GM_CREATIVE:
-				console.sendMessage(pre + "\u00A7b" + log); break;
-		case RED:
-			case ERROR:
-			console.sendMessage(pre + "\u00A7c" + log); break;
-		case LIGHT_PURPLE: console.sendMessage(pre + "\u00A7d" + log); break;
-		case YELLOW:
-			case WARNING:
-			console.sendMessage(pre + "\u00A7e" + log); break;
-		case WHITE: console.sendMessage(pre + "\u00A7f" + log); break;
-		}
+		console.sendMessage(pre + color.toString() + log);
 	}
 
 	public static void send(CommandSender cs, String message) {
@@ -169,16 +150,14 @@ public class Main extends JavaPlugin {
 	public static void send(CommandSender cs, String message, ImmutableMap<String, String> context) {
 		message = replaceColorCodes(message);
 
-		for (String target : context.keySet()) {
+		for (String target : context.keySet())
 			if (message.contains(target)) {
 				String first = message.substring(0, message.indexOf(target));
 				String last = message.substring(message.indexOf(target) + target.length(), message.length());
 				message = first + context.get(target) + last;
 			}
-		}
 
-		if (cs instanceof Player) cs.sendMessage(message);
-		else log(message);
+		send(cs, message);
 	}
 
 	private static String replaceColorCodes(String message) {

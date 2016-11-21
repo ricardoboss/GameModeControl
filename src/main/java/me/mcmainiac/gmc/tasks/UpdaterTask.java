@@ -1,7 +1,7 @@
 package me.mcmainiac.gmc.tasks;
 
 import me.mcmainiac.gmc.Main;
-import me.mcmainiac.gmc.helpers.Updater;
+import me.mcmainiac.gmc.utils.Updater;
 import me.mcmainiac.gmc.utils.MessageColor;
 
 import java.io.File;
@@ -27,22 +27,26 @@ public class UpdaterTask implements Runnable {
 
 		Updater updater = new Updater(plugin, 71110, pluginFile, updateType, true);
 
+		if (Main.debug)
+			Main.log("Running updater");
+
 		switch(updater.getResult()) {
-		case NO_UPDATE:
-			Main.log("[Updater] No update was found (last version: " + updater.getLatestName() + ").");
-			break;
-		case SUCCESS:
-			Main.log("[Updater] The newest version " + updater.getLatestName() + " has been downloaded and will be");
-			Main.log("[Updater] loaded the next time the server restarts/reloads.");
-			break;
-		case UPDATE_AVAILABLE:
-			Main.log("[Updater] There is a newer version available: " + updater.getLatestName() + ", but since");
-			Main.log("[Updater] auto-update is disabled, nothing was downloaded.");
-			break;
-		case DISABLED: break;
-		default:
-			Main.log("[Updater] Something went wrong while updating!", MessageColor.ERROR);
-			break;
+			case NO_UPDATE:
+				Main.log("[Updater] No update was found (last version: " + updater.getLatestName() + ").");
+				break;
+			case SUCCESS:
+				Main.log("[Updater] The newest version " + updater.getLatestName() + " has been downloaded and will be");
+				Main.log("[Updater] loaded the next time the server restarts/reloads.");
+				break;
+			case UPDATE_AVAILABLE:
+				Main.log("[Updater] There is a newer version available: " + updater.getLatestName() + ", but since");
+				Main.log("[Updater] auto-update is disabled, nothing was downloaded.");
+				break;
+			case DISABLED:
+				break;
+			default:
+				Main.log("[Updater] Something went wrong while updating!", MessageColor.ERROR);
+				break;
 		}
 	}
 }

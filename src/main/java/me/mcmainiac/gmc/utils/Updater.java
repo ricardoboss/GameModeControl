@@ -1,4 +1,4 @@
-package me.mcmainiac.gmc.helpers;
+package me.mcmainiac.gmc.utils;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;

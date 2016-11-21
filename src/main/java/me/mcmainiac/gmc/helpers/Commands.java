@@ -44,10 +44,16 @@ public class Commands implements Listener {
 		}
 	}
 
-	public static Listener getInstance() {
-		if (Commands.instance == null) Commands.instance = new Commands();
+	public static Commands getInstance() {
+		if (Commands.instance == null)
+			Commands.instance = new Commands(); // lazy initializer
+
 		return instance;
 	}
+
+	//--------------
+	// Listener
+	//--------------
 
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent e) {
