@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.logging.Logger;
 
 /**
  * <h1>GameModeControl V1.3.9</h1><br>
@@ -133,7 +134,10 @@ public class Main extends JavaPlugin {
 	}
 
 	public static void log(String log, MessageColor color) {
-		console.sendMessage(pre + color.toString() + log);
+		if (console != null)
+			console.sendMessage(pre + color.toString() + log);
+		else
+			Logger.getLogger("Minecraft").info(pre + log);
 	}
 
 	public static void send(CommandSender cs, String message) {
