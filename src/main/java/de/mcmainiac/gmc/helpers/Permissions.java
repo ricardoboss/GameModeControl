@@ -80,23 +80,23 @@ class Permissions {
 				case "gmonce": return GMONCE;
 				case "gmtemp": return GMTEMP;
 				case "gm": return GM;
-				case "gm_self": return GM_SELF;
-				case "gm_others": return GM_OTHERS;
+				case "gm.self": return GM_SELF;
+				case "gm.others": return GM_OTHERS;
 				case "gamemode": return GAMEMODE;
-				case "gamemode_self": return GAMEMODE_SELF;
-				case "gamemode_others": return GAMEMODE_OTHERS;
+				case "gamemode.self": return GAMEMODE_SELF;
+				case "gamemode.others": return GAMEMODE_OTHERS;
 				case "survival": return SURVIVAL;
-				case "survival_self": return SURVIVAL_SELF;
-				case "survival_others": return SURVIVAL_OTHERS;
+				case "survival.self": return SURVIVAL_SELF;
+				case "survival.others": return SURVIVAL_OTHERS;
 				case "creative": return CREATIVE;
-				case "creative_self": return CREATIVE_SELF;
-				case "creative_others": return CREATIVE_OTHERS;
+				case "creative.self": return CREATIVE_SELF;
+				case "creative.others": return CREATIVE_OTHERS;
 				case "adventure": return ADVENTURE;
-				case "adventure_self": return ADVENTURE_SELF;
-				case "adventure_others": return ADVENTURE_OTHERS;
+				case "adventure.self": return ADVENTURE_SELF;
+				case "adventure.others": return ADVENTURE_OTHERS;
 				case "spectator": return SPECTATOR;
-				case "spectator_self": return SPECTATOR_SELF;
-				case "spectator_others": return SPECTATOR_OTHERS;
+				case "spectator.self": return SPECTATOR_SELF;
+				case "spectator.others": return SPECTATOR_OTHERS;
 				default: return DEFAULT_OP;
 			}
 		}
