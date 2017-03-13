@@ -20,7 +20,7 @@ import java.security.InvalidParameterException;
 import java.util.logging.Logger;
 
 /**
- * <h1>GameModeControl V1.3.9</h1><br>
+ * <h1>GameModeControl V1.3.10</h1><br>
  *
  * <p>Helps you and your admins to control
  * game modes faster and more accurate
