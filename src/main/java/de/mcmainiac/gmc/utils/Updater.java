@@ -1,5 +1,6 @@
 package de.mcmainiac.gmc.utils;
 
+import de.mcmainiac.gmc.Main;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -602,31 +603,64 @@ public class Updater {
      * @param remoteVersion the remote version
      * @return true if Updater should consider the remote version an update, false if not.
      */
-    public boolean shouldUpdate(String localVersion, String remoteVersion) {
-    	String[] localV = localVersion.split(Updater.DELIMETER); // split the local version, e.g.: "Beta|1.4.5"
-    	String[] localVersionInts = (localV.length > 0 ? localV[1] : localV[0]).split("\\."); // "1|4|5"
+    public static boolean shouldUpdate(String localVersion, String remoteVersion) {
+    	int localVersionInt = getVersionValue(localVersion);
+    	int remoteVersionInt = getVersionValue(remoteVersion);
 
-    	int localVersionInt = Integer.valueOf(localVersionInts.length > 2 ? (localVersionInts[0] + localVersionInts[1] + localVersionInts[2]) :
-    							(localVersionInts.length > 1 ? (localVersionInts[0] + localVersionInts[1] + "0") :
-    							(localVersionInts[0] + "00"))); // so we get something like "145" or "200"
-
-
-    	if (localVersion.startsWith("Alpha")) localVersionInt = 1000 + localVersionInt; // Alpha v1.0.0 = 1100
-    	else if (localVersion.startsWith("Beta")) localVersionInt = 2000 + localVersionInt; // Beta v1.3.1 = 2131
-    	else localVersionInt = 3000 + localVersionInt; // we got a released version here; e.g. v1.2.0 = 3120
-
-    	String[] remoteV = remoteVersion.split(Updater.DELIMETER); // the same procedure for the remote version
-    	String[] remoteVersionInts = (remoteV.length > 0 ? remoteV[1] : remoteV[0]).split("\\.");
-
-    	int remoteVersionInt = Integer.valueOf(remoteVersionInts.length > 2 ? (remoteVersionInts[0] + remoteVersionInts[1] + remoteVersionInts[2]) :
-    							(remoteVersionInts.length > 1 ? (remoteVersionInts[0] + remoteVersionInts[1] + "0") :
-    							(remoteVersionInts[0] + "00")));
-
-    	if (remoteVersion.startsWith("Alpha")) remoteVersionInt = 1000 + remoteVersionInt;
-    	else if (remoteVersion.startsWith("Beta")) remoteVersionInt = 2000 + remoteVersionInt;
-    	else remoteVersionInt = 3000 + remoteVersionInt;
+        if (Main.debug) {
+            Main.log("local version value: " + localVersionInt);
+            Main.log("remote version value: " + remoteVersionInt);
+        }
 
         return remoteVersionInt > localVersionInt;
+    }
+
+    /**
+     * <p>
+     *     Calculate the integer value of a version string like "Beta v1.4" (in this case, this method would return a
+     *     value of 1140).
+     * </p>
+     *
+     * <p>
+     *     Based upon the prefix, the value resides between:
+     * </p>
+     *
+     * <ul>
+     *     <li><i>0</i> and <i>999</i> for "Alpha"</li>
+     *     <li><i>1000</i> and <i>1999</i> for "Beta"</li>
+     *     <li><i>2000</i> and <i>2999</i> for a release version</li>
+     * </ul>
+     *
+     * @param versionString The string to be parsed as a version. It may have a prefix ("Alpha" or
+     *                      "Beta") followed by a whitespace. A string having this form is required: "vx.x.x", whereas
+     *                      each "x" is a digit between 1 and 9.
+     *
+     * @return An integer value which represents the version string in a numerical way.
+     */
+    public static int getVersionValue(String versionString) {
+        String[] versionParts = versionString.split(Updater.DELIMETER); // "Beta v|1.4.5"
+        String[] version = (versionParts.length > 0 ? versionParts[1] : versionParts[0]).split("\\."); // "1|4|5"
+
+        String versionIntString = String.valueOf(version[0].charAt(0));
+
+        // so we get something like "145" or "200"
+        if (version.length > 1) {
+            versionIntString += version[1].charAt(0);
+
+            if (version.length > 2)
+                versionIntString += version[2].charAt(0);
+            else
+                versionIntString += "0";
+        } else
+            versionIntString += "00";
+
+        int versionInt = Integer.valueOf(versionIntString);
+
+        // Alpha is below 1000 (v9.0.3 -> 903)
+        if (versionString.startsWith("Beta")) versionInt = 1000 + versionInt; // "Beta v1.3.1" -> 1131
+        else versionInt = 2000 + versionInt; // we got a released version here; "v1.2.0" -> 2120
+
+        return versionInt;
     }
 
     /**

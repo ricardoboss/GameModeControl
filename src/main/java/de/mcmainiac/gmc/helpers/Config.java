@@ -15,10 +15,61 @@ public class Config {
 
 	public Config(Main plugin) {
 		this.plugin = plugin;
-		this.plugin.saveDefaultConfig();
 		this.config = plugin.getConfig();
-		this.config.options().copyDefaults(true);
-		if (config.getBoolean("options.force-gamemode.enable"))
+
+		plugin.saveDefaultConfig();
+		config.options().copyDefaults(true);
+
+		// check for debug mode
+		if (getBoolean(BooleanPaths.OPTIONS_DEBUG)) {
+			Main.debug = true;
+			Main.log("Debug mode enabled!");
+		}
+
+		// determine config version, migrate if necessary
+		String versionString = getString(StringPaths.VERSION);
+		int configVersion;
+
+		// if no version is stored in the config
+		if (versionString == null)
+			configVersion = 1;
+		else
+			configVersion = Integer.valueOf(versionString);
+
+		if (configVersion < ConfigMigrator.VERSION) {
+			if (Main.debug)
+				Main.log("Migrating config.yml to the newest version...");
+
+			// migrate the old config
+			boolean success;
+
+			try {
+				success = ConfigMigrator.migrate(configVersion, config);
+			} catch (Exception e) {
+				if (Main.debug)
+					e.printStackTrace();
+
+				success = false;
+			}
+
+			if (success) {
+				if (Main.debug)
+					Main.log("Migration successful!");
+
+				save();
+			} else {
+				Main.log("Config was not successfully migrated!", MessageColor.ERROR);
+				Main.log("Please update your config.yml manually!", MessageColor.ERROR);
+				Main.log("GMC gets disabled!", MessageColor.WARNING);
+
+				plugin.getPluginLoader().disablePlugin(plugin);
+
+				return;
+			}
+		}
+
+		// check the 'forcegm' setting
+		if (getBoolean(BooleanPaths.OPTIONS_FORCEGM))
 			try {
 				ControlledGameMode cgm = CGM.getCGMByIdOrName(getString(StringPaths.OPTIONS_FORCEGM_MODE));
 				this.plugin.getServer().setDefaultGameMode(cgm.getGamemode());
@@ -28,20 +79,18 @@ public class Config {
 				Main.log("Using the default gamemode " + CGM.getMessageColor(ControlledGameMode.SURVIVAL) + "SURVIVAL", MessageColor.ERROR);
 
 				setString(StringPaths.OPTIONS_FORCEGM_MODE, ControlledGameMode.SURVIVAL.toString().toLowerCase());
-
-				this.plugin.saveConfig();
-				this.config = this.plugin.getConfig();
+				save();
 			}
-
-		if (getBoolean(BooleanPaths.OPTIONS_DEBUG)) {
-			Main.debug = true;
-			Main.log("Debug mode enabled!");
-		}
 	}
 
 	void reload() {
-		this.plugin.reloadConfig();
-		this.config = this.plugin.getConfig();
+		plugin.reloadConfig();
+		config = plugin.getConfig();
+	}
+
+	private void save() {
+		plugin.saveConfig();
+		config = plugin.getConfig();
 	}
 
 	public String getString(StringPaths path) {
@@ -73,7 +122,6 @@ public class Config {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public enum StringPaths implements Paths {
 		OPTIONS_FORCEGM_MODE("options.force-gamemode.mode"),
 		SURVIVAL_SELF("survival.self"),
@@ -95,7 +143,8 @@ public class Config {
 		OTHER_OTGM_MESSAGE("other.one time gamemode.message"),
 		OTHER_OTGM_ALLOWED("other.one time gamemode.allowed"),
 		OTHER_GMTEMP_TO("other.gmtemp.to"),
-		OTHER_GMTEMP_FROM("other.gmtemp.from");
+		OTHER_GMTEMP_FROM("other.gmtemp.from"),
+		VERSION("version");
 
 		private final String path;
 
@@ -112,7 +161,7 @@ public class Config {
 	public enum BooleanPaths implements Paths {
 		OPTIONS_FORCEGM("options.force-gamemode.enable"),
 		OPTIONS_AUTOUPDATE("options.auto-update"),
-		OPTIONS_MCSTATS("options.mcstats"),
+		OPTIONS_BSTATS("options.bstats"),
 		OPTIONS_DEBUG("options.debug");
 
 		private final String path;

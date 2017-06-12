@@ -3,7 +3,7 @@ options:
     enable: false
     mode: survival
   auto-update: true
-  mcstats: true
+  bstats: true
   debug: false
 
 survival:
@@ -37,3 +37,5 @@ other:
     error: '&cPlease allow at least one game mode!'
     message: '&6$player &fhas the permission to change their game mode to:'
     allowed: '&aYou may change your game mode to one of these:'
+
+version: 2

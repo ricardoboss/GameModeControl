@@ -1,26 +1,25 @@
 package de.mcmainiac.gmc;
 
 import com.google.common.collect.ImmutableMap;
-import de.mcmainiac.gmc.excpetions.PlayerNotFoundException;
-import de.mcmainiac.gmc.tasks.UpdaterTask;
-import de.mcmainiac.gmc.utils.MetricsLite;
 import de.mcmainiac.gmc.excpetions.GameModeNotFoundException;
+import de.mcmainiac.gmc.excpetions.PlayerNotFoundException;
 import de.mcmainiac.gmc.helpers.Commands;
 import de.mcmainiac.gmc.helpers.Config;
+import de.mcmainiac.gmc.tasks.UpdaterTask;
 import de.mcmainiac.gmc.utils.MessageColor;
 import de.mcmainiac.gmc.utils.MessageFormat;
+import de.mcmainiac.gmc.utils.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.logging.Logger;
 
 /**
- * <h1>GameModeControl V1.3.10</h1><br>
+ * <h1>GameModeControl V1.4</h1><br>
  *
  * <p>Helps you and your admins to control
  * game modes faster and more accurate
@@ -57,15 +56,14 @@ public class Main extends JavaPlugin {
 			log("Starting check for updates");
 		checkForUpdates(config.getBoolean(Config.BooleanPaths.OPTIONS_AUTOUPDATE));
 
-		// plugin metrics (mcstats.org)
-		if (config.getBoolean(Config.BooleanPaths.OPTIONS_MCSTATS)) {
-			try {
-				MetricsLite metrics = new MetricsLite(this);
-				if (!metrics.start())
-					log("Failed to start plugin metrics", MessageColor.ERROR);
-			} catch (IOException e) {
-				log("Failed to initialize plugin metrics!", MessageColor.ERROR);
-			}
+		// plugin metrics (https://bstats.org/)
+		if (config.getBoolean(Config.BooleanPaths.OPTIONS_BSTATS)) {
+			if (debug)
+				log("Initializing metrics (bstats.org)");
+
+			// enable metrics by creating a new instance; keep the reference, so it doesn't get deleted by the gc
+			@SuppressWarnings("unused")
+			MetricsLite ml = new MetricsLite(this);
 		}
 	}
 
@@ -78,31 +76,32 @@ public class Main extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 		try {
 			switch (commandLabel.toLowerCase()) {
-			case "gamemode":
-			case "gm":
-				return (args.length > 0 && Commands.Gamemode(sender, new String[]{args[0], (args.length > 1 ? args[1] : null), "gamemode"}));
-			case "gm0":
-			case "survival":
-				return Commands.Gamemode(sender, new String[]{"0", (args.length > 0 ? args[0] : null), "survival"});
-			case "gm1":
-			case "creative":
-				return Commands.Gamemode(sender, new String[]{"1", (args.length > 0 ? args[0] : null), "creative"});
-			case "gm2":
-			case "adventure":
-				return Commands.Gamemode(sender, new String[]{"2", (args.length > 0 ? args[0] : null), "adventure"});
-			case "gm3":
-			case "spectator":
-				return Commands.Gamemode(sender, new String[]{"3", (args.length > 0 ? args[0] : null), "spectator"});
+				case "gamemode":
+				case "gm":
+					return (args.length > 0 && Commands.Gamemode(sender, new String[]{args[0], (args.length > 1 ? args[1] : null), "gamemode"}));
+				case "gm0":
+				case "survival":
+					return Commands.Gamemode(sender, new String[]{"0", (args.length > 0 ? args[0] : null), "survival"});
+				case "gm1":
+				case "creative":
+					return Commands.Gamemode(sender, new String[]{"1", (args.length > 0 ? args[0] : null), "creative"});
+				case "gm2":
+				case "adventure":
+					return Commands.Gamemode(sender, new String[]{"2", (args.length > 0 ? args[0] : null), "adventure"});
+				case "gm3":
+				case "spectator":
+					return Commands.Gamemode(sender, new String[]{"3", (args.length > 0 ? args[0] : null), "spectator"});
 
-			case "gmonce":
-				return Commands.OneTimeGamemode(sender, args);
-			case "gmtemp":
-				return Commands.TemporaryGamemode(sender, args);
+				case "gmonce":
+					return Commands.OneTimeGamemode(sender, args);
+				case "gmtemp":
+					return Commands.TemporaryGamemode(sender, args);
 
-			case "gmh": return Commands.Help(sender, args);
-			case "gmi": Commands.Info(sender); return true;
-			case "gmr": Commands.Reload(sender); return true;
-			default: return false;
+				case "gmh": return Commands.Help(sender, args);
+				case "gmi": Commands.Info(sender); return true;
+				case "gmr": Commands.Reload(sender); return true;
+
+				default: return false;
 			}
 		} catch (InvalidParameterException ipe) {
 			log("An invalid parameter was given!", MessageColor.ERROR);
