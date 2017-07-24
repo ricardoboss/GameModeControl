@@ -23,7 +23,7 @@ public class Config {
 		// check for debug mode
 		if (getBoolean(BooleanPaths.OPTIONS_DEBUG)) {
 			Main.debug = true;
-			Main.log("Debug mode enabled!");
+			Main.log("Debug mode enabled! Hi dev!");
 		}
 
 		// determine config version, migrate if necessary

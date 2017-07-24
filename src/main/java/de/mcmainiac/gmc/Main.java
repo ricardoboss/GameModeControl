@@ -19,7 +19,7 @@ import java.security.InvalidParameterException;
 import java.util.logging.Logger;
 
 /**
- * <h1>GameModeControl V1.4</h1><br>
+ * <h1>GameModeControl V1.4.1</h1><br>
  *
  * <p>Helps you and your admins to control
  * game modes faster and more accurate
@@ -75,7 +75,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 		try {
-			switch (commandLabel.toLowerCase()) {
+			switch (command.getName().toLowerCase()) {
 				case "gamemode":
 				case "gm":
 					return (args.length > 0 && Commands.Gamemode(sender, new String[]{args[0], (args.length > 1 ? args[1] : null), "gamemode"}));
@@ -91,7 +91,6 @@ public class Main extends JavaPlugin {
 				case "gm3":
 				case "spectator":
 					return Commands.Gamemode(sender, new String[]{"3", (args.length > 0 ? args[0] : null), "spectator"});
-
 				case "gmonce":
 					return Commands.OneTimeGamemode(sender, args);
 				case "gmtemp":
@@ -110,6 +109,7 @@ public class Main extends JavaPlugin {
 			log("The specified GameMode was not found!", MessageColor.ERROR);
 			gme.printStackTrace();
 		}
+
 		return true;
 	}
 
