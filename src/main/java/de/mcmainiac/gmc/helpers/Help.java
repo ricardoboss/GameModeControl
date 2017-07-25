@@ -16,7 +16,8 @@ class Help {
 			MessageColor.WHITE + "-----------------------------",
 			MessageColor.DARK_GREEN + "<>" + MessageColor.WHITE + ": " + MessageColor.GOLD + "required" +
 					MessageColor.WHITE + "; " + MessageColor.GRAY + "[]" + MessageColor.WHITE + ": " +
-					MessageColor.GOLD + "optional",
+					MessageColor.GOLD + "optional" + MessageColor.WHITE + "; " + MessageColor.GRAY + "|" +
+					MessageColor.WHITE + ": " + MessageColor.GOLD + "or"
 		});
 		if (!(sender instanceof Player)) page = 1;
 		switch (page) {
@@ -129,7 +130,7 @@ class Help {
 				"   " + MessageColor.GRAY + "[creative | 1] [adventure | 2]",
 				"   " + MessageColor.GRAY + "[spectator | 3]",
 				"",
-				" Allow a player to change his/her game",
+				" Allow a player to change their game",
 				" mode only one time to one of those, you",
 				" specified."
 			}); break;

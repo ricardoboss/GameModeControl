@@ -15,11 +15,13 @@ import java.security.InvalidParameterException;
  * @author MCMainiac
  */
 public class CGM {
+
+
 	//-----------
 	// static methods
 	//-----------
 	public static void set(Player p, ControlledGameMode cgm) throws GameModeNotFoundException {
-		p.setGameMode(getGamemodeByCGM(cgm));
+		setActual(p, cgm);
 
 		Main.send(
 				p,
@@ -30,7 +32,7 @@ public class CGM {
 	}
 
 	public static void set(Player p, CommandSender console, ControlledGameMode cgm) throws GameModeNotFoundException {
-		p.setGameMode(getGamemodeByCGM(cgm));
+		setActual(p, cgm);
 
 		Main.send(
 				p,
@@ -42,7 +44,7 @@ public class CGM {
 	}
 
 	public static void set(Player p, Player sender, ControlledGameMode cgm) throws GameModeNotFoundException {
-		p.setGameMode(getGamemodeByCGM(cgm));
+		setActual(p, cgm);
 
 		Main.send(
 				p,
@@ -57,6 +59,10 @@ public class CGM {
 		);
 
 		Main.log(sender.getName() + " set " + p.getName() + "'s game mode to " + cgm.getName());
+	}
+
+	private static void setActual(Player p, ControlledGameMode cgm) throws GameModeNotFoundException {
+		p.setGameMode(cgm.getGamemode());
 	}
 
 	private static String capitalize(String string) {
@@ -124,7 +130,7 @@ public class CGM {
 		}
 	}
 
-	private static GameMode getGamemodeByCGM(ControlledGameMode cgm) throws GameModeNotFoundException {
+	/*private static GameMode getGamemodeByCGM(ControlledGameMode cgm) throws GameModeNotFoundException {
 		switch (cgm) {
 			case SURVIVAL: return GameMode.SURVIVAL;
 			case CREATIVE: return GameMode.CREATIVE;
@@ -132,7 +138,7 @@ public class CGM {
 			case SPECTATOR: return GameMode.SPECTATOR;
 			default: throw new GameModeNotFoundException();
 		}
-	}
+	}*/
 
 	private static GameMode getGamemodeById(int id) throws GameModeNotFoundException {
 		switch (id) {
@@ -221,6 +227,10 @@ public class CGM {
 				case SPECTATOR: return MessageColor.GM_SPECTATOR;
 				default: return MessageColor.GRAY;
 			}
+		}
+
+		public String getConsoleFormatted() {
+			return CGM.capitalize(this.toString());
 		}
 
 		public String getMessageFormatted() {

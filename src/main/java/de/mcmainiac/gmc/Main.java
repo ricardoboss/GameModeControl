@@ -8,7 +8,8 @@ import de.mcmainiac.gmc.helpers.Config;
 import de.mcmainiac.gmc.tasks.UpdaterTask;
 import de.mcmainiac.gmc.utils.MessageColor;
 import de.mcmainiac.gmc.utils.MessageFormat;
-import de.mcmainiac.gmc.utils.MetricsLite;
+import de.mcmainiac.gmc.utils.MetricsCollector;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -52,8 +53,6 @@ public class Main extends JavaPlugin {
 		Commands.resetPlayers();
 
 		// Auto-Updater
-		if (debug)
-			log("Starting check for updates");
 		checkForUpdates(config.getBoolean(Config.BooleanPaths.OPTIONS_AUTOUPDATE));
 
 		// plugin metrics (https://bstats.org/)
@@ -61,9 +60,14 @@ public class Main extends JavaPlugin {
 			if (debug)
 				log("Initializing metrics (bstats.org)");
 
-			// enable metrics by creating a new instance; keep the reference, so it doesn't get deleted by the gc
-			@SuppressWarnings("unused")
-			MetricsLite ml = new MetricsLite(this);
+			// enable metrics by creating a new instance
+			Metrics metrics = new Metrics(this);
+			metrics.addCustomChart(
+					new Metrics.AdvancedPie(
+							"most_used_gamemode",
+							MetricsCollector.MOST_USED_GAMEMODE
+					)
+			);
 		}
 	}
 

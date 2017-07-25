@@ -286,16 +286,21 @@ public class Commands implements Listener {
 						ImmutableMap.<String, String>builder().put("\u0024player", args[0]).build()
 				);
 
-				String message = "";
+				StringBuilder message = new StringBuilder();
 				for (CGM.ControlledGameMode cgm : CGM.ControlledGameMode.values())
 					if (otgm.get(Main.getPlayerByName(args[0]))[cgm.getId()])
-						message += cgm.getMessageFormatted() + MessageFormat.RESET + ", ";
+						message
+								.append(cgm.getMessageFormatted())
+								.append(MessageFormat.RESET)
+								.append(", ");
 
-				message = message.substring(0, (message.length() - 4 > 0 ? message.length() - 4 : message.length()));
-				sender.sendMessage(message);
+				if (message.length() - 4 > 0)
+					message = new StringBuilder(message.subSequence(0, message.length() - 4));
+
+				sender.sendMessage(message.toString());
 
 				Main.send(p, Main.config.getString(Config.StringPaths.OTHER_OTGM_ALLOWED));
-				p.sendMessage(message);
+				p.sendMessage(message.toString());
 			} catch (PlayerNotFoundException e) {
 				Main.send(
 						sender,
