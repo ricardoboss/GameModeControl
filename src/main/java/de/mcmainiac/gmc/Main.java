@@ -1,7 +1,6 @@
 package de.mcmainiac.gmc;
 
 import com.google.common.collect.ImmutableMap;
-import de.mcmainiac.gmc.excpetions.GameModeNotFoundException;
 import de.mcmainiac.gmc.excpetions.PlayerNotFoundException;
 import de.mcmainiac.gmc.helpers.Commands;
 import de.mcmainiac.gmc.helpers.Config;
@@ -110,9 +109,6 @@ public class Main extends JavaPlugin {
 		} catch (InvalidParameterException ipe) {
 			log("An invalid parameter was given!", MessageColor.ERROR);
 			log("Please check your config!", MessageColor.ERROR);
-		} catch (GameModeNotFoundException gme) {
-			log("The specified GameMode was not found!", MessageColor.ERROR);
-			gme.printStackTrace();
 		}
 
 		return true;
@@ -145,12 +141,18 @@ public class Main extends JavaPlugin {
 	}
 
 	public static void send(CommandSender cs, String message) {
+		if (message.length() == 0)
+			return;
+
 		message = replaceColorCodes(message);
 		if (cs instanceof Player) cs.sendMessage(message);
 		else log(message);
 	}
 
 	public static void send(CommandSender cs, String message, ImmutableMap<String, String> context) {
+		if (message.length() == 0)
+			return;
+
 		message = replaceColorCodes(message);
 
 		for (String target : context.keySet())
