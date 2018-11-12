@@ -7,14 +7,14 @@ import de.mcmainiac.gmc.utils.MessageColor;
 import java.io.File;
 
 public class UpdaterTask implements Runnable {
-	private boolean update = false;
+	private boolean update;
 	private final Main plugin;
 	private final File pluginFile;
 
-	public UpdaterTask(Main p, File f, boolean u) {
-		this.plugin = p;
-		this.pluginFile = f;
-		this.update = u;
+	public UpdaterTask(Main plugin, File file, boolean shouldUpdate) {
+		this.plugin = plugin;
+		this.pluginFile = file;
+		this.update = shouldUpdate;
 	}
 
 	@Override
@@ -28,12 +28,10 @@ public class UpdaterTask implements Runnable {
 		else
 			updateType = Updater.UpdateType.NO_DOWNLOAD;
 
-		Updater updater = new Updater(plugin, 71110, pluginFile, updateType, true);
-
+		var updater = new Updater(plugin, Main.PLUGIN_ID, pluginFile, updateType, true);
 		switch(updater.getResult()) {
 			case NO_UPDATE:
-				Main.log("[Updater] No update was found (last version: " + updater.getLatestName() +
-						"; this version: " + plugin.getDescription().getVersion() + ").");
+				Main.log("[Updater] No update was found (latest version: " + updater.getLatestName() + ").");
 				break;
 			case SUCCESS:
 				Main.log("[Updater] The newest version " + updater.getLatestName() + " has been downloaded and will be");

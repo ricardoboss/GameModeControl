@@ -8,17 +8,17 @@ import org.bukkit.entity.Player;
 
 public class ResetGameModeTask implements Runnable {
 	private final Player p;
-	private final GameMode oldgm;
+	private final GameMode oldGm;
 
-	public ResetGameModeTask(Player p, GameMode oldgm) {
+	public ResetGameModeTask(Player p, GameMode oldGm) {
 		this.p = p;
-		this.oldgm = oldgm;
+		this.oldGm = oldGm;
 	}
 
 	@Override
 	public void run() {
 		try {
-			CGM.set(p, CGM.getCGMByGamemode(oldgm)); // reset the old gamemode of the player
+			CGM.set(p, CGM.getCGMByGamemode(oldGm)); // reset the old gamemode of the player
 		} catch (GameModeNotFoundException e) {
 			Main.log("An exception occurred while resetting \"" + p.getName() + "\"'s game mode!");
 

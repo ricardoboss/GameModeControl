@@ -1,14 +1,7 @@
 package de.mcmainiac.gmc.utils;
 
-import de.mcmainiac.gmc.Main;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -16,6 +9,14 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import de.mcmainiac.gmc.Main;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 /**
  * Check for updates on BukkitDev for a given plugin, and download the updates if needed.
@@ -31,10 +32,10 @@ import java.util.zip.ZipFile;
  * If you are unsure about these rules, please read the plugin submission guidelines: http://goo.gl/8iU5l
  *
  * @author Gravity
- * @version 2.3
+ * @version 2.4
  */
 
-@SuppressWarnings("ALL")
+@SuppressWarnings({"UnusedAssignment", "unused", "WeakerAccess"})
 public class Updater {
 
     /* Constants */
@@ -54,7 +55,7 @@ public class Updater {
     // User-agent when querying Curse
     private static final String USER_AGENT = "Updater (by Gravity)";
     // Used for locating version numbers in file names
-    private static final String DELIMETER = "^v|[\\s]v|[\\s]";
+    private static final String DELIMETER = "^v|[\\s_-]v";
     // If the version number contains one of these, don't update.
     private static final String[] NO_UPDATE_TAG = { "-DEV", "-PRE", "-SNAPSHOT" };
     // Used for downloading files
@@ -392,7 +393,7 @@ public class Updater {
         BufferedInputStream in = null;
         FileOutputStream fout = null;
         try {
-            URL fileUrl = new URL(this.versionLink);
+            URL fileUrl = followRedirects(this.versionLink);
             final int fileLength = fileUrl.openConnection().getContentLength();
             in = new BufferedInputStream(fileUrl.openStream());
             fout = new FileOutputStream(new File(this.updateFolder, file.getName()));
@@ -430,6 +431,33 @@ public class Updater {
                 this.plugin.getLogger().log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    private URL followRedirects(String location) throws IOException {
+        URL resourceUrl, base, next;
+        HttpURLConnection conn;
+        String redLoc;
+        while (true) {
+            resourceUrl = new URL(location);
+            conn = (HttpURLConnection) resourceUrl.openConnection();
+
+            conn.setConnectTimeout(15000);
+            conn.setReadTimeout(15000);
+            conn.setInstanceFollowRedirects(false);
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0...");
+
+            switch (conn.getResponseCode()) {
+                case HttpURLConnection.HTTP_MOVED_PERM:
+                case HttpURLConnection.HTTP_MOVED_TEMP:
+                    redLoc = conn.getHeaderField("Location");
+                    base = new URL(location);
+                    next = new URL(base, redLoc);  // Deal with relative URLs
+                    location = next.toExternalForm();
+                    continue;
+            }
+            break;
+        }
+        return conn.getURL();
     }
 
     /**
@@ -557,8 +585,11 @@ public class Updater {
         final String title = this.versionName;
         if (this.type != UpdateType.NO_VERSION_CHECK) {
             final String localVersion = this.plugin.getDescription().getVersion();
-            if (title.split(DELIMETER).length == 2) {
-                if (this.hasTag(localVersion) || !this.shouldUpdate(localVersion, title)) {
+            if (title.split(DELIMETER).length >= 2) {
+                // Get the newest file's version number
+                final String remoteVersion = title.split(DELIMETER)[title.split(DELIMETER).length - 1].split(" ")[0];
+
+                if (this.hasTag(localVersion) || !this.shouldUpdate(localVersion, remoteVersion)) {
                     // We already have the latest version, or this build is tagged for no-update
                     this.result = Updater.UpdateResult.NO_UPDATE;
                     return false;
@@ -603,9 +634,9 @@ public class Updater {
      * @param remoteVersion the remote version
      * @return true if Updater should consider the remote version an update, false if not.
      */
-    public static boolean shouldUpdate(String localVersion, String remoteVersion) {
-    	int localVersionInt = getVersionValue(localVersion);
-    	int remoteVersionInt = getVersionValue(remoteVersion);
+    private boolean shouldUpdate(String localVersion, String remoteVersion) {
+        int localVersionInt = getVersionValue(localVersion);
+        int remoteVersionInt = getVersionValue(remoteVersion);
 
         if (Main.debug) {
             Main.log("local version value: " + localVersionInt);
@@ -637,9 +668,9 @@ public class Updater {
      *
      * @return An integer value which represents the version string in a numerical way.
      */
-    public static int getVersionValue(String versionString) {
+    private static int getVersionValue(String versionString) {
         String[] versionParts = versionString.split(Updater.DELIMETER); // "Beta v|1.4.5"
-        String[] version = (versionParts.length > 0 ? versionParts[1] : versionParts[0]).split("\\."); // "1|4|5"
+        String[] version = (versionParts.length > 1 ? versionParts[1] : versionParts[0]).split("\\."); // "1|4|5"
 
         String versionIntString = String.valueOf(version[0].charAt(0));
 
@@ -656,7 +687,7 @@ public class Updater {
 
         int versionInt = Integer.valueOf(versionIntString);
 
-        // Alpha is below 1000 (v9.0.3 -> 903)
+        // Alpha is below 1000 (Alpha v9.0.3 -> 903)
         if (versionString.startsWith("Beta")) versionInt = 1000 + versionInt; // "Beta v1.3.1" -> 1131
         else versionInt = 2000 + versionInt; // we got a released version here; "v1.2.0" -> 2120
 

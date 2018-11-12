@@ -15,12 +15,10 @@ import java.security.InvalidParameterException;
  * @author MCMainiac
  */
 public class CGM {
-
-
 	//-----------
 	// static methods
 	//-----------
-	public static void set(Player p, ControlledGameMode cgm) throws GameModeNotFoundException {
+	public static void set(Player p, ControlledGameMode cgm) {
 		setActual(p, cgm);
 
 		Main.send(
@@ -31,7 +29,7 @@ public class CGM {
 		Main.log("Set " + p.getName() + "'s game mode to " + cgm.getName(), MessageColor.INFO);
 	}
 
-	public static void set(Player p, CommandSender console, ControlledGameMode cgm) throws GameModeNotFoundException {
+	public static void set(Player p, CommandSender console, ControlledGameMode cgm) {
 		setActual(p, cgm);
 
 		Main.send(
@@ -43,7 +41,7 @@ public class CGM {
 		Main.log("Console set " + p.getName() + "'s game mode to " + cgm.getName());
 	}
 
-	public static void set(Player p, Player sender, ControlledGameMode cgm) throws GameModeNotFoundException {
+	public static void set(Player p, Player sender, ControlledGameMode cgm) {
 		setActual(p, cgm);
 
 		Main.send(
@@ -61,17 +59,17 @@ public class CGM {
 		Main.log(sender.getName() + " set " + p.getName() + "'s game mode to " + cgm.getName());
 	}
 
-	private static void setActual(Player p, ControlledGameMode cgm) throws GameModeNotFoundException {
+	private static void setActual(Player p, ControlledGameMode cgm) {
 		p.setGameMode(cgm.getGamemode());
 	}
 
 	private static String capitalize(String string) {
-		if (string.length() == 0) return string;
+		if (string.length() == 0)
+			return string;
 
 		string = string.toLowerCase();
 
-		char first = Character.toUpperCase(string.charAt(0));
-
+		var first = Character.toUpperCase(string.charAt(0));
 		return first + string.substring(1);
 	}
 

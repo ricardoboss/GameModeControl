@@ -27,7 +27,7 @@ public class Config {
 		}
 
 		// determine config version, migrate if necessary
-		String versionString = getString(StringPaths.VERSION);
+		var versionString = getString(StringPaths.VERSION);
 		int configVersion;
 
 		// if no version is stored in the config
@@ -101,6 +101,7 @@ public class Config {
 		return config.getBoolean(path.getPath());
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	void setString(StringPaths path, String value) {
 		config.set(path.getPath(), value);
 	}
@@ -110,13 +111,13 @@ public class Config {
 
 		static Paths fromString(String path) throws IllegalArgumentException {
 			path = path.toLowerCase();
-			for (StringPaths strpath : StringPaths.values())
-				if (strpath.getPath().equals(path))
-					return strpath;
+			for (var strPath : StringPaths.values())
+				if (strPath.getPath().equals(path))
+					return strPath;
 
-			for (BooleanPaths boolpath : BooleanPaths.values())
-				if (boolpath.getPath().equals(path))
-					return boolpath;
+			for (var boolPath : BooleanPaths.values())
+				if (boolPath.getPath().equals(path))
+					return boolPath;
 
 			throw new IllegalArgumentException("Could not find path type for: '" + path + "'!");
 		}

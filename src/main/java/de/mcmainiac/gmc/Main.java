@@ -20,7 +20,7 @@ import java.security.InvalidParameterException;
 import java.util.logging.Logger;
 
 /**
- * <h1>GameModeControl V1.4.1</h1><br>
+ * <h1>GameModeControl V1.4.2</h1><br>
  *
  * <p>Helps you and your admins to control
  * game modes faster and more accurate
@@ -30,7 +30,8 @@ import java.util.logging.Logger;
  * @author MCMainiac
  */
 public class Main extends JavaPlugin {
-	public static final String pre = "\u00A77[GMC] \u00A7r";
+	public static final String MESSAGE_PREFIX = "\u00A77[GMC] \u00A7r";
+	public static final int PLUGIN_ID = 71110;
 	public static Config config;
 	public static boolean debug = false;
 
@@ -138,9 +139,9 @@ public class Main extends JavaPlugin {
 
 	public static void log(String log, MessageColor color) {
 		if (console != null)
-			console.sendMessage(pre + color.toString() + log);
+			console.sendMessage(MESSAGE_PREFIX + color.toString() + log);
 		else
-			Logger.getLogger("Minecraft").info(pre + log);
+			Logger.getLogger("Minecraft").info(MESSAGE_PREFIX + log);
 	}
 
 	public static void send(CommandSender cs, String message) {
@@ -155,7 +156,7 @@ public class Main extends JavaPlugin {
 		for (String target : context.keySet())
 			if (message.contains(target)) {
 				String first = message.substring(0, message.indexOf(target));
-				String last = message.substring(message.indexOf(target) + target.length(), message.length());
+				String last = message.substring(message.indexOf(target) + target.length());
 				message = first + context.get(target) + last;
 			}
 

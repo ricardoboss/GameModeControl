@@ -24,7 +24,7 @@ class ConfigMigrator {
 
     @SuppressWarnings("SameParameterValue")
     private static void renameKey(FileConfiguration configuration, String oldPath, String newPath) {
-        boolean prevValue = configuration.getBoolean(oldPath);
+        var prevValue = configuration.getBoolean(oldPath);
 
         configuration.set(oldPath, null);
         configuration.set(newPath, prevValue);

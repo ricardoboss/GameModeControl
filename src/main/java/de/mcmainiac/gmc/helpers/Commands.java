@@ -9,7 +9,6 @@ import de.mcmainiac.gmc.utils.CGM;
 import de.mcmainiac.gmc.utils.MessageColor;
 import de.mcmainiac.gmc.utils.MessageFormat;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +24,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class Commands implements Listener {
 	private static final HashMap<Player, Boolean[]> otgm = new HashMap<>(); // A map to save, which players are able to change their game mode
-	private static final List<ResetGameModeTask> resetgmTasks = new ArrayList<>();
+	private static final List<ResetGameModeTask> resetGmTasks = new ArrayList<>();
 	private static Main plugin = null;
 	private static Commands instance = null;
 
@@ -38,10 +37,12 @@ public class Commands implements Listener {
 			otgm.put(p, new Boolean[]{false, false, false, false}); // default is false for every game mode
 		}
 
-		List<ResetGameModeTask> _resetgmTasks = Commands.resetgmTasks;
-		for (int i = 0; i < _resetgmTasks.size(); i++) {
-			_resetgmTasks.get(i).run(); // execute the task before removing it
-			Commands.resetgmTasks.remove(i); // remove the task from the list
+		var _resetGmTasks = Commands.resetGmTasks.toArray(new ResetGameModeTask[0]);
+		for (var i = 0; i < _resetGmTasks.length; i++) {
+			_resetGmTasks[i].run(); // execute the task before removing it
+
+			//noinspection SuspiciousListRemoveInLoop
+			Commands.resetGmTasks.remove(i); // remove the task from the list
 		}
 	}
 
@@ -51,6 +52,9 @@ public class Commands implements Listener {
 
 		return instance;
 	}
+
+	// prevent instantiation
+	private Commands() {}
 
 	//--------------
 	// Listener
@@ -91,8 +95,7 @@ public class Commands implements Listener {
 	// Commands
 	//--------------
 	public static boolean Gamemode(CommandSender sender, String[] args)
-			throws InvalidParameterException, GameModeNotFoundException
-	{
+			throws InvalidParameterException {
 		CGM.ControlledGameMode cgm;
 		try {
 			cgm = CGM.getCGMByIdOrName(args[0]);
@@ -208,7 +211,7 @@ public class Commands implements Listener {
 			Main.log("Forcing gamemode is disabled!");
 
 		if (sender instanceof Player)
-			sender.sendMessage(Main.pre + "Config reloaded");
+			sender.sendMessage(Main.MESSAGE_PREFIX + "Config reloaded");
 
 		Main.log("Config reloaded");
 	}
@@ -265,7 +268,7 @@ public class Commands implements Listener {
 						spectator = oneArg; // default for all game modes is false
 
 				// go through all parameters and check, which game modes have been enabled by the operator
-				for (int i = 1; i < args.length; i++) {
+				for (var i = 1; i < args.length; i++) {
 					if (args[i].equalsIgnoreCase("survival")  || args[i].equals("0")) survival = true;
 					if (args[i].equalsIgnoreCase("creative")  || args[i].equals("1")) creative = true;
 					if (args[i].equalsIgnoreCase("adventure") || args[i].equals("2")) adventure = true;
@@ -277,7 +280,7 @@ public class Commands implements Listener {
 					return true;
 				}
 
-				Player p = Main.getPlayerByName(args[0]);
+				var p = Main.getPlayerByName(args[0]);
 				otgm.put(p, new Boolean[]{survival, creative, adventure, spectator});
 
 				Main.send(
@@ -289,8 +292,7 @@ public class Commands implements Listener {
 				StringBuilder message = new StringBuilder();
 				for (CGM.ControlledGameMode cgm : CGM.ControlledGameMode.values())
 					if (otgm.get(Main.getPlayerByName(args[0]))[cgm.getId()])
-						message
-								.append(cgm.getMessageFormatted())
+						message.append(cgm.getMessageFormatted())
 								.append(MessageFormat.RESET)
 								.append(", ");
 
@@ -319,21 +321,22 @@ public class Commands implements Listener {
 			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NOPERMISSION));
 			return true;
 		}
+
 		if (args.length > 2) {
 			try {
-				Player p = Main.getPlayerByName(args[0]);
-				GameMode oldgm = p.getGameMode();
-				CGM.ControlledGameMode cgm = CGM.getCGMByIdOrName(args[1]);
+				var p = Main.getPlayerByName(args[0]);
+				var oldGm = p.getGameMode();
+				var cgm = CGM.getCGMByIdOrName(args[1]);
 
 				CGM.set(p, Bukkit.getConsoleSender(), cgm);
 
-				ResetGameModeTask rgm = new ResetGameModeTask(p, oldgm);
-				Commands.resetgmTasks.add(rgm);
+				var rgm = new ResetGameModeTask(p, oldGm);
+				Commands.resetGmTasks.add(rgm);
 
 				// convert seconds to ticks (20 ticks = 1 second, if the server is running at normal speed (no lags))
 				Bukkit.getScheduler().runTaskLater(Commands.plugin, rgm, Long.parseLong(args[2]) * 20);
 
-				ImmutableMap<String, String> messageArgs = ImmutableMap.<String, String>builder()
+				var messageArgs = ImmutableMap.<String, String>builder()
 						.put("\u0024player", p.getName())
 						.put("\u0024gm", cgm.getMessageFormatted())
 						.put("\u0024time", args[2])
