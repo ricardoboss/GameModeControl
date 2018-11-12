@@ -60,6 +60,9 @@ public class Main extends JavaPlugin {
 			if (debug)
 				log("Initializing metrics (bstats.org)");
 
+			// disable relocate check since it is imported via maven
+			System.setProperty("bstats.relocatecheck", "false");
+
 			// enable metrics by creating a new instance
 			Metrics metrics = new Metrics(this);
 			metrics.addCustomChart(

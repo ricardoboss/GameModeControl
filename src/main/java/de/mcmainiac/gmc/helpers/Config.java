@@ -27,18 +27,20 @@ public class Config {
 		}
 
 		// determine config version, migrate if necessary
-		var versionString = getString(StringPaths.VERSION);
+		var versionString = getString(StringPaths.VERSION, null);
 		int configVersion;
 
 		// if no version is stored in the config
-		if (versionString == null)
+		if (versionString == null || versionString.length() == 0)
 			configVersion = 1;
 		else
 			configVersion = Integer.valueOf(versionString);
 
+		if (Main.debug)
+			Main.log("Config version: " + configVersion);
+
 		if (configVersion < ConfigMigrator.VERSION) {
-			if (Main.debug)
-				Main.log("Migrating config.yml to the newest version...");
+			Main.log("Migrating config.yml to the newest version...");
 
 			// migrate the old config
 			boolean success;
@@ -53,8 +55,7 @@ public class Config {
 			}
 
 			if (success) {
-				if (Main.debug)
-					Main.log("Migration successful!");
+				Main.log("Migration successful!");
 
 				save();
 			} else {
@@ -91,6 +92,10 @@ public class Config {
 	private void save() {
 		plugin.saveConfig();
 		config = plugin.getConfig();
+	}
+
+	public String getString(StringPaths path, String def) {
+		return config.getString(path.getPath(), def);
 	}
 
 	public String getString(StringPaths path) {

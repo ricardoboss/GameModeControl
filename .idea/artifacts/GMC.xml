@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="GMC">
+    <output-path>G:/Minecraft/1.11/Plugin Test 1.11.2/plugins</output-path>
+    <root id="archive" name="GMC.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="directory" name="resources">
+        <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
+      </element>
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/bstats/bstats-bukkit/1.4/bstats-bukkit-1.4.jar" path-in-jar="/" />
+      <element id="module-output" name="GMC" />
+    </root>
+  </artifact>
+</component>
