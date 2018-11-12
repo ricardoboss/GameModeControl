@@ -102,7 +102,7 @@ public class Commands implements Listener {
 		} catch (GameModeNotFoundException gme) {
 			Main.send(
 					sender,
-					Main.config.getString(Config.StringPaths.OTHER_GAMEMODENOTFOUND),
+					Main.config.getString(Config.StringPaths.OTHER_GAMEMODE_NOT_FOUND),
 					ImmutableMap.<String, String>builder().put("\u0024gm", args[0].toUpperCase()).build()
 			);
 			return false;
@@ -126,18 +126,18 @@ public class Commands implements Listener {
 					otgm.put((Player) sender, new Boolean[]{false, false, false, false});
 				}
 				else // Oops you don't have permission to do that
-					Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NOPERMISSION));
+					Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NO_PERMISSION));
 			else
 				try {
 					if (sender.hasPermission(Permissions.get(Permissions.Perm.fromString(args[args.length-1] + ".others"))) ||
 						sender.hasPermission(Permissions.get(Permissions.Perm.fromString(args[args.length-1]))))
 							CGM.set(Main.getPlayerByName(args[1]), (Player)sender, cgm);
 					else
-						Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NOPERMISSION));
+						Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NO_PERMISSION));
 				} catch (PlayerNotFoundException e) {
 					Main.send(
 							sender,
-							Main.config.getString(Config.StringPaths.OTHER_PLAYERNOTFOUND),
+							Main.config.getString(Config.StringPaths.OTHER_PLAYER_NOT_FOUND),
 							ImmutableMap.<String, String>builder().put("\u0024player", args[1]).build()
 					);
 				}
@@ -152,7 +152,7 @@ public class Commands implements Listener {
 				} catch (PlayerNotFoundException e) {
 					Main.send(
 							sender,
-							Main.config.getString(Config.StringPaths.OTHER_PLAYERNOTFOUND),
+							Main.config.getString(Config.StringPaths.OTHER_PLAYER_NOT_FOUND),
 							ImmutableMap.<String, String>builder().put("\u0024player", args[1]).build()
 					);
 				}
@@ -161,7 +161,7 @@ public class Commands implements Listener {
 
 	public static void Reload(CommandSender sender) {
 		if (!sender.hasPermission(Permissions.get(Permissions.Perm.GMR))) {
-			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NOPERMISSION));
+			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NO_PERMISSION));
 			return;
 		}
 
@@ -175,7 +175,7 @@ public class Commands implements Listener {
 		} else
 			Main.log("Debug mode is disabled!");
 
-		if (Main.config.getBoolean(Config.BooleanPaths.OPTIONS_AUTOUPDATE)) {
+		if (Main.config.getBoolean(Config.BooleanPaths.OPTIONS_AUTO_UPDATE)) {
 			Main.log("Auto-update is enabled!");
 			plugin.checkForUpdates(false);
 		} else
@@ -218,7 +218,7 @@ public class Commands implements Listener {
 
 	public static void Info(CommandSender sender) {
 		if (!sender.hasPermission(Permissions.get(Permissions.Perm.GMI))) {
-			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NOPERMISSION));
+			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NO_PERMISSION));
 			return;
 		}
 
@@ -236,7 +236,7 @@ public class Commands implements Listener {
 
 	public static boolean Help(CommandSender sender, String[] args) {
 		if (!sender.hasPermission(Permissions.get(Permissions.Perm.GMH))) {
-			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NOPERMISSION));
+			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NO_PERMISSION));
 			return true;
 		}
 
@@ -255,7 +255,7 @@ public class Commands implements Listener {
 
 	public static boolean OneTimeGamemode(CommandSender sender, String[] args) {
 		if (!sender.hasPermission(Permissions.get(Permissions.Perm.GMONCE))) {
-			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NOPERMISSION));
+			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NO_PERMISSION));
 			return true;
 		}
 
@@ -306,7 +306,7 @@ public class Commands implements Listener {
 			} catch (PlayerNotFoundException e) {
 				Main.send(
 						sender,
-						Main.config.getString(Config.StringPaths.OTHER_PLAYERNOTFOUND),
+						Main.config.getString(Config.StringPaths.OTHER_PLAYER_NOT_FOUND),
 						ImmutableMap.<String, String>builder().put("\u0024player", args[0]).build()
 				);
 			}
@@ -318,7 +318,7 @@ public class Commands implements Listener {
 
 	public static boolean TemporaryGamemode(CommandSender sender, String[] args) {
 		if (!sender.hasPermission(Permissions.get(Permissions.Perm.GMTEMP))) {
-			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NOPERMISSION));
+			Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_NO_PERMISSION));
 			return true;
 		}
 
@@ -347,13 +347,13 @@ public class Commands implements Listener {
 			} catch (PlayerNotFoundException e) {
 				Main.send(
 						sender,
-						Main.config.getString(Config.StringPaths.OTHER_PLAYERNOTFOUND),
+						Main.config.getString(Config.StringPaths.OTHER_PLAYER_NOT_FOUND),
 						ImmutableMap.<String, String>builder().put("\u0024player", args[0]).build()
 				);
 			} catch (GameModeNotFoundException e) {
 				Main.send(
 						sender,
-						Main.config.getString(Config.StringPaths.OTHER_GAMEMODENOTFOUND),
+						Main.config.getString(Config.StringPaths.OTHER_GAMEMODE_NOT_FOUND),
 						ImmutableMap.<String, String>builder().put("\u0024gm", args[0].toUpperCase()).build()
 				);
 			}

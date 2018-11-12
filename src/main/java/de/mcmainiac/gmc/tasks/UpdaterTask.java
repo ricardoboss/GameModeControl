@@ -7,7 +7,7 @@ import de.mcmainiac.gmc.utils.MessageColor;
 import java.io.File;
 
 public class UpdaterTask implements Runnable {
-	private boolean update;
+	private final boolean update;
 	private final Main plugin;
 	private final File pluginFile;
 

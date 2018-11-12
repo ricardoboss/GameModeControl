@@ -53,7 +53,7 @@ public class Main extends JavaPlugin {
 		Commands.resetPlayers();
 
 		// Auto-Updater
-		checkForUpdates(config.getBoolean(Config.BooleanPaths.OPTIONS_AUTOUPDATE));
+		checkForUpdates(config.getBoolean(Config.BooleanPaths.OPTIONS_AUTO_UPDATE));
 
 		// plugin metrics (https://bstats.org/)
 		if (config.getBoolean(Config.BooleanPaths.OPTIONS_BSTATS)) {

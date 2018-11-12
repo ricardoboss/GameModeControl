@@ -94,6 +94,7 @@ public class Config {
 		config = plugin.getConfig();
 	}
 
+	@SuppressWarnings("WeakerAccess")
 	public String getString(StringPaths path, String def) {
 		return config.getString(path.getPath(), def);
 	}
@@ -112,8 +113,6 @@ public class Config {
 	}
 
 	public interface Paths {
-		String getPath();
-
 		static Paths fromString(String path) throws IllegalArgumentException {
 			path = path.toLowerCase();
 			for (var strPath : StringPaths.values())
@@ -142,9 +141,9 @@ public class Config {
 		SPECTATOR_SELF("spectator.self"),
 		SPECTATOR_FROM("spectator.from"),
 		SPECTATOR_TO("spectator.to"),
-		OTHER_PLAYERNOTFOUND("other.player not found"),
-		OTHER_GAMEMODENOTFOUND("other.gamemode not found"),
-		OTHER_NOPERMISSION("other.no permission"),
+		OTHER_PLAYER_NOT_FOUND("other.player not found"),
+		OTHER_GAMEMODE_NOT_FOUND("other.gamemode not found"),
+		OTHER_NO_PERMISSION("other.no permission"),
 		OTHER_OTGM_ERROR("other.one time gamemode.error"),
 		OTHER_OTGM_MESSAGE("other.one time gamemode.message"),
 		OTHER_OTGM_ALLOWED("other.one time gamemode.allowed"),
@@ -158,7 +157,6 @@ public class Config {
 			this.path = path;
 		}
 
-		@Override
 		public String getPath() {
 			return path;
 		}
@@ -166,7 +164,7 @@ public class Config {
 
 	public enum BooleanPaths implements Paths {
 		OPTIONS_FORCEGM("options.force-gamemode.enable"),
-		OPTIONS_AUTOUPDATE("options.auto-update"),
+		OPTIONS_AUTO_UPDATE("options.auto-update"),
 		OPTIONS_BSTATS("options.bstats"),
 		OPTIONS_DEBUG("options.debug");
 
@@ -176,7 +174,6 @@ public class Config {
 			this.path = path;
 		}
 
-		@Override
 		public String getPath() {
 			return path;
 		}
