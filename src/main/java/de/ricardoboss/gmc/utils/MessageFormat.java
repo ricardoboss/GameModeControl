@@ -1,4 +1,4 @@
-package de.mcmainiac.gmc.utils;
+package de.ricardoboss.gmc.utils;
 
 public enum MessageFormat {
     RESET,

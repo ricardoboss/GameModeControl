@@ -1,4 +1,12 @@
-package de.mcmainiac.gmc.utils;
+package de.ricardoboss.gmc.utils;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonStreamParser;
+import de.ricardoboss.gmc.Main;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -9,14 +17,6 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import de.mcmainiac.gmc.Main;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 /**
  * Check for updates on BukkitDev for a given plugin, and download the updates if needed.
@@ -55,9 +55,9 @@ public class Updater {
     // User-agent when querying Curse
     private static final String USER_AGENT = "Updater (by Gravity)";
     // Used for locating version numbers in file names
-    private static final String DELIMETER = "^v|[\\s_-]v";
+    private static final String DELIMITER = "^v|[\\s_-]v";
     // If the version number contains one of these, don't update.
-    private static final String[] NO_UPDATE_TAG = { "-DEV", "-PRE", "-SNAPSHOT" };
+    private static final String[] NO_UPDATE_TAG = {"-DEV", "-PRE", "-SNAPSHOT"};
     // Used for downloading files
     private static final int BYTE_SIZE = 1024;
     // Config key for api key
@@ -103,84 +103,6 @@ public class Updater {
     private Thread thread;
     // Used for determining the outcome of the update process
     private Updater.UpdateResult result = Updater.UpdateResult.SUCCESS;
-
-    /**
-     * Gives the developer the result of the update process. Can be obtained by called {@link #getResult()}
-     */
-    public enum UpdateResult {
-        /**
-         * The updater found an update, and has readied it to be loaded the next time the server restarts/reloads.
-         */
-        SUCCESS,
-        /**
-         * The updater did not find an update, and nothing was downloaded.
-         */
-        NO_UPDATE,
-        /**
-         * The server administrator has disabled the updating system.
-         */
-        DISABLED,
-        /**
-         * The updater found an update, but was unable to download it.
-         */
-        FAIL_DOWNLOAD,
-        /**
-         * For some reason, the updater was unable to contact dev.bukkit.org to download the file.
-         */
-        FAIL_DBO,
-        /**
-         * When running the version check, the file on DBO did not contain a recognizable version.
-         */
-        FAIL_NOVERSION,
-        /**
-         * The id provided by the plugin running the updater was invalid and doesn't exist on DBO.
-         */
-        FAIL_BADID,
-        /**
-         * The server administrator has improperly configured their API key in the configuration.
-         */
-        FAIL_APIKEY,
-        /**
-         * The updater found an update, but because of the UpdateType being set to NO_DOWNLOAD, it wasn't downloaded.
-         */
-        UPDATE_AVAILABLE
-    }
-
-    /**
-     * Allows the developer to specify the type of update that will be run.
-     */
-    public enum UpdateType {
-        /**
-         * Run a version check, and then if the file is out of date, download the newest version.
-         */
-        DEFAULT,
-        /**
-         * Don't run a version check, just find the latest update and download it.
-         */
-        NO_VERSION_CHECK,
-        /**
-         * Get information about the version and the download size, but don't actually download anything.
-         */
-        NO_DOWNLOAD
-    }
-
-    /**
-     * Represents the various release types of a file on BukkitDev.
-     */
-    public enum ReleaseType {
-        /**
-         * An "alpha" file.
-         */
-        ALPHA,
-        /**
-         * A "beta" file.
-         */
-        BETA,
-        /**
-         * A "release" file.
-         */
-        RELEASE
-    }
 
     /**
      * Initialize the updater.
@@ -289,6 +211,53 @@ public class Updater {
     }
 
     /**
+     * <p>
+     * Calculate the integer value of a version string like "Beta v1.4" (in this case, this method would return a
+     * value of 1140).
+     * </p>
+     *
+     * <p>
+     * Based upon the prefix, the value resides between:
+     * </p>
+     *
+     * <ul>
+     *     <li><i>0</i> and <i>999</i> for "Alpha"</li>
+     *     <li><i>1000</i> and <i>1999</i> for "Beta"</li>
+     *     <li><i>2000</i> and <i>2999</i> for a release version</li>
+     * </ul>
+     *
+     * @param versionString The string to be parsed as a version. It may have a prefix ("Alpha" or
+     *                      "Beta") followed by a whitespace. A string having this form is required: "vx.x.x", whereas
+     *                      each "x" is a digit between 1 and 9.
+     * @return An integer value which represents the version string in a numerical way.
+     */
+    private static int getVersionValue(String versionString) {
+        String[] versionParts = versionString.split(Updater.DELIMITER); // "Beta v|1.4.5"
+        String[] version = (versionParts.length > 1 ? versionParts[1] : versionParts[0]).split("\\."); // "1|4|5"
+
+        String versionIntString = String.valueOf(version[0].charAt(0));
+
+        // so we get something like "145" or "200"
+        if (version.length > 1) {
+            versionIntString += version[1].charAt(0);
+
+            if (version.length > 2)
+                versionIntString += version[2].charAt(0);
+            else
+                versionIntString += "0";
+        } else
+            versionIntString += "00";
+
+        int versionInt = Integer.parseInt(versionIntString);
+
+        // Alpha is below 1000 (Alpha v9.0.3 -> 903)
+        if (versionString.startsWith("Beta")) versionInt = 1000 + versionInt; // "Beta v1.3.1" -> 1131
+        else versionInt = 2000 + versionInt; // we got a released version here; "v1.2.0" -> 2120
+
+        return versionInt;
+    }
+
+    /**
      * Get the result of the update process.
      *
      * @return result of the update process.
@@ -391,12 +360,12 @@ public class Updater {
      */
     private void downloadFile() {
         BufferedInputStream in = null;
-        FileOutputStream fout = null;
+        FileOutputStream out = null;
         try {
             URL fileUrl = followRedirects(this.versionLink);
             final int fileLength = fileUrl.openConnection().getContentLength();
             in = new BufferedInputStream(fileUrl.openStream());
-            fout = new FileOutputStream(new File(this.updateFolder, file.getName()));
+            out = new FileOutputStream(new File(this.updateFolder, file.getName()));
 
             final byte[] data = new byte[Updater.BYTE_SIZE];
             int count;
@@ -406,7 +375,7 @@ public class Updater {
             long downloaded = 0;
             while ((count = in.read(data, 0, Updater.BYTE_SIZE)) != -1) {
                 downloaded += count;
-                fout.write(data, 0, count);
+                out.write(data, 0, count);
                 final int percent = (int) ((downloaded * 100) / fileLength);
                 if (this.announce && ((percent % 20) == 0)) {
                     this.plugin.getLogger().info("Downloading update: " + percent + "% of " + fileLength + " bytes.");
@@ -424,8 +393,8 @@ public class Updater {
                 this.plugin.getLogger().log(Level.SEVERE, null, ex);
             }
             try {
-                if (fout != null) {
-                    fout.close();
+                if (out != null) {
+                    out.close();
                 }
             } catch (final IOException ex) {
                 this.plugin.getLogger().log(Level.SEVERE, null, ex);
@@ -522,6 +491,7 @@ public class Updater {
 
     /**
      * Find any new files extracted from an update into the plugin's data directory.
+     *
      * @param zipPath path of extracted files.
      */
     private void moveNewZipFiles(String zipPath) {
@@ -585,9 +555,9 @@ public class Updater {
         final String title = this.versionName;
         if (this.type != UpdateType.NO_VERSION_CHECK) {
             final String localVersion = this.plugin.getDescription().getVersion();
-            if (title.split(DELIMETER).length >= 2) {
+            if (title.split(DELIMITER).length >= 2) {
                 // Get the newest file's version number
-                final String remoteVersion = title.split(DELIMETER)[title.split(DELIMETER).length - 1].split(" ")[0];
+                final String remoteVersion = title.split(DELIMITER)[title.split(DELIMITER).length - 1].split(" ")[0];
 
                 if (this.hasTag(localVersion) || !this.shouldUpdate(localVersion, remoteVersion)) {
                     // We already have the latest version, or this build is tagged for no-update
@@ -630,7 +600,8 @@ public class Updater {
      * Without revision, this method will always consider a remote version at all different from
      * that of the local version a new update.
      * </p>
-     * @param localVersion the current version
+     *
+     * @param localVersion  the current version
      * @param remoteVersion the remote version
      * @return true if Updater should consider the remote version an update, false if not.
      */
@@ -644,54 +615,6 @@ public class Updater {
         }
 
         return remoteVersionInt > localVersionInt;
-    }
-
-    /**
-     * <p>
-     *     Calculate the integer value of a version string like "Beta v1.4" (in this case, this method would return a
-     *     value of 1140).
-     * </p>
-     *
-     * <p>
-     *     Based upon the prefix, the value resides between:
-     * </p>
-     *
-     * <ul>
-     *     <li><i>0</i> and <i>999</i> for "Alpha"</li>
-     *     <li><i>1000</i> and <i>1999</i> for "Beta"</li>
-     *     <li><i>2000</i> and <i>2999</i> for a release version</li>
-     * </ul>
-     *
-     * @param versionString The string to be parsed as a version. It may have a prefix ("Alpha" or
-     *                      "Beta") followed by a whitespace. A string having this form is required: "vx.x.x", whereas
-     *                      each "x" is a digit between 1 and 9.
-     *
-     * @return An integer value which represents the version string in a numerical way.
-     */
-    private static int getVersionValue(String versionString) {
-        String[] versionParts = versionString.split(Updater.DELIMETER); // "Beta v|1.4.5"
-        String[] version = (versionParts.length > 1 ? versionParts[1] : versionParts[0]).split("\\."); // "1|4|5"
-
-        String versionIntString = String.valueOf(version[0].charAt(0));
-
-        // so we get something like "145" or "200"
-        if (version.length > 1) {
-            versionIntString += version[1].charAt(0);
-
-            if (version.length > 2)
-                versionIntString += version[2].charAt(0);
-            else
-                versionIntString += "0";
-        } else
-            versionIntString += "00";
-
-        int versionInt = Integer.valueOf(versionIntString);
-
-        // Alpha is below 1000 (Alpha v9.0.3 -> 903)
-        if (versionString.startsWith("Beta")) versionInt = 1000 + versionInt; // "Beta v1.3.1" -> 1131
-        else versionInt = 2000 + versionInt; // we got a released version here; "v1.2.0" -> 2120
-
-        return versionInt;
     }
 
     /**
@@ -727,21 +650,20 @@ public class Updater {
             conn.setDoOutput(true);
 
             final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            final String response = reader.readLine();
+            final JsonStreamParser parser = new JsonStreamParser(reader);
+            final JsonArray array = (JsonArray) parser.next();
 
-            final JSONArray array = (JSONArray) JSONValue.parse(response);
-
-            if (array.isEmpty()) {
+            if (array.size() == 0) {
                 this.plugin.getLogger().warning("The updater could not find any files for the project id " + this.id);
                 this.result = UpdateResult.FAIL_BADID;
                 return false;
             }
 
-            JSONObject latestUpdate = (JSONObject) array.get(array.size() - 1);
-            this.versionName = (String) latestUpdate.get(Updater.TITLE_VALUE);
-            this.versionLink = (String) latestUpdate.get(Updater.LINK_VALUE);
-            this.versionType = (String) latestUpdate.get(Updater.TYPE_VALUE);
-            this.versionGameVersion = (String) latestUpdate.get(Updater.VERSION_VALUE);
+            JsonObject latestUpdate = (JsonObject) array.get(array.size() - 1);
+            this.versionName = latestUpdate.get(Updater.TITLE_VALUE).getAsString();
+            this.versionLink = latestUpdate.get(Updater.LINK_VALUE).getAsString();
+            this.versionType = latestUpdate.get(Updater.TYPE_VALUE).getAsString();
+            this.versionGameVersion = latestUpdate.get(Updater.VERSION_VALUE).getAsString();
 
             return true;
         } catch (final IOException e) {
@@ -761,7 +683,8 @@ public class Updater {
 
     /**
      * Perform a file operation and log any errors if it fails.
-     * @param file file operation is performed on.
+     *
+     * @param file   file operation is performed on.
      * @param result result of file operation.
      * @param create true if a file is being created, false if deleted.
      */
@@ -778,25 +701,6 @@ public class Updater {
             return new File[0];
         } else {
             return contents;
-        }
-    }
-
-    /**
-     * Called on main thread when the Updater has finished working, regardless
-     * of result.
-     */
-    public interface UpdateCallback {
-        /**
-         * Called when the updater has finished working.
-         * @param updater The updater instance
-         */
-        void onFinish(Updater updater);
-    }
-
-    private class UpdateRunnable implements Runnable {
-        @Override
-        public void run() {
-            runUpdater();
         }
     }
 
@@ -827,5 +731,103 @@ public class Updater {
 
     private void runCallback() {
         this.callback.onFinish(this);
+    }
+
+    /**
+     * Gives the developer the result of the update process. Can be obtained by called {@link #getResult()}
+     */
+    public enum UpdateResult {
+        /**
+         * The updater found an update, and has readied it to be loaded the next time the server restarts/reloads.
+         */
+        SUCCESS,
+        /**
+         * The updater did not find an update, and nothing was downloaded.
+         */
+        NO_UPDATE,
+        /**
+         * The server administrator has disabled the updating system.
+         */
+        DISABLED,
+        /**
+         * The updater found an update, but was unable to download it.
+         */
+        FAIL_DOWNLOAD,
+        /**
+         * For some reason, the updater was unable to contact dev.bukkit.org to download the file.
+         */
+        FAIL_DBO,
+        /**
+         * When running the version check, the file on DBO did not contain a recognizable version.
+         */
+        FAIL_NOVERSION,
+        /**
+         * The id provided by the plugin running the updater was invalid and doesn't exist on DBO.
+         */
+        FAIL_BADID,
+        /**
+         * The server administrator has improperly configured their API key in the configuration.
+         */
+        FAIL_APIKEY,
+        /**
+         * The updater found an update, but because of the UpdateType being set to NO_DOWNLOAD, it wasn't downloaded.
+         */
+        UPDATE_AVAILABLE
+    }
+
+    /**
+     * Allows the developer to specify the type of update that will be run.
+     */
+    public enum UpdateType {
+        /**
+         * Run a version check, and then if the file is out of date, download the newest version.
+         */
+        DEFAULT,
+        /**
+         * Don't run a version check, just find the latest update and download it.
+         */
+        NO_VERSION_CHECK,
+        /**
+         * Get information about the version and the download size, but don't actually download anything.
+         */
+        NO_DOWNLOAD
+    }
+
+    /**
+     * Represents the various release types of a file on BukkitDev.
+     */
+    public enum ReleaseType {
+        /**
+         * An "alpha" file.
+         */
+        ALPHA,
+        /**
+         * A "beta" file.
+         */
+        BETA,
+        /**
+         * A "release" file.
+         */
+        RELEASE
+    }
+
+    /**
+     * Called on main thread when the Updater has finished working, regardless
+     * of result.
+     */
+    public interface UpdateCallback {
+        /**
+         * Called when the updater has finished working.
+         *
+         * @param updater The updater instance
+         */
+        void onFinish(Updater updater);
+    }
+
+    private class UpdateRunnable implements Runnable {
+        @Override
+        public void run() {
+            runUpdater();
+        }
     }
 }

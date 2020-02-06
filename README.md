@@ -229,18 +229,13 @@ Example
 
 ## Source code
 
-You can find the source code here on github.com: [github.com/MCMainiac/GameModeControl](https://github.com/MCMainiac/GameModeControl)  
+You can find the source code here on github.com: [github.com/ricardoboss/GameModeControl](https://github.com/ricardoboss/GameModeControl)  
 
 ## ToDo list
 
-*   Please send me a [pm](http://dev.bukkit.org/home/send-private-message/?to=MCMainiac), post a comment or use the [github issues system](https://github.com/MCMainiac/GameModeControl/issues) and add the label 'enhancement' to it to suggest a feature
+*   Please send me a [pm](http://dev.bukkit.org/home/send-private-message/?to=ricardoboss), post a comment or use the [github issues system](https://github.com/ricardoboss/GameModeControl/issues) and add the label 'enhancement' to it to suggest a feature
 
 ## Bugs
 
 There are no bugs at the moment :) (at least no one reported one).  
- If you want to report a bug, please use the [github issues system](https://github.com/MCMainiac/GameModeControl/issues).
- 
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/MCMainiac/GameModeControl/badge.svg?style=beer-square)](https://beerpay.io/MCMainiac/GameModeControl)  [![Beerpay](https://beerpay.io/MCMainiac/GameModeControl/make-wish.svg?style=flat-square)](https://beerpay.io/MCMainiac/GameModeControl?focus=wish)
+ If you want to report a bug, please use the [github issues system](https://github.com/ricardoboss/GameModeControl/issues).

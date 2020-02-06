@@ -1,6 +1,6 @@
-package de.mcmainiac.gmc.helpers;
+package de.ricardoboss.gmc.helpers;
 
-import de.mcmainiac.gmc.Main;
+import de.ricardoboss.gmc.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 
 class ConfigMigrator {
@@ -38,6 +38,12 @@ class ConfigMigrator {
         configuration.set(oldPath, null);
         configuration.set(newPath, prevValue);
 
-        return (configuration.get(oldPath) == null) && (configuration.get(newPath).equals(prevValue));
+        Main.config.save();
+        Main.config.reload();
+
+        var oldPathIsNull = configuration.get(oldPath) == null;
+        var newPathValue = configuration.get(newPath);
+
+        return oldPathIsNull && newPathValue != null && newPathValue.equals(prevValue);
     }
 }

@@ -3,7 +3,7 @@ version: 1.4.2
 author: MCMainiac
 website: http://bit.ly/MC-GMC
 
-main: de.mcmainiac.gmc.Main
+main: de.ricardoboss.gmc.Main
 
 commands:
   gamemode:

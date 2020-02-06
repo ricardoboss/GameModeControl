@@ -1,6 +1,6 @@
-package de.mcmainiac.gmc.utils;
+package de.ricardoboss.gmc.utils;
 
-import de.mcmainiac.gmc.Main;
+import de.ricardoboss.gmc.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -22,7 +22,7 @@ public class MetricsCollector {
             CGM.ControlledGameMode cgm;
             Integer count;
             for (Player p : Bukkit.getOnlinePlayers()) {
-                cgm = CGM.getCGMByGamemode(p.getGameMode());
+                cgm = CGM.getControlledGamemodeByGamemode(p.getGameMode());
                 count = counts.getOrDefault(cgm.getConsoleFormatted(), 0);
 
                 counts.put(cgm.getConsoleFormatted(), count + 1);
