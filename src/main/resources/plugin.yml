@@ -1,55 +1,49 @@
 name: GMC
-version: 1.4.2
-author: MCMainiac
+version: 1.4.3
+author: Mizzle0
 website: http://bit.ly/MC-GMC
+api-version: "1.15"
+prefix: "GMC"
 
 main: de.ricardoboss.gmc.Main
 
 commands:
   gamemode:
     description: Change the game mode of a player
-    usage: /gamemode <id> [player]
-  gm:
-    description: Change the game mode of a player
-    usage: /gm <id> [player]
+    aliases:
+      - gm
+    usage: /gamemode|gm <id> [player]
   gmh:
     description: Displays help for GMC
     usage: /gmh [page | command]
   gmi:
     description: Displays info about GMC
-    usage: /gmi
   gmr:
     description: Reloads the config of GMC
-    usage: /gmr
   gmonce:
-    description: Allow a player to change his/her game mode only one time
+    description: Allow a player to change their game mode one time
     usage: /gmonce <player> [survival] [creative] [adventure] [spectator]
   gmtemp:
     description: Change the game mode of a player only temporary
     usage: /gmtemp <player> <game mode> <seconds>
 
-  gm0:
-    description: Change the game mode of a player to Survival
-    usage: /gm0 [player]
-  gm1:
-    description: Change the game mode of a player to Creative
-    usage: /gm1 [player]
-  gm2:
-    description: Change the game mode of a player to Adventure
-    usage: /gm2 [player]
-  gm3:
-    description: Change the game mode of a player to Spectator
-    usage: /gm3 [player]
-
   survival:
     description: Change the game mode of a player to Survival
-    usage: /survival [player]
+    aliases:
+      - gm0
+    usage: /survival|gm0 [player]
   creative:
     description: Change the game mode of a player to Creative
-    usage: /creative [player]
+    aliases:
+      - gm1
+    usage: /creative|gm1 [player]
   adventure:
     description: Change the game mode of a player to Adventure
-    usage: /adventure [player]
+    aliases:
+      - gm2
+    usage: /adventure|gm2 [player]
   spectator:
     description: Change the game mode of a player to Spectator
-    usage: /spectator [player]
+    aliases:
+      - gm3
+    usage: /spectator|gm3 [player]
