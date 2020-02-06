@@ -32,7 +32,7 @@ other:
   no permission: '&cYou don''t have the permission to do that!'
   gmtemp:
     to: '&6$player&r''s gamemode is now $gm &rfor &a$time &rseconds'
-    from: 'Your gamemode is now $gm &rfor &a$time &rseconds'
+    from: '&fYour gamemode is now $gm &rfor &a$time &rseconds'
   one time gamemode:
     error: '&cPlease allow at least one game mode!'
     message: '&6$player &fhas the permission to change their game mode to:'
