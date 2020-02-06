@@ -6,7 +6,7 @@
 
     <groupId>de.ricardoboss</groupId>
     <artifactId>GMC</artifactId>
-    <version>1.4.3</version>
+    <version>1.5</version>
     <build>
         <plugins>
             <plugin>
@@ -71,8 +71,9 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>LATEST</version>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
