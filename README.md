@@ -4,7 +4,7 @@ A powerful lightweight plugin that helps you organizing game modes on your serve
 
 **Download GameModeControl for all your servers:** for 1.7 and below: **_Beta 1.3.6 (MC1.7.10)_**; for 1.8 and above use **_the newest version._**
 
-Current development stage: Beta v1.4.3
+Current development stage: v1.5
 
 ## Commands
 
@@ -55,7 +55,7 @@ Permission
 
 <tr>
 
-<td colspan="3">&mdash; valid values for <em>id</em>: 0, 1, 2, 3, survival, creative, adventure, spectator</td>
+<td colspan="3">&mdash; valid values for <em>id</em>: 0, 1, 2, 3, survival, creative, adventure, spectator, su, c, a, sp</td>
 
 </tr>
 
