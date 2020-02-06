@@ -42,12 +42,14 @@ public class Commands implements Listener {
         }
 
         var _resetGmTasks = Commands.resetGmTasks.toArray(new ResetGameModeTask[0]);
-        for (var i = 0; i < _resetGmTasks.length; i++) {
-            _resetGmTasks[i].run(); // execute the task before removing it
 
-            //noinspection SuspiciousListRemoveInLoop
-            Commands.resetGmTasks.remove(i); // remove the task from the list
+        // execute the task before removing it
+        for (ResetGameModeTask resetGmTask : _resetGmTasks) {
+            resetGmTask.run();
         }
+
+        // clear list
+        Commands.resetGmTasks.clear();
     }
 
     public static Commands getInstance() {
