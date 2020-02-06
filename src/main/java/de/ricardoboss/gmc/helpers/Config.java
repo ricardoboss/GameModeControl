@@ -19,9 +19,6 @@ public class Config {
         this.plugin = plugin;
         this.config = plugin.getConfig();
 
-        // tell config to copy default values
-        config.options().copyDefaults(true);
-
         // save config if it doesn't exist
         plugin.saveDefaultConfig();
 
@@ -148,6 +145,7 @@ public class Config {
         OTHER_GAMEMODE_NOT_FOUND("other.gamemode not found"),
         OTHER_NO_PERMISSION("other.no permission"),
         OTHER_OTGM_ERROR("other.one time gamemode.error"),
+        OTHER_OTGM_INVALID("other.one time gamemode.invalid"),
         OTHER_OTGM_MESSAGE("other.one time gamemode.message"),
         OTHER_OTGM_ALLOWED("other.one time gamemode.allowed"),
         OTHER_GMTEMP_TO("other.gmtemp.to"),

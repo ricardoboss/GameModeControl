@@ -38,7 +38,7 @@ public class Main extends JavaPlugin {
         for (Player p : Bukkit.getOnlinePlayers())
             if (p.getName().equals(name)) return p;
 
-        throw new PlayerNotFoundException("Player not found: '" + name + "'");
+        throw new PlayerNotFoundException(name, "Player not found: '" + name + "'");
     }
 
     public static void log(String log) {

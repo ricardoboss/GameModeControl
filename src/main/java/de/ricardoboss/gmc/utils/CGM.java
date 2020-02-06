@@ -82,20 +82,20 @@ public class CGM {
             case 3:
                 return ControlledGameMode.SPECTATOR;
             default:
-                throw new GameModeNotFoundException("The game mode id '" + id + "' could not be found!");
+                throw new GameModeNotFoundException(String.valueOf(id), "The game mode id '" + id + "' could not be found!");
         }
     }
 
 	public static ControlledGameMode getControlledGamemodeByName(String name) throws GameModeNotFoundException {
         if (name.length() == 0)
-            throw new GameModeNotFoundException("Please specify a name with at least one character!");
+            throw new GameModeNotFoundException(name, "Please specify a name with at least one character!");
 
         // minimize name to the absolutely needed information
         // e.g. su = survival, c = creative, a = adventure, sp = spectator
         name = name.toLowerCase();
         if (name.charAt(0) == 's') {
             if (name.length() == 1)
-                throw new GameModeNotFoundException("Game mode name '" + name + "' is ambiguous!");
+                throw new GameModeNotFoundException(name, "Game mode name '" + name + "' is ambiguous!");
             
             name = name.substring(0, 2);
         } else
@@ -115,7 +115,7 @@ public class CGM {
             case "3":
                 return ControlledGameMode.SPECTATOR;
             default:
-                throw new GameModeNotFoundException("The game mode name '" + name + "' could not be found!");
+                throw new GameModeNotFoundException(name, "The game mode name '" + name + "' could not be found!");
         }
 	}
 
@@ -139,7 +139,7 @@ public class CGM {
             case SPECTATOR:
                 return ControlledGameMode.SPECTATOR;
             default:
-                throw new GameModeNotFoundException();
+                throw new GameModeNotFoundException(gm.name(), "Unknown built-in game mode: " + gm.name());
         }
     }
 

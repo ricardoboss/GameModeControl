@@ -3,11 +3,15 @@ package de.ricardoboss.gmc.excpetions;
 public class GameModeNotFoundException extends Exception {
     private static final long serialVersionUID = 4135630639716104833L;
 
-    public GameModeNotFoundException() {
-        super();
+    private final String gamemode;
+
+    public GameModeNotFoundException(String gamemode, String message) {
+        super(message);
+
+        this.gamemode = gamemode;
     }
 
-    public GameModeNotFoundException(String message) {
-        super(message);
+    public String getGamemode() {
+        return gamemode;
     }
 }

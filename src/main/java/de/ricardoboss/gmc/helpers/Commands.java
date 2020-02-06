@@ -69,7 +69,10 @@ public class Commands implements Listener {
             Main.send(
                     sender,
                     Main.config.getString(Config.StringPaths.OTHER_GAMEMODE_NOT_FOUND),
-                    ImmutableMap.<String, String>builder().put("\u0024gm", args[0].toUpperCase()).build()
+                    ImmutableMap.<String, String>builder()
+                            .put("\u0024gm", args[0])
+                            .put("\u0024message", gme.getMessage())
+                            .build()
             );
             return false;
         }
@@ -225,22 +228,46 @@ public class Commands implements Listener {
 
         if (args.length > 0) {
             try {
-                boolean oneArg = (args.length == 1),
-                        survival = oneArg,
-                        creative = oneArg,
-                        adventure = oneArg,
-                        spectator = oneArg; // default for all game modes is false
+                boolean survival = false,
+                        creative = false,
+                        adventure = false,
+                        spectator = false; // default for all game modes is false
 
                 // go through all parameters and check, which game modes have been enabled by the operator
-                for (var i = 1; i < args.length; i++) {
-                    if (args[i].equalsIgnoreCase("survival") || args[i].equals("0")) survival = true;
-                    if (args[i].equalsIgnoreCase("creative") || args[i].equals("1")) creative = true;
-                    if (args[i].equalsIgnoreCase("adventure") || args[i].equals("2")) adventure = true;
-                    if (args[i].equalsIgnoreCase("spectator") || args[i].equals("3")) spectator = true;
+                try {
+                    for (var i = 1; i < args.length; i++) {
+                        var cgm = CGM.getGamemodeByIdOrName(args[i]);
+                        switch (cgm) {
+                            case CREATIVE:
+                                creative = true;
+                                break;
+                            case SURVIVAL:
+                                survival = true;
+                                break;
+                            case ADVENTURE:
+                                adventure = true;
+                                break;
+                            case SPECTATOR:
+                                spectator = true;
+                                break;
+                        }
+                    }
+                } catch (GameModeNotFoundException gme) {
+                    Main.send(
+                            sender,
+                            Main.config.getString(Config.StringPaths.OTHER_OTGM_INVALID),
+                            ImmutableMap.<String, String>builder()
+                                    .put("\u0024gm", gme.getGamemode())
+                                    .put("\u0024message", gme.getMessage())
+                                    .build()
+                    );
+
+                    return true;
                 }
 
                 if (!survival && !creative && !adventure && !spectator) {
                     Main.send(sender, Main.config.getString(Config.StringPaths.OTHER_OTGM_ERROR));
+
                     return true;
                 }
 
@@ -318,7 +345,10 @@ public class Commands implements Listener {
                 Main.send(
                         sender,
                         Main.config.getString(Config.StringPaths.OTHER_GAMEMODE_NOT_FOUND),
-                        ImmutableMap.<String, String>builder().put("\u0024gm", args[0].toUpperCase()).build()
+                        ImmutableMap.<String, String>builder()
+                                .put("\u0024gm", e.getGamemode())
+                                .put("\u0024message", e.getMessage())
+                                .build()
                 );
             }
 
