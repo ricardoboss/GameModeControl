@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="GMC">
-    <output-path>G:/Minecraft/1.11/Plugin Test 1.11.2/plugins</output-path>
+    <output-path>$PROJECT_DIR$/server/plugins</output-path>
     <root id="archive" name="GMC.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
