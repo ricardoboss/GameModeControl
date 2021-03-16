@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.security.InvalidParameterException;
 
 /**
- * <h1>GameModeControl V1.4.2</h1><br>
+ * <h1>GameModeControl V1.6</h1><br>
  *
  * <p>Helps you and your admins to control
  * game modes faster and more accurate
@@ -116,7 +116,7 @@ public class Main extends JavaPlugin {
             System.setProperty("bstats.relocatecheck", "false");
 
             // enable metrics by creating a new instance
-            Metrics metrics = new Metrics(this);
+            Metrics metrics = new Metrics(this, PLUGIN_ID);
             metrics.addCustomChart(
                     new Metrics.AdvancedPie(
                             "most_used_gamemode",
