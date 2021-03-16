@@ -1,8 +1,8 @@
 name: GMC
-version: "1.5"
+version: "1.6"
 author: Mizzle0
 website: http://bit.ly/MC-GMC
-api-version: "1.13"
+api-version: "1.16"
 prefix: "GMC"
 
 main: de.ricardoboss.gmc.Main
