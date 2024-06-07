@@ -8,8 +8,9 @@
       <element id="directory" name="resources">
         <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
       </element>
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/bstats/bstats-bukkit/1.4/bstats-bukkit-1.4.jar" path-in-jar="/" />
       <element id="module-output" name="GMC" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/bstats/bstats-bukkit/2.2.1/bstats-bukkit-2.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/bstats/bstats-base/2.2.1/bstats-base-2.2.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

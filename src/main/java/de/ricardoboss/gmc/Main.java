@@ -8,6 +8,7 @@ import de.ricardoboss.gmc.tasks.UpdaterTask;
 import de.ricardoboss.gmc.utils.MessageColor;
 import de.ricardoboss.gmc.utils.MessageFormat;
 import de.ricardoboss.gmc.utils.MetricsCollector;
+import org.bstats.MetricsBase;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -118,7 +119,7 @@ public class Main extends JavaPlugin {
             // enable metrics by creating a new instance
             Metrics metrics = new Metrics(this, PLUGIN_ID);
             metrics.addCustomChart(
-                    new Metrics.AdvancedPie(
+                    new org.bstats.charts.AdvancedPie(
                             "most_used_gamemode",
                             MetricsCollector.MOST_USED_GAMEMODE
                     )
